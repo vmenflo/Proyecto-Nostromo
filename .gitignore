@@ -1,0 +1,25 @@
+# --- DEPENDENCIAS Y LIBRERÍAS ---
+/vendor/
+/node_modules/
+
+# --- ARCHIVOS DE CONFIGURACIÓN LOCAL ---
+.env
+debug.txt
+config-local.php
+
+# --- DIRECTORIOS DE EDITORES ---
+.vscode/
+.idea/
+
+# --- ARCHIVOS TEMPORALES Y DE SISTEMA ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# --- ARCHIVOS CACHE / COMPILADOS ---
+*.map
+/cache/
