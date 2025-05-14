@@ -19,6 +19,11 @@ if (isset($_SESSION["token"])) {
     $datos_usuario_log = $_SESSION["datos_usuario_log"];
 }
 
+if (isset($_SESSION["mensaje_seguridad"])) {
+    echo "<p class='mensaje'>" . $_SESSION["mensaje_seguridad"] . "</p>";
+    unset($_SESSION["mensaje_seguridad"]);
+}
+
 // Controlador central de vistas
 $vista = $_GET["vista"] ?? "inicio"; 
 
@@ -46,6 +51,10 @@ switch ($vista) {
 
     case "login":
         require "vistas/vista_login.php";
+        break;
+    
+    case "registro":
+        require "vistas/vista_registro.php";
         break;
 
     case "admin":

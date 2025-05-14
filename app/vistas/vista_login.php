@@ -30,28 +30,29 @@ if (!defined("BASE_URL"))
 <body>
 
     <h1>Login</h1>
-    <form id="form-login">
-        <p>
-            <label for="correo">Correo: </label>
-            <input type="text" id="correo" name="correo" />
-            <span id="error-correo" class="error"></span>
-        </p>
-        <p>
-            <label for="clave">Contraseña: </label>
-            <input type="password" name="clave" id="clave" />
-            <span id="error-clave" class="error"></span>
-        </p>
-        <p><button type="submit">Login</button></p>
-    </form>
+    <form id="form-login" action="javascript:void(0);">
+    <p>
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required>
+        <span id="error-correo" class="error"></span>
+    </p>
+    <p>
+        <label for="clave">Contraseña:</label>
+        <input type="password" id="clave" name="clave" required>
+        <span id="error-clave" class="error"></span>
+    </p>
+    <p id="mensaje-error" class="error"></p>
+    <p>
+        <button type="submit">Iniciar sesión</button>
+    </p>
+</form>
+
 
     <div id="mensaje-error" class="mensaje"></div>
+    <div>
+        <a href="<?= BASE_URL ?>index.php?vista=registro">¿Aún no eres miembro de Nostromo? Click aquí para registrarte</a>
+    </div>
 
-    <?php
-    if (isset($_SESSION["mensaje_seguridad"])) {
-        echo "<p class='mensaje'>" . $_SESSION["mensaje_seguridad"] . "</p>";
-        unset($_SESSION["mensaje_seguridad"]);
-    }
-    ?>
 </body>
 
 </html>
