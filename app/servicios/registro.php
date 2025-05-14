@@ -61,4 +61,28 @@ if (isset($json["error"])) {
     exit;
 }
 
-echo json_encode(["status" => "ok"]);
+// Hacer login despues de insertar para dejarlo logueado
+$url_login = DIR_SERV . "/login";
+$datos_login = [
+    "correo" => $correo,
+    "clave" => md5($clave)
+];
+
+$respuesta_login = consumir_servicios_REST($url_login, "POST", $datos_login);
+$json_login = json_decode($respuesta_login, true);
+
+if (!$json_login || isset($json_login["error"])) {
+    echo json_encode(["status" => "error", "mensaje" => "Error al iniciar sesión tras el registro"]);
+    exit;
+}
+
+if (isset($json_login["usuario"])) {
+    $_SESSION["ultm_accion"] = time();
+    $_SESSION["token"] = $json_login["token"];
+    $_SESSION["datos_usuario_log"] = $json_login["usuario"];
+
+    echo json_encode(["status" => "ok"]);
+    exit;
+}
+
+echo json_encode(["status" => "error", "mensaje" => "No se pudo iniciar sesión tras el registro."]);

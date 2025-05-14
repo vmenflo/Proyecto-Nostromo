@@ -37,6 +37,7 @@ if (isset($json_login["error"])) {
 if (isset($json_login["usuario"])) {
     $_SESSION["ultm_accion"] = time();
     $_SESSION["token"] = $json_login["token"];
+    $_SESSION["datos_usuario_log"] = $json_login["usuario"];
     echo json_encode(["status" => "ok"]);
     exit;
 }
