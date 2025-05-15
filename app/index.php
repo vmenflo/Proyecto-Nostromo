@@ -68,4 +68,5 @@ switch ($vista) {
     default:
         require "vistas/vista_inicio.php";
 }
+include __DIR__ . "/includes/footer.php";
 ?>

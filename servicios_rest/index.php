@@ -25,8 +25,9 @@ $app->post('/login', function ($request) {
 });
 
 // Traer peliculas
-$app->get('/peliculas', function () {
-    echo json_encode(obtener_peliculas());
+$app->get('/peliculas', function ($request) {
+    $id_cine = $_GET["id_cine"] ?? null;
+    echo json_encode(obtener_peliculas($id_cine));
 });
 
 // Traer una pelicula concreta
@@ -39,6 +40,11 @@ $app->get('/pelicula/{codigo}', function ($request) {
 $app->get('/cine_pelicula/{id_pelicula}', function ($request) {
     $cod = $request->getAttribute("id_pelicula");
     echo json_encode(obtener_cines_disponibles_pelicula($cod));
+});
+
+// Traer cines
+$app->get('/cines', function ($request) {
+    echo json_encode(obtener_cines());
 });
 
 // Repetido

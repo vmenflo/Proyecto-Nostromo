@@ -1,0 +1,154 @@
+/* === Inicio === */
+
+main {
+    background-color: #213140;
+    padding: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    font-size: 20pt;
+}
+
+h1 {
+    margin-bottom: 0.3rem;
+}
+
+.linea {
+    margin-top: 0rem;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+}
+
+/* === Barra cines === */
+#cont-select-cines{
+    text-align: center;
+}
+
+#cont-select-cines label {
+    color: white;
+    text-transform: uppercase;
+}
+
+#elegir-cine{
+    background-color: #E6EB6C;
+    color:#1E1E1E;
+    padding:0.25rem;
+    margin-left: 0.5rem;
+    font-size: 15pt;
+}
+
+/* === Cartelera === */
+#cartelera {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+
+.cont-pelicula {
+    width: calc(50% - 1rem);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    min-height: 100%; /* importante: cambia de height a min-height */
+}
+
+
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+    padding:0.5rem;
+}
+
+
+.foto-cartelera {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+
+.logo-boton {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.cartel-titulo {
+    font-size: 12pt;
+    text-transform: uppercase;
+}
+
+.logo-boton .svg-hover {
+    display: none;
+  }
+  
+.logo-boton:hover .svg-default {
+display: none;
+}
+
+.logo-boton:hover .svg-hover {
+display: inline;
+}
+  
+
+@media (max-width: 1024px) {
+    p.cartel-sinopsis {
+        display: none !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .tarjeta {
+        background-color: #1E1E1E;
+        border-radius: 50px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .cartel-titulo {
+        font-size: 25pt;
+        order: -1;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* === Bitácora === */
+
+#cont-bitacora-inicio {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+#cont-bitacora-inicio h1 {
+    text-align: left;
+}
+
+.foto-bitacora {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1rem auto;
+}
+
+@media (min-width: 1024px) {
+    #cont-bitacora-inicio {
+        display: none;
+    }
+}

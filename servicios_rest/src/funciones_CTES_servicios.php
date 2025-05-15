@@ -100,20 +100,28 @@ function login($correo, $clave)
     return $respuesta;
 }
 
-function obtener_peliculas()
+function obtener_peliculas($id_cine = null)
 {
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
     } catch (PDOException $e) {
-        $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
+        $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
     }
 
     try {
-        $consulta = "select * from peliculas";
-        $sentencia = $conexion->prepare($consulta);
-        $sentencia->execute();
-
+        if ($id_cine) {
+            $consulta = "SELECT DISTINCT p.* 
+            FROM peliculas p 
+            JOIN proyecciones pr ON p.id_pelicula = pr.id_pelicula 
+            WHERE pr.id_cine = ?";
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute([$id_cine]);
+        } else {
+            $consulta = "SELECT * FROM peliculas";
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute();
+        }
     } catch (PDOException $e) {
         $sentencia = null;
         $conexion = null;
@@ -121,11 +129,16 @@ function obtener_peliculas()
         return $respuesta;
     }
 
-    $respuesta["peliculas"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    if ($sentencia->rowCount() <= 0)
+        $respuesta["mensaje"] = "No hay películas disponibles";
+    else
+        $respuesta["peliculas"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
     $sentencia = null;
     $conexion = null;
     return $respuesta;
 }
+
 
 function obtener_pelicula($cod)
 {
@@ -151,6 +164,33 @@ function obtener_pelicula($cod)
     else
         $respuesta["pelicula"] = $sentencia->fetch(PDO::FETCH_ASSOC);
 
+    $sentencia = null;
+    $conexion = null;
+    return $respuesta;
+}
+
+function obtener_cines()
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    try {
+        $consulta = "select * from cines";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute();
+
+    } catch (PDOException $e) {
+        $sentencia = null;
+        $conexion = null;
+        $respuesta["error"] = "No he podido realizarse la consulta: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    $respuesta["cines"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     $sentencia = null;
     $conexion = null;
     return $respuesta;
