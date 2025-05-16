@@ -6,7 +6,6 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 if (!defined("BASE_URL"))
     define("BASE_URL", "/Proyecto-Nostromo/app/");
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,45 +13,59 @@ if (!defined("BASE_URL"))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Nostromo</title>
-    <style>
-        .error {
-            color: red
-        }
-
-        .mensaje {
-            color: blue;
-            font-size: 1.25rem
-        }
-    </style>
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/login-registrar.css">
     <script src="<?= BASE_URL ?>js/login.js" defer></script>
 </head>
 
 <body>
+    <main id="modulo-login">
+        <div id="cont-login">
+            <h2>Iniciar sesión</h2>
+            <form id="form-login" action="javascript:void(0);">
+                <div>
+                    <input type="email" id="correo" name="correo" required>
+                    <label for="correo" class="lbl"><span class="texto">Correo:</span></label>
+                </div>
+                <span id="error-correo" class="error"></span>
 
-    <h1>Login</h1>
-    <form id="form-login" action="javascript:void(0);">
-    <p>
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo" required>
-        <span id="error-correo" class="error"></span>
-    </p>
-    <p>
-        <label for="clave">Contraseña:</label>
-        <input type="password" id="clave" name="clave" required>
-        <span id="error-clave" class="error"></span>
-    </p>
-    <p id="mensaje-error" class="error"></p>
-    <p>
-        <button type="submit">Iniciar sesión</button>
-    </p>
-</form>
+                <div>
+                    <input type="password" id="clave" name="clave" required>
+                    <label for="clave" class="lbl"><span class="texto">Contraseña:</span></label>
+                </div>
+                <span id="error-clave" class="error"></span>
 
+                <p id="mensaje-error" class="error"></p>
+                <p>
+                    
+                <button type="submit">
+                    <span class="svg-default">
+                        <svg width="140" height="40" viewBox="0 0 140 40" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="138" height="38" fill="#E6EB6C" stroke="black" stroke-width="2" />
+                            <path
+                                d="M35.8721 26V13.922H43.9451V16.415H38.7521V18.737H43.6211V21.239H38.7521V23.48H43.9451V26H35.8721ZM46.8576 13.922H49.8636L54.7146 21.23H54.5166V13.922H57.3966V26H54.6156L49.2606 17.972H49.7376V26H46.8576V13.922ZM59.0338 16.415V13.922H68.9788V16.415H64.8118L65.4598 15.767V26H62.5798V15.767L63.2278 16.415H59.0338ZM70.6069 26V13.922H75.3229C76.8349 13.922 78.0079 14.27 78.8419 14.966C79.6819 15.656 80.1019 16.583 80.1019 17.747C80.1019 18.887 79.6819 19.802 78.8419 20.492C78.0079 21.176 76.8349 21.518 75.3229 21.518H73.4869V26H70.6069ZM76.9069 26L73.9639 20.168H77.0059L80.6779 26H76.9069ZM73.4869 19.646H74.9989C75.7129 19.646 76.2469 19.499 76.6009 19.205C76.9609 18.905 77.1409 18.524 77.1409 18.062C77.1409 17.582 76.9879 17.189 76.6819 16.883C76.3819 16.571 75.9289 16.415 75.3229 16.415H73.4869V19.646ZM81.574 26L85.642 13.922H89.305L93.148 26H90.115L89.458 23.876H85.291L84.634 26H81.574ZM86.02 21.743H88.801L87.433 17.324L86.02 21.743ZM94.9878 26V13.922H99.7038C101.216 13.922 102.389 14.27 103.223 14.966C104.063 15.656 104.483 16.583 104.483 17.747C104.483 18.887 104.063 19.802 103.223 20.492C102.389 21.176 101.216 21.518 99.7038 21.518H97.8678V26H94.9878ZM101.288 26L98.3448 20.168H101.387L105.059 26H101.288ZM97.8678 19.646H99.3798C100.094 19.646 100.628 19.499 100.982 19.205C101.342 18.905 101.522 18.524 101.522 18.062C101.522 17.582 101.369 17.189 101.063 16.883C100.763 16.571 100.31 16.415 99.7038 16.415H97.8678V19.646Z"
+                                fill="#1E1E1E" />
+                        </svg>
+                    </span>
+                    <span class="svg-hover">
+                        <svg width="140" height="40" viewBox="0 0 140 40" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <rect x="1" y="1" width="138" height="38" fill="#E6EB6C" fill-opacity="0.5" stroke="black"
+                                stroke-width="2" />
+                            <path
+                                d="M35.8721 26V13.922H43.9451V16.415H38.7521V18.737H43.6211V21.239H38.7521V23.48H43.9451V26H35.8721ZM46.8576 13.922H49.8636L54.7146 21.23H54.5166V13.922H57.3966V26H54.6156L49.2606 17.972H49.7376V26H46.8576V13.922ZM59.0338 16.415V13.922H68.9788V16.415H64.8118L65.4598 15.767V26H62.5798V15.767L63.2278 16.415H59.0338ZM70.6069 26V13.922H75.3229C76.8349 13.922 78.0079 14.27 78.8419 14.966C79.6819 15.656 80.1019 16.583 80.1019 17.747C80.1019 18.887 79.6819 19.802 78.8419 20.492C78.0079 21.176 76.8349 21.518 75.3229 21.518H73.4869V26H70.6069ZM76.9069 26L73.9639 20.168H77.0059L80.6779 26H76.9069ZM73.4869 19.646H74.9989C75.7129 19.646 76.2469 19.499 76.6009 19.205C76.9609 18.905 77.1409 18.524 77.1409 18.062C77.1409 17.582 76.9879 17.189 76.6819 16.883C76.3819 16.571 75.9289 16.415 75.3229 16.415H73.4869V19.646ZM81.574 26L85.642 13.922H89.305L93.148 26H90.115L89.458 23.876H85.291L84.634 26H81.574ZM86.02 21.743H88.801L87.433 17.324L86.02 21.743ZM94.9878 26V13.922H99.7038C101.216 13.922 102.389 14.27 103.223 14.966C104.063 15.656 104.483 16.583 104.483 17.747C104.483 18.887 104.063 19.802 103.223 20.492C102.389 21.176 101.216 21.518 99.7038 21.518H97.8678V26H94.9878ZM101.288 26L98.3448 20.168H101.387L105.059 26H101.288ZM97.8678 19.646H99.3798C100.094 19.646 100.628 19.499 100.982 19.205C101.342 18.905 101.522 18.524 101.522 18.062C101.522 17.582 101.369 17.189 101.063 16.883C100.763 16.571 100.31 16.415 99.7038 16.415H97.8678V19.646Z"
+                                fill="#1E1E1E" />
+                        </svg>
+                    </span>
 
-    <div id="mensaje-error" class="mensaje"></div>
-    <div>
-        <a href="<?= BASE_URL ?>index.php?vista=registro">¿Aún no eres miembro de Nostromo? Click aquí para registrarte</a>
-    </div>
-
+                </button>
+                </p>
+                <p>
+                    <a href="<?= BASE_URL ?>index.php?vista=registro">¿Aún no eres miembro?</a>
+                </p>
+            </form>
+        </div>
+    </main>
 </body>
 
 </html>
