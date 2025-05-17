@@ -65,6 +65,14 @@ switch ($vista) {
         }
         break;
 
+    case "detalle-bitacora":
+        require "vistas/vista_detalle_bitacora.php";
+        break;
+    
+    case "cookies":
+        require "vistas/vista_cookies.php";
+        break;
+
     default:
         require "vistas/vista_inicio.php";
 }

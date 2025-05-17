@@ -6,10 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nostromo Inicio</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/inicio.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/lightslider.css">
+    <script src="<?= BASE_URL ?>js/jquery-3.7.1.min.js"></script>
+    <script src="<?= BASE_URL ?>js/jquery.animate-colors-min.js"></script>
+    <script src="<?= BASE_URL ?>js/lightslider.js"></script>
+    <script src="<?= BASE_URL ?>js/pl.js"></script>
+
+
+
 </head>
 
 <body>
     <main>
+        <div id="contenedor-pl-escritorio" class="solo-escritorio">
+            <ul id="slider-escritorio"></ul>
+        </div>
         <div id="cont-select-cines">
             <label for="elegir-cine">cine: </label>
             <select name="elegir-cine" id="elegir-cine" data-url="<?= DIR_SERV ?>/cines"
@@ -22,10 +33,14 @@
             <div id="cartelera"></div>
         </div>
 
-        <div>
+        <div id="cont-pl">
             <h1><a href="<?= BASE_URL ?>index.php?vista=proximamente">Próximamente</a></h1>
             <div class="linea"></div>
+            <div id="contenedor-pl" class="solo-movil">
+                <ul id="slider"></ul>
+            </div>
         </div>
+
 
         <div id="cont-bitacora-inicio">
             <h1><a href="<?= BASE_URL ?>index.php?vista=bitacora">Bitácora Nostromo</a></h1>

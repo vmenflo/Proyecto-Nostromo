@@ -30,6 +30,12 @@ $app->get('/peliculas', function ($request) {
     echo json_encode(obtener_peliculas($id_cine));
 });
 
+// Traer proximos lanzamientos
+$app->get('/proximos-lanzamientos', function ($request) {
+    $id_cine = $_GET["id_cine"] ?? null;
+    echo json_encode(obtener_lanzamientos($id_cine));
+});
+
 // Traer una pelicula concreta
 $app->get('/pelicula/{codigo}', function ($request) {
     $cod = $request->getAttribute("codigo");
@@ -50,6 +56,12 @@ $app->get('/cines', function ($request) {
 // Traer los articulos
 $app->get('/articulos', function ($request) {
     echo json_encode(obtener_articulos());
+});
+
+// Traer los articulo
+$app->get('/articulo/{id_articulo}', function ($request) {
+    $id_articulo = $request->getAttribute("id_articulo");
+    echo json_encode(obtener_articulo($id_articulo));
 });
 
 // Traer articulo concreto

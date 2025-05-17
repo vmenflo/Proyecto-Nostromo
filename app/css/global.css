@@ -79,9 +79,14 @@
 
 
 /* === Footer === */
+/* === Footer === */
 footer {
   background-color: black;
   color: white;
+  padding: 2rem 1rem; /* Añadimos padding superior e inferior */
+  margin-top: 4rem;   /* Separación del contenido principal */
+  flex-shrink: 0;     /* Evita que se reduzca si hay poco contenido */
+  width: 100%;
 }
 
 footer a {
@@ -89,34 +94,42 @@ footer a {
   color: white;
   cursor: pointer;
   font-size: 12pt;
+  padding: 0.25rem 0;
+  display: inline-block; 
 }
 
 footer ul {
   list-style: none;
   padding: 0.5rem;
+  margin: 0;
 }
 
 #contenedor-footer {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-#contenedor-footer>div {
-  flex-basis: 33%;
+#contenedor-footer > div {
+  flex: 1 1 30%;
+  min-width: 200px;
 }
 
 #redes-sociales {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem
+  gap: 1rem;
+  padding: 0.5rem;
 }
 
 #contenedor-cinema {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0.5rem
+  padding: 0.5rem;
 }
 
 #logo-cinema {

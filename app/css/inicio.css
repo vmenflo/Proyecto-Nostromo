@@ -1,4 +1,9 @@
 /* === Inicio === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
 main {
     background-color: #213140;
@@ -127,6 +132,29 @@ display: inline;
         margin-bottom: 0.5rem;
     }
 }
+/* === Próximos lanzamientos === */
+/* Por defecto oculta ambos sliders */
+#cont-pl,
+#contenedor-pl-escritorio {
+    display: none;
+}
+
+/* Mostrar slider móvil (hasta 1023px) */
+@media (max-width: 1023px) {
+    #cont-pl {
+        display: block;
+    }
+}
+
+/* Mostrar slider escritorio (desde 1024px) */
+@media (min-width: 1024px) {
+    #contenedor-pl-escritorio {
+        display: block;
+    }
+}
+
+/* === Slider móvil === */
+
 
 /* === Bitácora === */
 

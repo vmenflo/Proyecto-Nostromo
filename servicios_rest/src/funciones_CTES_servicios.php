@@ -115,14 +115,15 @@ function obtener_peliculas($id_cine = null)
             $consulta = "SELECT DISTINCT p.* 
             FROM peliculas p 
             JOIN proyecciones pr ON p.id_pelicula = pr.id_pelicula 
-            WHERE pr.id_cine = ?";
+            WHERE pr.id_cine = ? AND disponibilidad = 'cartelera'";
             $sentencia = $conexion->prepare($consulta);
             $sentencia->execute([$id_cine]);
         } else {
-            $consulta = "SELECT * FROM peliculas";
+            $consulta = "SELECT * FROM peliculas WHERE disponibilidad = 'cartelera'";
             $sentencia = $conexion->prepare($consulta);
             $sentencia->execute();
         }
+        
     } catch (PDOException $e) {
         $sentencia = null;
         $conexion = null;
@@ -134,6 +135,47 @@ function obtener_peliculas($id_cine = null)
         $respuesta["mensaje"] = "No hay películas disponibles";
     else
         $respuesta["peliculas"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentencia = null;
+    $conexion = null;
+    return $respuesta;
+}
+
+// Función próximos lanzamientos
+function obtener_lanzamientos($id_cine = null)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    try {
+        if ($id_cine) {
+            $consulta = "SELECT DISTINCT p.* 
+                         FROM peliculas p 
+                         JOIN proyecciones pr ON p.id_pelicula = pr.id_pelicula 
+                         WHERE pr.id_cine = ? AND p.disponibilidad = 'proximamente'";
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute([$id_cine]);
+        } else {
+            $consulta = "SELECT * FROM peliculas WHERE disponibilidad = 'proximamente'";
+            $sentencia = $conexion->prepare($consulta);
+            $sentencia->execute();
+        }
+
+    } catch (PDOException $e) {
+        $sentencia = null;
+        $conexion = null;
+        $respuesta["error"] = "No he podido realizarse la consulta: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    if ($sentencia->rowCount() <= 0)
+        $respuesta["mensaje"] = "No hay películas disponibles";
+    else
+        $respuesta["lanzamientos"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
 
     $sentencia = null;
     $conexion = null;
@@ -283,7 +325,36 @@ function obtener_articulos()
     return $respuesta;
 }
 
+// Función traer articulo concreto
 
+function obtener_articulo($id_articulo)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
+        return $respuesta;
+    }
+    try {
+        $consulta = "select * from articulos where id_articulo=?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_articulo]);
+
+    } catch (PDOException $e) {
+        $sentencia = null;
+        $conexion = null;
+        $respuesta["error"] = "No he podido realizarse la consulta: " . $e->getMessage();
+        return $respuesta;
+    }
+    if ($sentencia->rowCount() <= 0)
+        $respuesta["mensaje"] = "El producto con cod: " . $id_articulo . " no se encuentra en la BD";
+    else
+        $respuesta["articulo"] = $sentencia->fetch(PDO::FETCH_ASSOC);
+
+    $sentencia = null;
+    $conexion = null;
+    return $respuesta;
+}
 
 // Funciones controladoras
 
