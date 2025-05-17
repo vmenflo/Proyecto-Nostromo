@@ -47,6 +47,13 @@ $app->get('/cines', function ($request) {
     echo json_encode(obtener_cines());
 });
 
+// Traer los articulos
+$app->get('/articulos', function ($request) {
+    echo json_encode(obtener_articulos());
+});
+
+// Traer articulo concreto
+
 // Repetido
 $app->get('/repetido/{tabla}/{columna}/{valor}', function ($request) {
     $tabla = $request->getAttribute("tabla");
@@ -80,7 +87,6 @@ $app->post('/crearUsuario', function ($request) {
     echo json_encode(insertar_usuario($datos_insert));
 });
 
-
 // Esta por ver
 $app->get('admin/repetido/{tabla}/{columna}/{valor}', function ($request) {
     $test = validateToken();
@@ -98,8 +104,6 @@ $app->get('admin/repetido/{tabla}/{columna}/{valor}', function ($request) {
     else
         echo json_encode(array("no_auth" => "No tienes permisos para usar este servicio"));
 });
-
-
 
 $app->run();
 ?>

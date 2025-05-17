@@ -62,7 +62,7 @@ h1 {
     text-align: center;
     padding: 2rem;
     color: white;
-    min-height: 100%; /* importante: cambia de height a min-height */
+    min-height: 100%; 
 }
 
 

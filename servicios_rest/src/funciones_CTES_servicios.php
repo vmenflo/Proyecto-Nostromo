@@ -63,7 +63,7 @@ function validateToken()
     }
 
 }
-
+// Función login
 function login($correo, $clave)
 {
     try {
@@ -100,6 +100,7 @@ function login($correo, $clave)
     return $respuesta;
 }
 
+// Función peliculas
 function obtener_peliculas($id_cine = null)
 {
     try {
@@ -139,7 +140,7 @@ function obtener_peliculas($id_cine = null)
     return $respuesta;
 }
 
-
+// Función pelicula
 function obtener_pelicula($cod)
 {
     try {
@@ -169,6 +170,7 @@ function obtener_pelicula($cod)
     return $respuesta;
 }
 
+// Función cines
 function obtener_cines()
 {
     try {
@@ -196,7 +198,7 @@ function obtener_cines()
     return $respuesta;
 }
 
-
+// Función obtener cines disponibles por pelicula
 function obtener_cines_disponibles_pelicula($id_pelicula)
 {
     try {
@@ -226,6 +228,7 @@ function obtener_cines_disponibles_pelicula($id_pelicula)
     return $respuesta;
 }
 
+// Insertar nuevo usuario
 function insertar_usuario($datos_insert)
 {
     try {
@@ -247,6 +250,39 @@ function insertar_usuario($datos_insert)
 
     return ["ult_id" => $conexion->lastInsertId()];
 }
+
+// Función articulos
+function obtener_articulos()
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    try {
+        $consulta = "SELECT * FROM articulos";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute();
+
+    } catch (PDOException $e) {
+        $sentencia = null;
+        $conexion = null;
+        $respuesta["error"] = "No he podido realizarse la consulta: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    if ($sentencia->rowCount() <= 0)
+        $respuesta["mensaje"] = "No hay películas disponibles";
+    else
+        $respuesta["articulos"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+    $sentencia = null;
+    $conexion = null;
+    return $respuesta;
+}
+
 
 
 // Funciones controladoras

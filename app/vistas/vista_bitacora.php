@@ -5,10 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitácora Nostromo</title>
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/bitacoras.css">
 </head>
 
 <body>
-    <h1>Bitácora Nostromo</h1>
+    <main>
+        <h1>Bitácora Nostromo</h1>
+        <div id="contenedor-articulos"></div>
+        <script src="<?= BASE_URL ?>js/bitacora.js" defer></script>
+        <script>
+            const BASE_URL = "<?= BASE_URL ?>";
+        </script>
+    </main>
 </body>
 
 </html>
