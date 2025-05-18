@@ -125,35 +125,39 @@ display: inline;
 }
 
 @media (min-width: 1024px) {
+    .cartel-titulo {
+        font-size: 20pt;
+        order: -1;
+        margin: 0.5rem 0;
+    }
+
     .tarjeta {
         background-color: #1E1E1E;
-        border-radius: 50px;
+        border-radius: 16px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding:1rem;
     }
-}
 
-@media (min-width: 1024px) {
-    .cartel-titulo {
-        font-size: 25pt;
-        order: -1;
-        margin-bottom: 0.5rem;
+    .cartel-sinopsis{
+        line-height: 1.7;
+        margin-top: 1rem;
+        font-size: 1.05rem;
+        text-align: justify;
     }
 }
 
 /* === Próximos lanzamientos === */
-/* Por defecto oculta ambos sliders */
 #cont-pl,
 #contenedor-pl-escritorio {
     display: none;
 }
 
-/* Mostrar slider móvil (hasta 1023px) */
 @media (max-width: 1023px) {
     #cont-pl {
         display: block;
     }
 }
 
-/* Mostrar slider escritorio (desde 1024px) */
 @media (min-width: 1024px) {
     #contenedor-pl-escritorio {
         display: block;
@@ -189,6 +193,7 @@ display: inline;
     width: 100%;
     max-width: 100%;
     height: auto;
+    max-height: 350px;
 }
 
 #slider .item-pl h2 {
@@ -206,7 +211,7 @@ display: inline;
 #contenedor-pl-escritorio {
     text-align: center;
     padding: 2rem 1rem;
-    overflow: visible; /* ← Permite que los elementos externos como los dots se vean */
+    overflow: visible; 
     position: relative;
     overflow: hidden;
 }
@@ -272,9 +277,4 @@ display: inline;
     height: auto;
     margin: 1rem auto;
 }
-
-@media (min-width: 1024px) {
-    #cont-bitacora-inicio {
-        display: none;
-    }
-}
+  

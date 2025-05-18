@@ -140,3 +140,87 @@ footer ul {
   height: auto;
   display: block;
 }
+
+/* === Menú Global === */
+#menu-global {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Móvil: hamburguesa + menú oculto */
+@media (max-width: 1023px) {
+  #menu-global {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: white;
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  #cont-menu:hover + #menu-global {
+    display: block;
+  }
+
+  #menu-global li {
+    margin: 0.5rem 0;
+  }
+
+  #menu-global a {
+    display: block;
+    color: #213140;
+    font-size: 18pt;
+    text-decoration: none;
+  }
+}
+
+/* Escritorio: menú horizontal visible */
+@media (min-width: 1024px) {
+  #icono-menu {
+    display: none;
+  }
+
+  #menu-global {
+    display: flex;
+    justify-content: center;
+    background-color: #213140;
+    padding: 1rem 0;
+    gap: 3rem;
+  }
+
+  #menu-global li {
+    display: inline;
+  }
+
+  #menu-global a {
+    color: white;
+    font-size: 14pt;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  #icono-menu {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  #icono-menu {
+    display: none;
+  }
+
+  #cont-logo {
+    justify-content: flex-start;
+    flex: 0 0 auto; /* ← No ocupa 1/3, sino solo lo necesario */
+  }
+
+  #cont-menu, #cont-user {
+    flex: 1; /* que ocupen el resto del espacio */
+  }
+}
