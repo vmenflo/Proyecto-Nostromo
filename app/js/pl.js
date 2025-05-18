@@ -13,6 +13,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const datos = await res.json();
         const lanzamientos = datos.lanzamientos || [];
 
+        sliderMovil.innerHTML = "";
+        sliderEscritorio.innerHTML = "";
+
+
         if (!lanzamientos.length) {
             sliderMovil.innerHTML = "<li><p>No hay próximos lanzamientos disponibles.</p></li>";
             sliderEscritorio.innerHTML = "<li><p>No hay próximos lanzamientos disponibles.</p></li>";
@@ -20,9 +24,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
         lanzamientos.forEach(peli => {
-            const html = crearSlideHTML(peli);
-            sliderMovil.insertAdjacentHTML("beforeend", html);
-            sliderEscritorio.insertAdjacentHTML("beforeend", html);
+            sliderMovil.insertAdjacentHTML("beforeend", crearSlideHTML(peli, "mobile"));
+            sliderEscritorio.insertAdjacentHTML("beforeend", crearSlideHTML(peli, "escritorio"));
         });
 
         // Iniciar sliders
@@ -46,20 +49,37 @@ document.addEventListener("DOMContentLoaded", async () => {
         sliderEscritorio.innerHTML = "<li><p>Error al cargar próximos lanzamientos.</p></li>";
     }
 
-    function crearSlideHTML(peli) {
-        return `
-            <li>
-                <article class="item">
-                    <a href="#">
-                        <picture>
-                            <source srcset="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-tablet.png" media="(min-width:600px)">
-                            <img src="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-mobile.png" alt="cartel-${peli.titulo}">
-                        </picture>
-                    </a>
-                    <h2>${peli.titulo}</h2>
-                    <a href="#"><p>Sinopsis</p></a>
-                </article>
-            </li>
-        `;
+    function crearSlideHTML(peli, tipo = "mobile") {
+        if (tipo === "escritorio") {
+            return `
+                <li>
+                    <article class="item-pl">
+                    <div class="contenedor-info">
+                            <p>${peli.titulo}</p>
+                            <p>${peli.sinopsis}<p>
+                        </div>
+                        <a href="#" >
+                            <img src="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-slider.png" alt="cartel-${peli.titulo}">
+                        </a>
+                    </article>
+                </li>
+            `;
+        } else {
+            return `
+                <li>
+                    <article class="item-pl">
+                        <a href="#">
+                            <picture>
+                                <source srcset="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-tablet.png" media="(min-width:600px)">
+                                <img src="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-mobile.png" alt="cartel-${peli.titulo}">
+                            </picture>
+                        </a>
+                        <h2>${peli.titulo}</h2>
+                    </article>
+                </li>
+            `;
+        }
     }
+    
+    
 });

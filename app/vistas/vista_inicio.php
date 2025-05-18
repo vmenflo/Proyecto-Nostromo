@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nostromo Inicio</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>css/inicio.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>css/lightslider.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>css/inicio.css">
     <script src="<?= BASE_URL ?>js/jquery-3.7.1.min.js"></script>
     <script src="<?= BASE_URL ?>js/jquery.animate-colors-min.js"></script>
     <script src="<?= BASE_URL ?>js/lightslider.js"></script>
