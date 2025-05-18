@@ -80,6 +80,4 @@ document.addEventListener("DOMContentLoaded", async () => {
             `;
         }
     }
-    
-    
 });

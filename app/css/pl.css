@@ -1,0 +1,179 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #213140;
+    color: white;
+}
+
+main {
+    padding: 1rem;
+}
+
+h1 {
+    margin: 0.5rem 0;
+}
+
+.linea {
+    margin-top: 0rem;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+}
+
+.cont-pl {
+    width: calc(50% - 1rem);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    min-height: 100%;
+}
+
+.cont-pelicula {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    flex-grow: 1;
+    padding: 0.5rem;
+    height: 100%;
+}
+
+.foto-cartelera {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;;
+}
+
+.cartel-titulo {
+    font-size: 12pt;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
+}
+
+.prox, .sinopsis {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    p.cartel-sinopsis {
+        display: none !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .cartel-titulo {
+        font-size: 20pt;
+        order: -1;
+        margin: 0.5rem 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .tarjeta {
+        background-color: #1E1E1E;
+        border-radius: 16px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        padding: 1rem;
+    }
+
+    .tarjeta p {
+        text-align: left !important;
+        width: 100%;
+    }
+
+    .cartel-sinopsis {
+        line-height: 1.7;
+        margin-top: 1rem;
+        font-size: 1.05rem;
+        text-align: justify;
+    }
+
+    .sinopsis,
+    .prox {
+        display: block;
+    }
+
+    .prox {
+        font-size: 12pt;
+        text-transform: uppercase;
+        color: #E6EB6C;
+    }
+
+    .foto-cartelera {
+        height: auto;
+    }
+}
+
+#cartelera {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+    align-items: stretch;
+}
+
+@media (max-width: 400px) {
+    #cartelera {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* === Barra cines === */
+.cont-select-cines {
+    text-align: center;
+}
+
+.cont-select-cines label {
+    color: white;
+    text-transform: uppercase;
+}
+
+#elegir-cine {
+    background-color: #E6EB6C;
+    color: #1E1E1E;
+    padding: 0.25rem;
+    margin-left: 0.5rem;
+    font-size: 15pt;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+main {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.tarjeta,
+.cont-pelicula,
+#cartelera {
+    max-width: 100%;
+    overflow: hidden;
+}
+
