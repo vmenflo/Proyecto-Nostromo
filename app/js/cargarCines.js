@@ -62,6 +62,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
+    function generarURLCompra(idPelicula) {
+        const idCine = localStorage.getItem("cineSeleccionado");
+    
+        const baseUrl = "/Proyecto-Nostromo/app/index.php?vista=seleccion_sesion";
+        const params = new URLSearchParams();
+        params.append("id_pelicula", idPelicula);
+        
+        if (idCine) {
+            params.append("id_cine", idCine);
+        }
+    
+        return `${baseUrl}&${params.toString()}`;
+    }
+    
+    
+
     function renderizarCartelera(lista) {
         if (!lista.length) {
             cartelera.innerHTML = "<p>No hay películas para mostrar.</p>";
@@ -84,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <p class="cartel-sinopsis">${p.sinopsis}</p>
                 </div>
                 <p class="logo-boton">
-                    <a href="#">
+                    <a href="${generarURLCompra(p.id_pelicula)}">
                         <span class="svg-default">
                             <svg width="159" height="43" viewBox="0 0 159 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="2" y="2" width="155" height="39" fill="#213140" stroke="#E6EB6C" stroke-width="4"/>

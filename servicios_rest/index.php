@@ -42,6 +42,19 @@ $app->get('/pelicula/{codigo}', function ($request) {
     echo json_encode(obtener_pelicula($cod));
 });
 
+// Traer los cines donde proyecta una pelicula en concreto
+$app->get('/proyecciones/cines/{id_pelicula}', function ($request) {
+    $id_pelicula = $request->getAttribute("id_pelicula");
+    echo json_encode(obtener_cines_con_proyeccion_pelicula($id_pelicula));
+});
+
+// Obtener sesiones
+$app->get('/sesiones/{id_cine}/{id_pelicula}', function ($request) {
+    $id_cine = $request->getAttribute("id_cine");
+    $id_pelicula = $request->getAttribute("id_pelicula");
+    echo json_encode(obtener_sesiones($id_cine, $id_pelicula));
+});
+
 // Traer cines donde esta disponible la pelicula
 $app->get('/cine_pelicula/{id_pelicula}', function ($request) {
     $cod = $request->getAttribute("id_pelicula");

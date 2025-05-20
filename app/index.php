@@ -73,6 +73,14 @@ switch ($vista) {
         require "vistas/vista_cookies.php";
         break;
 
+    case "seleccion_sesion":
+        require "vistas/vista_seleccion_sesion.php";
+        break;
+    
+    case "butacas":
+    require "vistas/vista_butacas.php";
+    break;
+
     default:
         require "vistas/vista_inicio.php";
 }

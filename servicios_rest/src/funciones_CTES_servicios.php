@@ -123,7 +123,7 @@ function obtener_peliculas($id_cine = null)
             $sentencia = $conexion->prepare($consulta);
             $sentencia->execute();
         }
-        
+
     } catch (PDOException $e) {
         $sentencia = null;
         $conexion = null;
@@ -181,6 +181,74 @@ function obtener_lanzamientos($id_cine = null)
     $conexion = null;
     return $respuesta;
 }
+
+// Traerme en que cines se encuentra una pelicula concreta
+function obtener_cines_con_proyeccion_pelicula ($id_pelicula)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    try {
+        $consulta = "SELECT DISTINCT c.id_cine, c.nombre
+            FROM proyecciones p
+            JOIN cines c ON p.id_cine = c.id_cine
+            WHERE p.id_pelicula = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_pelicula]);
+
+    } catch (PDOException $e) {
+        $sentencia = null;
+        $conexion = null;
+        $respuesta["error"] = "No he podido realizarse la consulta: " . $e->getMessage();
+        return $respuesta;
+    }
+
+    if ($sentencia->rowCount() <= 0) {
+        $respuesta["cines"] = [];
+        $respuesta["mensaje"] = "No hay cines disponibles";
+    } else {
+        $respuesta["cines"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    $sentencia = null;
+    $conexion = null;
+    return $respuesta;
+}
+
+// Traer sesiones
+function obtener_sesiones($id_cine, $id_pelicula)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        return ["error" => "Error de conexión: " . $e->getMessage()];
+    }
+
+    try {
+        $consulta = "SELECT id_proyeccion, fecha, hora 
+                     FROM proyecciones 
+                     WHERE id_cine = ? AND id_pelicula = ? 
+                     ORDER BY fecha, hora";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine, $id_pelicula]);
+
+        if ($sentencia->rowCount() > 0) {
+            $sesiones = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+            return ["sesiones" => $sesiones];
+        } else {
+            return ["mensaje" => "No hay sesiones disponibles"];
+        }
+    } catch (PDOException $e) {
+        return ["error" => "Error al realizar la consulta: " . $e->getMessage()];
+    } finally {
+        $conexion = null;
+    }
+}
+
 
 // Función pelicula
 function obtener_pelicula($cod)
