@@ -71,13 +71,22 @@ $app->get('/articulos', function ($request) {
     echo json_encode(obtener_articulos());
 });
 
-// Traer los articulo
+// Traer articulo concreto
 $app->get('/articulo/{id_articulo}', function ($request) {
     $id_articulo = $request->getAttribute("id_articulo");
     echo json_encode(obtener_articulo($id_articulo));
 });
 
-// Traer articulo concreto
+// Traer los asientos de la proyeccion
+$app->get('/butacas/{id_cine}/{id_pelicula}/{fecha}/{hora}', function ($request) {
+    $id_cine = $request->getAttribute("id_cine");
+    $id_pelicula = $request->getAttribute("id_pelicula");
+    $fecha = $request->getAttribute("fecha");
+    $hora = $request->getAttribute("hora");
+
+    echo json_encode(obtener_butacas($id_cine, $id_pelicula, $fecha, $hora));
+});
+
 
 // Repetido
 $app->get('/repetido/{tabla}/{columna}/{valor}', function ($request) {

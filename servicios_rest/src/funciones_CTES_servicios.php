@@ -183,7 +183,7 @@ function obtener_lanzamientos($id_cine = null)
 }
 
 // Traerme en que cines se encuentra una pelicula concreta
-function obtener_cines_con_proyeccion_pelicula ($id_pelicula)
+function obtener_cines_con_proyeccion_pelicula($id_pelicula)
 {
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -248,7 +248,6 @@ function obtener_sesiones($id_cine, $id_pelicula)
         $conexion = null;
     }
 }
-
 
 // Función pelicula
 function obtener_pelicula($cod)
@@ -394,7 +393,6 @@ function obtener_articulos()
 }
 
 // Función traer articulo concreto
-
 function obtener_articulo($id_articulo)
 {
     try {
@@ -424,8 +422,67 @@ function obtener_articulo($id_articulo)
     return $respuesta;
 }
 
-// Funciones controladoras
+// Función para traer butacas de una proyección en concreto
+function obtener_butacas($id_cine, $id_pelicula, $fecha, $hora)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No he podido conectarme a la base de datos: " . $e->getMessage();
+        return $respuesta;
+    }
 
+    try {
+        // 1. Obtener id_proyeccion y id_sala
+        $consulta = "SELECT id_proyeccion, id_sala FROM proyecciones WHERE id_cine = ? AND id_pelicula = ? AND fecha = ? AND hora = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine, $id_pelicula, $fecha, $hora]);
+        $fila = $sentencia->fetch();
+
+        if (!$fila) {
+            $respuesta["mensaje"] = "No se ha encontrado ninguna proyección con esos datos.";
+            $sentencia = null;
+            $conexion = null;
+            return $respuesta;
+        }
+
+        $id_proyeccion = $fila["id_proyeccion"];
+        $id_sala = $fila["id_sala"];
+        $sentencia = null;
+
+        // 2. Obtener dimensiones (filas y butacas máximas)
+        $consulta = "SELECT MAX(fila) AS filas, MAX(butaca) AS butacas FROM asientos WHERE id_sala = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_sala]);
+        $dimensiones = $sentencia->fetch();
+        $sentencia = null;
+
+        // 3. Obtener butacas ocupadas
+        $consulta = "SELECT a.fila, a.butaca
+                     FROM reservas_asientos ra
+                     JOIN reservas r ON ra.id_reserva = r.id_reserva
+                     JOIN asientos a ON ra.id_asiento = a.id_asiento
+                     WHERE r.id_proyeccion = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_proyeccion]);
+        $ocupadas = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
+        $respuesta["filas"] = intval($dimensiones["filas"]);
+        $respuesta["butacas"] = intval($dimensiones["butacas"]);
+        $respuesta["ocupadas"] = $ocupadas;
+        $respuesta["fecha"] = $fecha;
+        $respuesta["hora"] = $hora;
+        $respuesta["sala"] = $id_sala;
+    } catch (PDOException $e) {
+        $respuesta["error"] = "No se ha podido realizar la consulta: " . $e->getMessage();
+    }
+
+    $sentencia = null;
+    $conexion = null;
+    return $respuesta;
+}
+
+// Funciones controladoras
 function repetido_insertando($tabla, $columna, $valor)
 {
     try {

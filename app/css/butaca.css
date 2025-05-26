@@ -1,0 +1,248 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #213140;
+  color: white;
+  overflow-x: hidden;
+}
+
+main {
+  padding: 1rem;
+}
+
+/* -------------------- ESTRUCTURA PRINCIPAL -------------------- */
+
+#cont-sala {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem;
+  margin: 1rem auto;
+  width: 90%;
+  flex-wrap: wrap;
+}
+
+#zona-butacas {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1E1E1E;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+#cont-butacas {
+  display: grid;
+  justify-content: center;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+#pantalla {
+  height: 20px;
+  background-color: white;
+  width: 60%;
+  margin: 2rem 0 0.5rem;
+  border-radius: 5px;
+}
+
+/* -------------------- DETALLE -------------------- */
+
+#detalle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  gap: 2rem;
+  flex-wrap: nowrap; /* clave */
+}
+
+
+#detalle > div {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0; /* evita que se desborde por contenido */
+}
+
+
+#detalle p {
+  margin-bottom: 0.75rem;
+}
+
+#detalle span {
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: default;
+}
+
+#entrada div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+#entrada span svg {
+  vertical-align: middle;
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+#cantidad {
+  font-size: 1.5rem;
+  min-width: 24px;
+  text-align: center;
+}
+
+
+#entrada span {
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+/* -------------------- BUTACAS -------------------- */
+
+.butaca {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.butaca:hover {
+  transform: scale(1.1);
+}
+
+.butaca path {
+  fill: white;
+}
+
+.butaca.ocupada path {
+  fill: #8C4040;
+  cursor: not-allowed;
+}
+
+.butaca.seleccionada:not(.ocupada) path {
+  fill: #E6EB6C;
+}
+
+
+h1 {
+  margin-bottom: 0.3rem;
+}
+
+.linea {
+  margin-top: 0;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  margin-bottom: 1rem;
+}
+
+#sala {
+  color:#E6EB6C
+}
+
+/* -------------------- POLÍTICAS -------------------- */
+
+#politicas {
+  width: 90%;
+  margin: 2rem auto 1rem;
+  padding: 1rem;
+  background-color: #1E1E1E;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+}
+
+#politicas h2 {
+  margin: 1rem 0;
+}
+
+/* -------------------- BOTONES -------------------- */
+
+.boton-cont,
+.boton-volver {
+  margin: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.boton-cont .svg-hover,
+.boton-volver .svg-hover {
+  display: none;
+}
+
+.boton-cont:hover .svg-default,
+.boton-volver:hover .svg-default {
+  display: none;
+}
+
+.boton-cont:hover .svg-hover,
+.boton-volver:hover .svg-hover {
+  display: inline;
+}
+
+.boton-cont svg,
+.boton-volver svg {
+  width: 159px;
+  height: 43px;
+  display: block;
+}
+
+.boton-cont span,
+.boton-volver span {
+  display: inline-block;
+  width: 159px;
+  height: 43px;
+}
+
+#botones-butaca {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; /* espacio entre botones */
+  margin: 2rem auto;
+  flex-wrap: wrap; /* permite adaptarse en móviles */
+}
+
+#botones-butaca p {
+  margin: 0;
+}
+
+
+
+@media (max-width: 768px) {
+  #cont-sala {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #zona-butacas,
+  #detalle {
+    width: 100%;
+  }
+
+  #pantalla {
+    width: 90%;
+  }
+
+  .butaca {
+    transform: scale(0.9);
+  }
+}
