@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const PRECIO_ENTRADA = 6;
   const spanPrecio = document.getElementById("p_unitario");
   const spanSubtotal = document.getElementById("p_subtotal");
-
-
   const seleccionadas = [];
 
   function actualizarContador() {
@@ -23,25 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
     spanSubtotal.textContent = `${(cantidad * PRECIO_ENTRADA).toFixed(2)} €`;
   }
 
-  actualizarContador()
-
+  actualizarContador();
 
   fetch(`/Proyecto-Nostromo/servicios_rest/butacas/${id_cine}/${id_pelicula}/${fecha}/${hora}`)
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
-    })
+    .then(res => res.ok ? res.json() : Promise.reject(`HTTP ${res.status}`))
     .then(data => {
       if (data.error) {
         contenedor.innerHTML = `<p>Error: ${data.error}</p>`;
         return;
       }
 
-      // PINTAR fecha, hora y sala
+      // PINTA FECHA, HORA Y SALA
       document.getElementById("fecha").textContent = `Fecha: ${data.fecha}`;
       document.getElementById("sesion").textContent = `Hora: ${data.hora}`;
       document.getElementById("sala").textContent = `Sala ${data.sala}`;
-
 
       const filas = data.filas;
       const columnas = data.butacas;
@@ -50,17 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
       contenedor.style.display = 'grid';
       contenedor.style.gridTemplateColumns = `repeat(${columnas}, auto)`;
       contenedor.style.gap = '5px';
-      contenedor.style.justifyContent = 'center';
-      contenedor.style.padding = '20px';
 
       for (let fila = 1; fila <= filas; fila++) {
         for (let butaca = 1; butaca <= columnas; butaca++) {
           const isOcupada = ocupadas.some(b => b.fila == fila && b.butaca == butaca);
 
           const svgMarkup = `
-            <svg width="24" height="24" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 18V21H7V18H17V21H20V15H4V18ZM19 10H22V13H19V10ZM2 10H5V13H2V10ZM17 13H7V5C7 4.46957 7.21071 3.96086 7.58579 3.58579C7.96086 3.21071 8.46957 3 9 3H15C15.5304 3 16.0391 3.21071 16.4142 3.58579C16.7893 3.96086 17 4.46957 17 5V13Z" />
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 18V21H7V18H17V21H20V15H4V18ZM19 10H22V13H19V10ZM2 10H5V13H2V10ZM17 13H7V5C7 4.47 7.21 3.96 7.59 3.59C7.96 3.21 8.47 3 9 3H15C15.53 3 16.04 3.21 16.41 3.59C16.79 3.96 17 4.47 17 5V13Z" />
             </svg>
           `;
 
@@ -73,11 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
           svg.dataset.fila = fila;
           svg.dataset.butaca = butaca;
-          svg.setAttribute("title", `Fila ${fila}, Butaca ${butaca}`);
 
           svg.addEventListener("click", () => {
             if (svg.classList.contains("ocupada")) return;
-
             svg.classList.toggle("seleccionada");
 
             const index = seleccionadas.findIndex(b => b[0] === fila && b[1] === butaca);
@@ -99,10 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error(err);
     });
 
-  btnMas.addEventListener("click", () => {
-    alert("Selecciona los asientos directamente en el plano para añadir.");
-  });
-
+  // Botón menos
   btnMenos.addEventListener("click", () => {
     if (seleccionadas.length > 0) {
       const [fila, butaca] = seleccionadas.pop();
@@ -112,13 +97,19 @@ document.addEventListener('DOMContentLoaded', () => {
       actualizarContador();
     }
   });
-  /* Volver */
+
+  // Botón más
+  btnMas.addEventListener("click", () => {
+    alert("Selecciona los asientos directamente en el plano.");
+  });
+
+  // Botón volver
   document.querySelector('.boton-volver a').addEventListener('click', (e) => {
     e.preventDefault();
     window.history.back();
   });
 
-  /* Continuar */
+  // Botón continuar
   document.querySelector('.boton-cont a').addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -127,14 +118,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const titulo = document.querySelector('.titulo-pelicula')?.textContent || '';
     const salaTexto = document.getElementById('sala')?.textContent || '';
-    const sala = salaTexto.replace("Sala:", "").trim();
+    const sala = salaTexto.replace("Sala", "").trim();
     const subtotal = (seleccionadas.length * PRECIO_ENTRADA).toFixed(2);
     const butacas = seleccionadas.map(([f, b]) => `F${f}-B${b}`).join(',');
 
     const params = new URLSearchParams({
-      titulo,
+      id_pelicula,
+      id_cine,
       sala,
       fecha,
       hora,
@@ -142,8 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
       butacas
     });
 
-    // Ajusta el destino a tu vista de confirmación
     window.location.href = `/Proyecto-Nostromo/app/index.php?vista=confirmacion&${params.toString()}`;
   });
-
 });

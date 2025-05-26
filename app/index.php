@@ -85,6 +85,10 @@ switch ($vista) {
         require "vistas/vista_confirmacion.php";
         break;
 
+    case "pago":
+        require "vistas/vista_pago.php";
+        break;
+
     default:
         require "vistas/vista_inicio.php";
 }

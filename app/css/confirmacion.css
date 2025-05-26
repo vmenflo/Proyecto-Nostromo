@@ -1,0 +1,167 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body, html {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #213140;
+    color: white;
+    overflow-x: hidden;
+  }
+  
+  main {
+    padding: 1rem;
+  }
+
+  h1 {
+    margin-bottom: 0.3rem;
+  }
+  
+  .linea {
+    margin-top: 0;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    margin-bottom: 1rem;
+  }
+
+#cont-confirmacion {
+margin: 2rem auto 1rem;
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: #1E1E1E;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+border-radius: 16px;
+padding: 1rem;
+width: 100%;
+max-width: 600px; /* antes era 80%, ahora fijo */
+}
+
+.foto-cartelera {
+width: 200px;
+height: auto;
+border-radius: 8px;
+object-fit: cover;
+}
+  
+
+.pelicula {
+display: flex;
+align-items: flex-end; 
+justify-content: center;
+gap: 1rem;
+margin-bottom: 1.5rem;
+}
+
+.titulo {
+font-size: 2rem;
+font-weight: bold;
+margin: 0;
+}
+
+@media (max-width: 768px) {
+.titulo {
+    font-size: 1.5rem;
+    }
+}
+
+.detalle-sesion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .detalle-sesion p {
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+    /*color: #E6EB6C;*/
+    font-weight: bold;
+  }
+  
+  /* Resumen compra */
+  .resumen-compra {
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+  }
+  
+  .resumen-compra p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  .resumen-compra p:first-child {
+    font-size: 1.3rem;
+    color: #E6EB6C;
+    font-weight: bold;
+    border-bottom: 1px solid #E6EB6C;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .total{
+    text-align: right;
+    color:#E6EB6C;
+  }
+  
+  .boton-cont,
+  .boton-volver {
+    margin: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .boton-cont .svg-hover,
+  .boton-volver .svg-hover {
+    display: none;
+  }
+  
+  .boton-cont:hover .svg-default,
+  .boton-volver:hover .svg-default {
+    display: none;
+  }
+  
+  .boton-cont:hover .svg-hover,
+  .boton-volver:hover .svg-hover {
+    display: inline;
+  }
+  
+  .boton-cont svg,
+  .boton-volver svg {
+    width: 159px;
+    height: 43px;
+    display: block;
+  }
+  
+  .boton-cont span,
+  .boton-volver span {
+    display: inline-block;
+    width: 159px;
+    height: 43px;
+  }
+
+  #grupo-botones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem; /* espacio entre botones */
+    margin: 2rem auto;
+    flex-wrap: wrap; /* permite adaptarse en móviles */
+  }
+  
+  #grupo-botones p {
+    margin: 0;
+  }
