@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body,
+  html {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #213140;
+    color: white;
+    overflow-x: hidden;
+  }
+  
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 1rem;
+  }
+  
+  #cont-pago {
+    background-color: #1E1E1E;
+    border-radius: 15pt;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #cont-form {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    align-items: center;
+  }
+  
+  #cont-form > div {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  #cont-form p {
+    margin-bottom: 0;
+    font-weight: bold;
+  }
+  
+  /* Agrupación de label + input en línea horizontal sin cambiar HTML */
+  #cont-form .num_tarjeta .cont,
+  #cont-form .caducidad .cont,
+  #cont-form .codigo .cont {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  #cont-form .cont label {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  #cont-form .cont input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border:none;
+    border-bottom: 1px solid #78838D; 
+    background-color: #1E1E1E;
+    color: #78838D;
+    flex: 1;
+  }
+  
+  .caducidad .cont input[type="text"] {
+    width: 80px;
+  }
+
+  /* Botones */
+  
+  #botones-pago {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem auto;
+    flex-wrap: nowrap;
+  }
+  
+  .boton-pagar,
+  .boton-cancelar {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .boton-pagar .svg-hover,
+  .boton-cancelar .svg-hover {
+    display: none;
+  }
+  
+  .boton-pagar:hover .svg-default,
+  .boton-cancelar:hover .svg-default {
+    display: none;
+  }
+  
+  .boton-pagar:hover .svg-hover,
+  .boton-cancelar:hover .svg-hover {
+    display: inline;
+  }
+  
+  .boton-pagar svg,
+  .boton-cancelar svg {
+    width: 159px;
+    height: 43px;
+    display: block;
+  }
+  
+  .boton-pagar span,
+  .boton-cancelar span {
+    display: inline-block;
+    width: 159px;
+    height: 43px;
+  }
+  

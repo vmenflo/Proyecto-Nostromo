@@ -31,10 +31,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // PINTA FECHA, HORA Y SALA
+      const id_sala = data.id_sala;
+      if (!id_sala) {
+        contenedor.innerHTML = `<p>Error: No se pudo obtener la sala</p>`;
+        return;
+      }
+
       document.getElementById("fecha").textContent = `Fecha: ${data.fecha}`;
       document.getElementById("sesion").textContent = `Hora: ${data.hora}`;
-      document.getElementById("sala").textContent = `Sala ${data.sala}`;
+      document.getElementById("sala").textContent = `Sala ${id_sala}`;
 
       const filas = data.filas;
       const columnas = data.butacas;
@@ -49,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const isOcupada = ocupadas.some(b => b.fila == fila && b.butaca == butaca);
 
           const svgMarkup = `
-            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 18V21H7V18H17V21H20V15H4V18ZM19 10H22V13H19V10ZM2 10H5V13H2V10ZM17 13H7V5C7 4.47 7.21 3.96 7.59 3.59C7.96 3.21 8.47 3 9 3H15C15.53 3 16.04 3.21 16.41 3.59C16.79 3.96 17 4.47 17 5V13Z" />
-            </svg>
-          `;
+          <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 18V21H7V18H17V21H20V15H4V18ZM19 10H22V13H19V10ZM2 10H5V13H2V10ZM17 13H7V5C7 4.47 7.21 3.96 7.59 3.59C7.96 3.21 8.47 3 9 3H15C15.53 3 16.04 3.21 16.41 3.59C16.79 3.96 17 4.47 17 5V13Z" />
+          </svg>
+        `;
 
           const template = document.createElement('template');
           template.innerHTML = svgMarkup.trim();
@@ -81,13 +86,35 @@ document.addEventListener('DOMContentLoaded', () => {
           contenedor.appendChild(svg);
         }
       }
+
+      document.querySelector('.boton-cont a').addEventListener('click', (e) => {
+        e.preventDefault();
+
+        if (seleccionadas.length === 0) {
+          alert("Debes seleccionar al menos un asiento.");
+          return;
+        }
+
+        const subtotal = (seleccionadas.length * PRECIO_ENTRADA).toFixed(2);
+        const butacas = seleccionadas.map(([f, b]) => `F${f}-B${b}`).join(',');
+
+        const params = new URLSearchParams({
+          id_pelicula,
+          id_cine,
+          id_sala,
+          fecha,
+          hora,
+          subtotal,
+          butacas
+        });
+
+        window.location.href = `/Proyecto-Nostromo/app/index.php?vista=confirmacion&${params.toString()}`;
+      });
     })
-    .catch(err => {
+    .catch(() => {
       contenedor.innerHTML = `<p>Error al cargar butacas.</p>`;
-      console.error(err);
     });
 
-  // Botón menos
   btnMenos.addEventListener("click", () => {
     if (seleccionadas.length > 0) {
       const [fila, butaca] = seleccionadas.pop();
@@ -98,41 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Botón más
   btnMas.addEventListener("click", () => {
     alert("Selecciona los asientos directamente en el plano.");
   });
 
-  // Botón volver
   document.querySelector('.boton-volver a').addEventListener('click', (e) => {
     e.preventDefault();
     window.history.back();
-  });
-
-  // Botón continuar
-  document.querySelector('.boton-cont a').addEventListener('click', (e) => {
-    e.preventDefault();
-
-    if (seleccionadas.length === 0) {
-      alert("Debes seleccionar al menos un asiento.");
-      return;
-    }
-
-    const salaTexto = document.getElementById('sala')?.textContent || '';
-    const sala = salaTexto.replace("Sala", "").trim();
-    const subtotal = (seleccionadas.length * PRECIO_ENTRADA).toFixed(2);
-    const butacas = seleccionadas.map(([f, b]) => `F${f}-B${b}`).join(',');
-
-    const params = new URLSearchParams({
-      id_pelicula,
-      id_cine,
-      sala,
-      fecha,
-      hora,
-      subtotal,
-      butacas
-    });
-
-    window.location.href = `/Proyecto-Nostromo/app/index.php?vista=confirmacion&${params.toString()}`;
   });
 });

@@ -472,7 +472,7 @@ function obtener_butacas($id_cine, $id_pelicula, $fecha, $hora)
         $respuesta["ocupadas"] = $ocupadas;
         $respuesta["fecha"] = $fecha;
         $respuesta["hora"] = $hora;
-        $respuesta["sala"] = $id_sala;
+        $respuesta["id_sala"] = $id_sala;
     } catch (PDOException $e) {
         $respuesta["error"] = "No se ha podido realizar la consulta: " . $e->getMessage();
     }
@@ -481,6 +481,90 @@ function obtener_butacas($id_cine, $id_pelicula, $fecha, $hora)
     $conexion = null;
     return $respuesta;
 }
+
+
+// Función para realizar reserva
+function reservar($datos)
+{
+    $respuesta = [];
+
+    try {
+        // Obtener y validar datos
+        $id_usuario = $datos["id_usuario"] ?? null;
+        $id_cine = $datos["id_cine"] ?? null;
+        $id_pelicula = $datos["id_pelicula"] ?? null;
+        $fecha = $datos["fecha"] ?? null;
+        $hora = $datos["hora"] ?? null;
+        $id_sala = $datos["id_sala"] ?? null;
+        $butacas_raw = $datos["butacas"] ?? [];
+
+        // Asegurar que butacas sea un array
+        $butacas = is_array($butacas_raw) ? $butacas_raw : explode(",", $butacas_raw);
+
+        if (!$id_usuario || !$id_cine || !$id_pelicula || !$fecha || !$hora || !$id_sala || empty($butacas)) {
+            throw new Exception("Faltan datos para realizar la reserva");
+        }
+
+        // Conexión
+        $conexion = new PDO(
+            "mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD,
+            USUARIO_BD,
+            CLAVE_BD,
+            [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]
+        );
+
+        // Obtener id_proyeccion
+        $consulta = "SELECT id_proyeccion FROM proyecciones WHERE id_cine=? AND id_pelicula=? AND fecha=? AND hora=? AND id_sala=?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine, $id_pelicula, $fecha, $hora, $id_sala]);
+
+        if ($sentencia->rowCount() === 0) {
+            throw new Exception("No se encontró la proyección");
+        }
+
+        $fila = $sentencia->fetch(PDO::FETCH_ASSOC);
+        $id_proyeccion = $fila["id_proyeccion"];
+
+        // Insertar reserva
+        $consulta = "INSERT INTO reservas (id_usuario, id_proyeccion, fecha_reserva, cantidad_entradas) VALUES (?, ?, CURDATE(), ?)";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_usuario, $id_proyeccion, count($butacas)]);
+
+        $id_reserva = $conexion->lastInsertId();
+
+        // Preparar sentencias
+        $insertar = $conexion->prepare("INSERT INTO reservas_asientos (id_reserva, id_asiento) VALUES (?, ?)");
+        $buscar_id_asiento = $conexion->prepare("SELECT id_asiento FROM asientos WHERE id_sala=? AND fila=? AND butaca=?");
+
+        foreach ($butacas as $str_butaca) {
+            if (preg_match("/^F(\d+)-B(\d+)$/", $str_butaca, $matches)) {
+                $fila_num = $matches[1];
+                $butaca_num = $matches[2];
+
+                $buscar_id_asiento->execute([$id_sala, $fila_num, $butaca_num]);
+
+                if ($buscar_id_asiento->rowCount() > 0) {
+                    $fila_asiento = $buscar_id_asiento->fetch(PDO::FETCH_ASSOC);
+                    $id_asiento = $fila_asiento["id_asiento"];
+                    $insertar->execute([$id_reserva, $id_asiento]);
+                } else {
+                    throw new Exception("No se encontró el asiento $str_butaca en la sala $id_sala");
+                }
+            } else {
+                throw new Exception("Formato de butaca inválido: $str_butaca");
+            }
+        }
+
+        $respuesta["mensaje"] = "Reserva realizada correctamente";
+    } catch (Exception $e) {
+        $respuesta["error"] = "Error realizando la reserva: " . $e->getMessage();
+    }
+
+    return $respuesta;
+}
+
+
+
 
 // Funciones controladoras
 function repetido_insertando($tabla, $columna, $valor)

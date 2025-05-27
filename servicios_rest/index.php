@@ -88,6 +88,20 @@ $app->get('/butacas/{id_cine}/{id_pelicula}/{fecha}/{hora}', function ($request)
 });
 
 
+// Realizar reserva
+$app->post('/reservar', function ($request) {
+    $datos = json_decode($request->getBody(), true);
+
+    try {
+        echo json_encode(reservar($datos));
+    } catch (Throwable $e) {
+        echo json_encode(["error" => "Error interno", "detalle" => $e->getMessage()]);
+    }
+});
+
+
+
+
 // Repetido
 $app->get('/repetido/{tabla}/{columna}/{valor}', function ($request) {
     $tabla = $request->getAttribute("tabla");
