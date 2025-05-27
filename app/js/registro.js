@@ -26,12 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
 
             if (data.status === "ok") {
-                alert("Usuario registrado correctamente.");
-                window.location.href = "/Proyecto-Nostromo/app/index.php";
-            } else {
-                alert(data.mensaje || "Error al registrar.");
+                const redir = redirParam;
+                if (redir) {
+                    const redirParams = new URLSearchParams(redir);
+                    window.location.href = `/Proyecto-Nostromo/app/index.php?${redirParams.toString()}`;
+                } else {
+                    window.location.href = "/Proyecto-Nostromo/app/index.php";
+                }
             }
-
         } catch (err) {
             alert("Error de conexión con el servidor.");
         }

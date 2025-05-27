@@ -66,7 +66,9 @@ if (!defined("BASE_URL"))
                     </button>
                 </p>
                 <p>
-                    <a href="<?= BASE_URL ?>index.php?vista=registro">¿Aún no eres miembro?</a>
+                    <a
+                        href="<?= BASE_URL ?>index.php?vista=registro<?= isset($_GET["redir"]) ? "&redir=" . urlencode($_GET["redir"]) : "" ?>">¿Aún
+                        no eres miembro?</a>
                 </p>
             </form>
         </div>

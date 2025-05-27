@@ -15,6 +15,10 @@ if (!defined("BASE_URL"))
     <title>Registro</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/login-registrar.css">
     <script src="<?= BASE_URL ?>js/registro.js" defer></script>
+    <script>
+        const redirParam = new URLSearchParams(window.location.search).get("redir");
+    </script>
+
 </head>
 
 <body>
