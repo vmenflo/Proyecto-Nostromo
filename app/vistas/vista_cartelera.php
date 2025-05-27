@@ -13,7 +13,7 @@
     <main>
     <div id="cont-select-cines">
             <label for="elegir-cine">cine: </label>
-            <select name="elegir-cine" id="elegir-cine" data-url="<?= DIR_SERV ?>/cines"
+            <select name="elegir-cine" id="elegir-cine-cartelera"  data-url="<?= DIR_SERV ?>/cines"
                 data-url-cartelera="<?= BASE_URL ?>index.php?vista=cartelera">
             </select>
         </div>

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const select = document.getElementById("elegir-cine");
+    const select = document.getElementById("elegir-cine-cartelera");
     const cartelera = document.getElementById("cartelera");
 
     if (!select || !cartelera) return;
