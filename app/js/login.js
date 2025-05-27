@@ -40,7 +40,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
 
             if (data.status === "ok") {
-                window.location.href = "/Proyecto-Nostromo/app/index.php";
+                const redirRaw = new URLSearchParams(window.location.search).get("redir");
+
+                if (redirRaw) {
+                    // Decodifica correctamente la cadena redir (que viene URL-encoded)
+                    const redirParams = new URLSearchParams(redirRaw);
+                    window.location.href = `/Proyecto-Nostromo/app/index.php?${redirParams.toString()}`;
+                } else {
+                    window.location.href = "/Proyecto-Nostromo/app/index.php";
+                }
             } else {
                 mensajeError.textContent = data.mensaje;
             }

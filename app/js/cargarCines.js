@@ -64,18 +64,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function generarURLCompra(idPelicula) {
         const idCine = localStorage.getItem("cineSeleccionado");
+        const baseUrl = "/Proyecto-Nostromo/app/index.php";
     
-        const baseUrl = "/Proyecto-Nostromo/app/index.php?vista=seleccion_sesion";
-        const params = new URLSearchParams();
-        params.append("id_pelicula", idPelicula);
-        
-        if (idCine) {
-            params.append("id_cine", idCine);
+        if (!window.usuarioLogueado) {
+            const redir = `vista=seleccion_sesion&id_pelicula=${idPelicula}${idCine ? `&id_cine=${idCine}` : ''}`;
+            return `${baseUrl}?vista=login&redir=${encodeURIComponent(redir)}`;
         }
     
-        return `${baseUrl}&${params.toString()}`;
-    }
+        const params = new URLSearchParams();
+        params.append("vista", "seleccion_sesion");
+        params.append("id_pelicula", idPelicula);
+        if (idCine) params.append("id_cine", idCine);
     
+        return `${baseUrl}?${params.toString()}`;
+    }
     
 
     function renderizarCartelera(lista) {

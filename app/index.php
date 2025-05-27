@@ -25,7 +25,7 @@ if (isset($_SESSION["mensaje_seguridad"])) {
 }
 
 // Controlador central de vistas
-$vista = $_GET["vista"] ?? "inicio"; 
+$vista = $_GET["vista"] ?? "inicio";
 
 switch ($vista) {
     case "cartelera":
@@ -52,7 +52,7 @@ switch ($vista) {
     case "login":
         require "vistas/vista_login.php";
         break;
-    
+
     case "registro":
         require "vistas/vista_registro.php";
         break;
@@ -68,7 +68,7 @@ switch ($vista) {
     case "detalle-bitacora":
         require "vistas/vista_detalle_bitacora.php";
         break;
-    
+
     case "cookies":
         require "vistas/vista_cookies.php";
         break;
@@ -76,10 +76,10 @@ switch ($vista) {
     case "seleccion_sesion":
         require "vistas/vista_seleccion_sesion.php";
         break;
-    
+
     case "butacas":
-    require "vistas/vista_butacas.php";
-    break;
+        require "vistas/vista_butacas.php";
+        break;
 
     case "confirmacion":
         require "vistas/vista_confirmacion.php";
@@ -92,5 +92,9 @@ switch ($vista) {
     default:
         require "vistas/vista_inicio.php";
 }
+
+// Esta línea exporta si hay sesión activa para que lo use JS (como cargarCines.js)
+echo "<script>window.usuarioLogueado = " . (isset($_SESSION["token"]) ? "true" : "false") . ";</script>";
+
 include __DIR__ . "/includes/footer.php";
 ?>
