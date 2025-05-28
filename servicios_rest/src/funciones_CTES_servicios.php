@@ -482,7 +482,6 @@ function obtener_butacas($id_cine, $id_pelicula, $fecha, $hora)
     return $respuesta;
 }
 
-
 // Función para realizar reserva
 function reservar($datos)
 {
@@ -563,6 +562,53 @@ function reservar($datos)
     return $respuesta;
 }
 
+// Función para obtener reservas de un usuario concreto
+function obtener_reservas_usuario($id_usuario)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"
+        ]);
+    } catch (PDOException $e) {
+        return ["codigo" => "error", "mensaje" => "Error de conexión: " . $e->getMessage()];
+    }
+
+    // Función interna para evitar duplicar código en futuras/historial
+    function obtener_reservas($conexion, $id_usuario, $condicion_fecha, $orden)
+    {
+        $sql = "SELECT r.id_reserva, r.cantidad_entradas, r.fecha_reserva,
+                       p.fecha, p.hora, pel.titulo, pel.foto,
+                       c.nombre AS cine, s.nombre AS sala,
+                       GROUP_CONCAT(CONCAT('F', a.fila, 'B', a.butaca) ORDER BY a.fila, a.butaca SEPARATOR ', ') AS butacas
+                FROM reservas r
+                JOIN proyecciones p ON r.id_proyeccion = p.id_proyeccion
+                JOIN peliculas pel ON p.id_pelicula = pel.id_pelicula
+                JOIN cines c ON p.id_cine = c.id_cine
+                JOIN salas s ON p.id_sala = s.id_sala
+                LEFT JOIN reservas_asientos ra ON r.id_reserva = ra.id_reserva
+                LEFT JOIN asientos a ON ra.id_asiento = a.id_asiento
+                WHERE r.id_usuario = ? AND $condicion_fecha
+                GROUP BY r.id_reserva
+                ORDER BY $orden";
+
+        $stmt = $conexion->prepare($sql);
+        $stmt->execute([$id_usuario]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    try {
+        $futuras = obtener_reservas($conexion, $id_usuario, "p.fecha >= CURDATE()", "p.fecha, p.hora");
+        $historial = obtener_reservas($conexion, $id_usuario, "p.fecha < CURDATE()", "p.fecha DESC, p.hora DESC");
+
+        return [
+            "codigo" => "success",
+            "futuras" => $futuras,
+            "historial" => $historial
+        ];
+    } catch (PDOException $e) {
+        return ["codigo" => "error", "mensaje" => "Error en la consulta: " . $e->getMessage()];
+    }
+}
 
 
 

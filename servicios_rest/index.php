@@ -87,7 +87,6 @@ $app->get('/butacas/{id_cine}/{id_pelicula}/{fecha}/{hora}', function ($request)
     echo json_encode(obtener_butacas($id_cine, $id_pelicula, $fecha, $hora));
 });
 
-
 // Realizar reserva
 $app->post('/reservar', function ($request) {
     $datos = json_decode($request->getBody(), true);
@@ -97,6 +96,19 @@ $app->post('/reservar', function ($request) {
     } catch (Throwable $e) {
         echo json_encode(["error" => "Error interno", "detalle" => $e->getMessage()]);
     }
+});
+
+// Obtener reservas del usuario
+$app->get('/reservas', function () {
+    $auth = validateToken();
+
+    if (!is_array($auth) || !isset($auth["usuario"]["id_usuario"])) {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+        return;
+    }
+
+    $id_usuario = $auth["usuario"]["id_usuario"];
+    echo json_encode(obtener_reservas_usuario($id_usuario));
 });
 
 

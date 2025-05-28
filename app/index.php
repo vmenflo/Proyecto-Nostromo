@@ -96,5 +96,10 @@ switch ($vista) {
 // Esta línea exporta si hay sesión activa para que lo use JS (como cargarCines.js)
 echo "<script>window.usuarioLogueado = " . (isset($_SESSION["token"]) ? "true" : "false") . ";</script>";
 
+// Aquí copiamos el token a localStorage si hay sesión
+if (isset($_SESSION["token"])) {
+    echo "<script>localStorage.setItem('token', '" . $_SESSION["token"] . "');</script>";
+}
+
 include __DIR__ . "/includes/footer.php";
 ?>

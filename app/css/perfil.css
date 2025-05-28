@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #213140;
+    color: white;
+}
+
+main {
+    padding: 1rem;
+}
+
+#cont-miperfil {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    justify-items: center;
+}
+
+.detalles,
+#misreservas,
+#historial {
+    background-color: #1E1E1E;
+    border-radius: 15pt;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.entrada {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 1rem;
+    border-top: 0.5px solid #E6EB6C;
+    border-bottom: 0.5px solid #E6EB6C;
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 800px;
+}
+
+.titulo {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.entrada picture,
+.entrada img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.entrada-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    color: #f0f0f0;
+}
+
+.entrada-info p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.entrada-info p strong {
+    font-size: 1.15rem;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.foto-cartelera {
+    width: 100px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.detalles {
+    background-color: #1E1E1E;
+    border-radius: 15pt;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.detalles .titulo {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.perfil-contenido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.foto-perfil img {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-left: 0.2rem;
+}
+
+.datos-perfil {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    align-items: flex-end;
+    padding-right: 0.5rem;
+}
