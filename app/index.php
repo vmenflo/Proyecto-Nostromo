@@ -4,8 +4,6 @@ session_start();
 require "src/funciones_ctes.php";
 
 $RUTA_BASE = "../";
-include __DIR__ . "/includes/header.php";
-
 // Cierre de sesión
 if (isset($_POST["btnCerrarSession"])) {
     session_destroy();
@@ -26,6 +24,12 @@ if (isset($_SESSION["mensaje_seguridad"])) {
 
 // Controlador central de vistas
 $vista = $_GET["vista"] ?? "inicio";
+$ocultarLayout = in_array($vista, ["admin", "panel-cines"]);
+$ocultarMenu = in_array($vista, ["admin", "panel-cines"]);
+$GLOBALS["ocultarMenu"] = $ocultarMenu;
+
+include __DIR__ . "/includes/header.php";
+
 
 switch ($vista) {
     case "cartelera":
@@ -89,6 +93,14 @@ switch ($vista) {
         require "vistas/vista_pago.php";
         break;
 
+    case "panel-cines":
+        if (isset($_SESSION["token"]) && $datos_usuario_log["tipo"] === "admin") {
+            require "vistas/vista_panel_cines.php";
+        } else {
+            die("<p>No tienes permisos para acceder aquí.</p>");
+        }
+        break;
+
     default:
         require "vistas/vista_inicio.php";
 }
@@ -101,5 +113,5 @@ if (isset($_SESSION["token"])) {
     echo "<script>localStorage.setItem('token', '" . $_SESSION["token"] . "');</script>";
 }
 
-include __DIR__ . "/includes/footer.php";
+if (!$ocultarLayout) include __DIR__ . "/includes/footer.php";
 ?>

@@ -28,20 +28,23 @@ $usuario = $_SESSION["datos_usuario_log"] ?? null;
 
     <header>
         <nav id="cont-header">
-            <div id="cont-menu">
-                <svg id="icono-menu" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0 0H25V4.16667H0V0ZM0 10.4167H25V14.5833H0V10.4167ZM0 20.8333H25V25H0V20.8333Z"
-                        fill="#213140" />
-                </svg>
-                <ul id="menu">
-                    <li><a href="<?= BASE_URL ?>index.php?vista=cartelera">Cartelera</a></li>
-                    <div class="linea-menu"></div>
-                    <li><a href="<?= BASE_URL ?>index.php?vista=proximamente">Próximamente</a></li>
-                    <div class="linea-menu"></div>
-                    <li><a href="<?= BASE_URL ?>index.php?vista=bitacora">Bitácora Nostromo</a></li>
-                    <div class="linea-menu"></div>
-                </ul>
-            </div>
+            <?php if (empty($GLOBALS["ocultarMenu"])): ?>
+                <div id="cont-menu">
+                    <svg id="icono-menu" width="25" height="25" viewBox="0 0 25 25" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0H25V4.16667H0V0ZM0 10.4167H25V14.5833H0V10.4167ZM0 20.8333H25V25H0V20.8333Z"
+                            fill="#213140" />
+                    </svg>
+                    <ul id="menu">
+                        <li><a href="<?= BASE_URL ?>index.php?vista=cartelera">Cartelera</a></li>
+                        <div class="linea-menu"></div>
+                        <li><a href="<?= BASE_URL ?>index.php?vista=proximamente">Próximamente</a></li>
+                        <div class="linea-menu"></div>
+                        <li><a href="<?= BASE_URL ?>index.php?vista=bitacora">Bitácora Nostromo</a></li>
+                        <div class="linea-menu"></div>
+                    </ul>
+                </div>
+            <?php endif; ?>
             <div id="cont-logo">
                 <a href="<?= BASE_URL ?>index.php?vista=inicio">
                     <img id="logo" src="https://nostromo-media.s3.eu-north-1.amazonaws.com/logos/logo-nostromo.png"
@@ -74,9 +77,11 @@ $usuario = $_SESSION["datos_usuario_log"] ?? null;
             </div>
         </nav>
     </header>
-    <ul id="menu-global">
-        <li><a href="<?= BASE_URL ?>index.php?vista=cartelera">Cartelera</a></li>
-        <li><a href="<?= BASE_URL ?>index.php?vista=proximamente">Próximamente</a></li>
-        <li><a href="<?= BASE_URL ?>index.php?vista=bitacora">Bitácora Nostromo</a></li>
-    </ul>
+    <?php if (empty($GLOBALS["ocultarMenu"])): ?>
+        <ul id="menu-global">
+            <li><a href="<?= BASE_URL ?>index.php?vista=cartelera">Cartelera</a></li>
+            <li><a href="<?= BASE_URL ?>index.php?vista=proximamente">Próximamente</a></li>
+            <li><a href="<?= BASE_URL ?>index.php?vista=bitacora">Bitácora Nostromo</a></li>
+        </ul>
+    <?php endif; ?>
 </body>

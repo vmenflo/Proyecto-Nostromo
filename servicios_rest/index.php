@@ -111,9 +111,6 @@ $app->get('/reservas', function () {
     echo json_encode(obtener_reservas_usuario($id_usuario));
 });
 
-
-
-
 // Repetido
 $app->get('/repetido/{tabla}/{columna}/{valor}', function ($request) {
     $tabla = $request->getAttribute("tabla");

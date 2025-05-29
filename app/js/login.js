@@ -41,14 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (data.status === "ok") {
                 const redirRaw = new URLSearchParams(window.location.search).get("redir");
-
+            
                 if (redirRaw) {
-                    // Decodifica correctamente la cadena redir (que viene URL-encoded)
                     const redirParams = new URLSearchParams(redirRaw);
                     window.location.href = `/Proyecto-Nostromo/app/index.php?${redirParams.toString()}`;
+                } else if (data.tipo === "admin") {
+                    window.location.href = "/Proyecto-Nostromo/app/index.php?vista=admin";
                 } else {
                     window.location.href = "/Proyecto-Nostromo/app/index.php";
                 }
+                        
             } else {
                 mensajeError.textContent = data.mensaje;
             }
