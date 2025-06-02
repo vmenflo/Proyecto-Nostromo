@@ -71,21 +71,49 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function mostrarFormularioEdicion(cine) {
         contDinamico.innerHTML = `
-            <div class="form-editar-cine">
-                <h2>Editar ${cine.nombre}</h2>
-                <form>
-                    <input type="text" name="nombre" value="${cine.nombre}" required>
-                    <input type="text" name="direccion" value="${cine.direccion}" required>
-                    <input type="text" name="ciudad" value="${cine.ciudad}" required>
-                    <input type="text" name="cp" value="${cine.cp}" required>
-                    <button type="submit">Guardar</button>
-                </form>
+        <div class="form-editar-cine">
+        <h2>Editar Cine Central</h2>
+        <form>
+            <input type="text" name="nombre" value="Cine Central" required>
+            <input type="text" name="direccion" value="Calle Falsa 123" required>
+            <input type="text" name="ciudad" value="Madrid" required>
+            <input type="text" name="cp" value="28080" required>
+            <button type="submit">Guardar</button>
+        </form>
+    
+        <div id="lista-salas">
+            <h3>Salas del cine</h3>
+            <div id="salas-lista">
+                <div class="bloque-cine">
+                    <div class="tarjeta-cine">
+                        <span class="num">1.</span>
+                        <span class="nombre">Sala 1</span>
+                        <span class="acciones">
+                            <svg class="icono eliminar-sala" data-id="1" viewBox="0 0 33 33">
+                                <path d="M30.2975 26.4996L21.5476 16.5002L30.2975 6.50008...Z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="bloque-cine">
+                    <div class="tarjeta-cine">
+                        <span class="num">2.</span>
+                        <span class="nombre">Sala 2</span>
+                        <span class="acciones">
+                            <svg class="icono eliminar-sala" data-id="2" viewBox="0 0 33 33">
+                                <path d="M30.2975 26.4996L21.5476 16.5002L30.2975 6.50008...Z"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+    
         `;
 
         document.querySelector(".form-editar-cine form").addEventListener("submit", async (e) => {
             e.preventDefault();
-        
             const form = e.target;
             const datosEditados = {
                 id: cine.id_cine,
@@ -94,24 +122,21 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ciudad: form.ciudad.value.trim(),
                 cp: form.cp.value.trim()
             };
-        
+
             try {
-                // Verificar si el nuevo nombre ya existe en otro cine
                 const repetidoRes = await fetch(`/Proyecto-Nostromo/servicios_rest/admin/repetido/cines/nombre/${encodeURIComponent(datosEditados.nombre)}`, {
                     method: "GET",
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
                     }
-                });                
-        
+                });
+
                 const repetidoData = await repetidoRes.json();
-        
                 if (repetidoData.repetido && datosEditados.nombre !== cine.nombre) {
                     alert("Ya existe un cine con ese nombre.");
                     return;
                 }
-        
-                // Si no está repetido, proceder a actualizar
+
                 const res = await fetch("/Proyecto-Nostromo/servicios_rest/editarCine", {
                     method: "PUT",
                     headers: {
@@ -120,32 +145,131 @@ document.addEventListener("DOMContentLoaded", async () => {
                     },
                     body: JSON.stringify(datosEditados)
                 });
-        
+
                 const respuesta = await res.json();
-        
                 if (respuesta.error) {
                     alert("Error: " + respuesta.error);
                 } else {
                     alert("Cine actualizado correctamente");
-        
-                    const bloque = document.querySelector(`.bloque-cine svg.editar[data-id="${cine.id_cine}"]`)?.closest(".bloque-cine");
-                    if (bloque) {
-                        bloque.querySelector(".nombre").textContent = datosEditados.nombre;
-                        bloque.querySelector(".nombre").dataset.id = cine.id_cine;
-                        bloque.querySelector(".editar").dataset.id = cine.id_cine;
-                        bloque.querySelector(".eliminar").dataset.id = cine.id_cine;
-                    }
-        
-                    contDinamico.innerHTML = ""; // Ocultar el formulario
+                    contDinamico.innerHTML = "";
+                    cargarCines();
                 }
-        
             } catch (error) {
                 console.error(error);
                 alert("Hubo un problema al editar el cine.");
             }
         });
-        
+
+        cargarSalasDeCine(cine.id_cine);
     }
+
+
+    // FUNCIONES PARA GESTIÓN DE SALAS
+
+    async function cargarSalasDeCine(id_cine) {
+        const contenedor = document.getElementById("salas-lista");
+        contenedor.innerHTML = "<p>Cargando salas...</p>";
+    
+        try {
+            const res = await fetch(`/Proyecto-Nostromo/servicios_rest/salas/${id_cine}`, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            });
+            const data = await res.json();
+    
+            contenedor.innerHTML = "";
+    
+            if (data.error) {
+                contenedor.innerHTML = `<p>Error: ${data.error}</p>`;
+                return;
+            }
+    
+            data.salas.forEach((sala, index) => {
+                const div = document.createElement("div");
+                div.classList.add("bloque-cine");
+                div.innerHTML = `
+                    <div class="tarjeta-cine">
+                        <span class="num">${index + 1}.</span>
+                        <span class="nombre">Sala ${index + 1}</span>
+                        <span class="acciones">
+                            <svg class="eliminar" data-id="${sala.id_sala}" width="25" height="25" viewBox="0 0 33 33">
+                                <path d="M30.2975 26.4996L21.5476 16.5002L30.2975 6.50008C31.7844 5.01257 31.7844 2.60171 30.2975 1.11484C28.8094 -0.372036 26.3985 -0.371401 24.9123 1.11547L16.4993 10.731L8.08642 1.11547C6.59954 -0.370767 4.18932 -0.371402 2.70117 1.11484C1.2143 2.60235 1.2143 5.01321 2.70117 6.50008L11.4511 16.5002L2.70117 26.4996C1.2143 27.9865 1.2143 30.3973 2.70054 31.8842C4.18805 33.3717 6.59891 33.3717 8.08642 31.8842L16.4993 22.2687L24.9123 31.8842C26.4004 33.3717 28.8113 33.3717 30.2982 31.8842C31.7844 30.3973 31.7844 27.9865 30.2975 26.4996Z" fill="white"/>
+                            </svg>
+                        </span>
+                    </div>
+                `;
+                contenedor.appendChild(div);
+    
+                div.querySelector(".eliminar").addEventListener("click", async () => {
+                    if (!confirm("¿Eliminar esta sala?")) return;
+    
+                    try {
+                        const res = await fetch("/Proyecto-Nostromo/servicios_rest/eliminarSala", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer " + localStorage.getItem("token")
+                            },
+                            body: JSON.stringify({ id_sala: sala.id_sala })
+                        });
+    
+                        const result = await res.json();
+                        if (result.error) alert(result.error);
+                        else {
+                            alert("Sala eliminada");
+                            cargarSalasDeCine(id_cine);
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        alert("Error al eliminar sala");
+                    }
+                });
+            });
+    
+            // Botón para agregar sala (con estilo coherente)
+            const botonAgregar = document.createElement("div");
+            botonAgregar.classList.add("bloque-agregar");
+            botonAgregar.innerHTML = `
+                <svg class="agregar" id="btn-agregar-sala" width="54" height="54" viewBox="0 0 54 54">
+                    <path d="M29.7 13.5H24.3V24.3H13.5V29.7H24.3V40.5H29.7V29.7H40.5V24.3H29.7V13.5ZM27 0C12.15 0 0 12.15 0 27C0 41.85 12.15 54 27 54C41.85 54 54 41.85 54 27C54 12.15 41.85 0 27 0ZM27 48.6C15.12 48.6 5.4 38.88 5.4 27C5.4 15.12 15.12 5.4 27 5.4C38.88 5.4 48.6 15.12 48.6 27C48.6 38.88 38.88 48.6 27 48.6Z" fill="white"/>
+                </svg>
+            `;
+            document.getElementById("lista-salas").appendChild(botonAgregar);
+    
+            document.getElementById("btn-agregar-sala").addEventListener("click", async () => {
+                const nombre = prompt("Nombre de la nueva sala:");
+                if (!nombre) return;
+    
+                try {
+                    const res = await fetch("/Proyecto-Nostromo/servicios_rest/agregarSala", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        },
+                        body: JSON.stringify({ nombre: nombre.trim(), id_cine })
+                    });
+    
+                    const data = await res.json();
+                    if (data.error) alert(data.error);
+                    else {
+                        alert("Sala agregada correctamente");
+                        cargarSalasDeCine(id_cine);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Error al agregar sala");
+                }
+            });
+    
+        } catch (e) {
+            console.error(e);
+            contenedor.innerHTML = "<p>Error al cargar las salas.</p>";
+        }
+    }
+    
+
 
     async function eliminarCine(id) {
         if (!confirm("¿Eliminar este cine?")) return;

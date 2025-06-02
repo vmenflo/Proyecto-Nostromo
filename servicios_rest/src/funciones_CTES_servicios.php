@@ -683,6 +683,23 @@ function editar_cine($datos)
     return ["success" => "Cine actualizado correctamente"];
 }
 
+// Función obtener salas
+function obtener_salas_por_cine($id_cine) {
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+        $consulta = "SELECT id_sala, nombre FROM salas WHERE id_cine = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine]);
+        return ["salas" => $sentencia->fetchAll(PDO::FETCH_ASSOC)];
+    } catch (PDOException $e) {
+        return ["error" => "Error obteniendo salas: " . $e->getMessage()];
+    }
+}
+
+
 // Funcion repetido editando
 function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
 {
@@ -706,9 +723,7 @@ function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
     return ["repetido" => $sentencia->rowCount() > 0];
 }
 
-
-
-// Funciones controladoras
+// Función repetido insertando
 function repetido_insertando($tabla, $columna, $valor)
 {
     try {

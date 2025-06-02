@@ -176,8 +176,6 @@ $app->post('/agregarCine', function ($request) {
     echo json_encode(agregar_cine($datos_insert));
 });
 
-
-
 // Eliminar un cine
 $app->delete('/eliminarCine', function ($request, $response, $args) {
     $id =  $request->getParam("id");
@@ -231,8 +229,19 @@ $app->put('/editarCine', function ($request) {
     }
 });
 
+// traer salas de un cine
+$app->get('/salas/{id_cine}', function ($request) {
+    $test = validateToken();
+    if (is_array($test) && isset($test["usuario"]) && $test["usuario"]["tipo"] === "admin") {
+        $id_cine = $request->getAttribute("id_cine");
+        echo json_encode(obtener_salas_por_cine($id_cine));
+    } else {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+    }
+});
 
-// Esta por ver
+
+// Repetido editando
 $app->get('/admin/repetido/{tabla}/{columna}/{valor}', function ($request) {
     $test = validateToken();
     if (is_array($test))
