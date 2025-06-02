@@ -240,6 +240,28 @@ $app->get('/salas/{id_cine}', function ($request) {
     }
 });
 
+// agregar una sala
+$app->post('/agregarSala', function ($request) {
+    $test = validateToken();
+    if (is_array($test) && isset($test["usuario"]) && $test["usuario"]["tipo"] === "admin") {
+        $datos = json_decode($request->getBody(), true);
+        echo json_encode(agregar_sala($datos));
+    } else {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+    }
+});
+
+// Eliminar sala de un cine concreto
+$app->delete('/eliminarSala', function ($request) {
+    $test = validateToken();
+    if (is_array($test) && isset($test["usuario"]) && $test["usuario"]["tipo"] === "admin") {
+        $datos = json_decode($request->getBody(), true);
+        echo json_encode(eliminar_sala($datos));
+    } else {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+    }
+});
+
 
 // Repetido editando
 $app->get('/admin/repetido/{tabla}/{columna}/{valor}', function ($request) {

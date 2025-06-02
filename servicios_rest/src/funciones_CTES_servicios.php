@@ -699,6 +699,66 @@ function obtener_salas_por_cine($id_cine) {
     }
 }
 
+// Función agregar
+function agregar_sala($datos) {
+    if (!isset($datos["id_cine"], $datos["nombre"], $datos["aforo"])) {
+        return ["error" => "Faltan datos"];
+    }
+
+    $id_cine = intval($datos["id_cine"]);
+    $nombre = trim($datos["nombre"]);
+    $aforo = intval($datos["aforo"]);
+
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+
+        // Validación de duplicado
+        $consulta = "SELECT COUNT(*) FROM salas WHERE id_cine = ? AND nombre = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine, $nombre]);
+        if ($sentencia->fetchColumn() > 0) {
+            return ["error" => "Ya existe una sala con ese nombre en este cine"];
+        }
+
+        $consulta = "INSERT INTO salas (id_cine, nombre, aforo) VALUES (?, ?, ?)";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine, $nombre, $aforo]);
+
+        return ["ok" => true];
+
+    } catch (PDOException $e) {
+        return ["error" => "Error al agregar sala: " . $e->getMessage()];
+    }
+}
+
+// Eliminar sala
+function eliminar_sala($datos) {
+    if (!isset($datos["id_sala"])) {
+        return ["error" => "Falta el ID de la sala"];
+    }
+
+    $id_sala = intval($datos["id_sala"]);
+
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+
+        $consulta = "DELETE FROM salas WHERE id_sala = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_sala]);
+
+        return ["ok" => true];
+
+    } catch (PDOException $e) {
+        return ["error" => "Error al eliminar sala: " . $e->getMessage()];
+    }
+}
+
 
 // Funcion repetido editando
 function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
