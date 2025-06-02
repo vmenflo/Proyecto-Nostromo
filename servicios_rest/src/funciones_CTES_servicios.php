@@ -660,6 +660,53 @@ function eliminar_cine($id_cine)
     return ["mensaje" => "Cine eliminado con éxito"];
 }
 
+// Funcion editar
+function editar_cine($datos)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+    } catch (PDOException $e) {
+        return ["error" => "Error de conexión: " . $e->getMessage()];
+    }
+
+    try {
+        $consulta = "UPDATE cines SET nombre=?, direccion=?, ciudad=?, cp=? WHERE id_cine=?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute($datos);
+    } catch (PDOException $e) {
+        return ["error" => "Error actualizando cine: " . $e->getMessage()];
+    }
+
+    return ["success" => "Cine actualizado correctamente"];
+}
+
+// Funcion repetido editando
+function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+    } catch (PDOException $e) {
+        return ["error" => "Error de conexión: " . $e->getMessage()];
+    }
+
+    try {
+        $consulta = "SELECT $columna FROM $tabla WHERE $columna = ? AND $columna_id <> ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$valor, $id]);
+    } catch (PDOException $e) {
+        return ["error" => "Error ejecutando la consulta: " . $e->getMessage()];
+    }
+
+    return ["repetido" => $sentencia->rowCount() > 0];
+}
+
+
 
 // Funciones controladoras
 function repetido_insertando($tabla, $columna, $valor)
@@ -675,35 +722,6 @@ function repetido_insertando($tabla, $columna, $valor)
         $consulta = "select " . $columna . " from " . $tabla . " where " . $columna . "=?";
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute([$valor]);
-
-    } catch (PDOException $e) {
-        $sentencia = null;
-        $conexion = null;
-        $respuesta["error"] = "No he podido realizarse la consulta: " . $e->getMessage();
-        return $respuesta;
-    }
-
-    $respuesta["repetido"] = $sentencia->rowCount() > 0;
-
-
-    $sentencia = null;
-    $conexion = null;
-    return $respuesta;
-}
-
-function repetido_editando($tabla, $columna, $valor, $columna_id, $valor_id)
-{
-    try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-    } catch (PDOException $e) {
-        $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
-        return $respuesta;
-    }
-
-    try {
-        $consulta = "select " . $columna . " from " . $tabla . " where " . $columna . "=? and " . $columna_id . "<>?";
-        $sentencia = $conexion->prepare($consulta);
-        $sentencia->execute([$valor, $valor_id]);
 
     } catch (PDOException $e) {
         $sentencia = null;

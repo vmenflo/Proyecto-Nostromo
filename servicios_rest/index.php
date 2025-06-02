@@ -190,47 +190,50 @@ $app->delete('/eliminarCine', function ($request, $response, $args) {
     echo json_encode(eliminar_cine($id));
 });
 
-// Agregar sala
-$app->post('/agregarSala', function ($request) {
+// Editar cine
+$app->put('/editarCine', function ($request) {
     $test = validateToken();
-    if (!is_array($test) || !isset($test["usuario"]) || $test["usuario"]["tipo"] !== "admin") {
+    if (is_array($test) && isset($test["usuario"]) && $test["usuario"]["tipo"] === "admin") {
+        $datos = json_decode($request->getBody(), true);
+
+        if (
+            !isset($datos["id"], $datos["nombre"], $datos["direccion"], $datos["ciudad"], $datos["cp"]) ||
+            empty(trim($datos["nombre"])) ||
+            empty(trim($datos["direccion"])) ||
+            empty(trim($datos["ciudad"])) ||
+            empty(trim($datos["cp"]))
+        ) {
+            echo json_encode(["error" => "Faltan datos obligatorios"]);
+            return;
+        }
+
+        // Verificar si el nombre ya existe en otro cine
+        $check = repetido_editando("cines", "nombre", $datos["nombre"], "id_cine", $datos["id"]);
+        if (isset($check["error"])) {
+            echo json_encode($check);
+            return;
+        }
+
+        if ($check["repetido"]) {
+            echo json_encode(["error" => "Ya existe un cine con ese nombre"]);
+            return;
+        }
+
+        echo json_encode(editar_cine([
+            $datos["nombre"],
+            $datos["direccion"],
+            $datos["ciudad"],
+            $datos["cp"],
+            $datos["id"]
+        ]));
+    } else {
         echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
-        return;
     }
-
-    $params = json_decode($request->getBody(), true);
-    $id_cine = $params["id_cine"] ?? null;
-    $nombre = $params["nombre"] ?? null;
-
-    if (!$id_cine || !$nombre || !is_numeric($id_cine)) {
-        echo json_encode(["error" => "Faltan datos o datos inválidos"]);
-        return;
-    }
-
-    echo json_encode(agregar_sala($id_cine, $nombre));
 });
 
-// elimnar sala
-$app->delete('/eliminarSala', function ($request) {
-    $test = validateToken();
-    if (!is_array($test) || !isset($test["usuario"]) || $test["usuario"]["tipo"] !== "admin") {
-        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
-        return;
-    }
-
-    $params = json_decode($request->getBody(), true);
-    $id_sala = $params["id_sala"] ?? null;
-
-    if (!$id_sala || !is_numeric($id_sala)) {
-        echo json_encode(["error" => "ID de sala inválido"]);
-        return;
-    }
-
-    echo json_encode(eliminar_sala($id_sala));
-});
 
 // Esta por ver
-$app->get('admin/repetido/{tabla}/{columna}/{valor}', function ($request) {
+$app->get('/admin/repetido/{tabla}/{columna}/{valor}', function ($request) {
     $test = validateToken();
     if (is_array($test))
         if (isset($test["usuario"]))

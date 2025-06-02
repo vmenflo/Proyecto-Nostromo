@@ -2,22 +2,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     const contenedor = document.getElementById("cines-activos");
     const contDinamico = document.getElementById("cont-dinamico");
 
-    try {
-        const res = await fetch("/Proyecto-Nostromo/servicios_rest/cines", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        });
+    async function cargarCines() {
+        try {
+            const res = await fetch("/Proyecto-Nostromo/servicios_rest/cines", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            });
 
-        if (!res.ok) throw new Error("Error al cargar cines");
+            if (!res.ok) throw new Error("Error al cargar cines");
+            const datos = await res.json();
+            if (!Array.isArray(datos.cines)) throw new Error("Datos incorrectos");
 
-        const datos = await res.json();
-
-        if (Array.isArray(datos.cines)) {
             contenedor.innerHTML = "";
-
             datos.cines.forEach((cine, index) => {
                 const div = document.createElement("div");
                 div.classList.add("bloque-cine");
@@ -37,6 +36,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     </div>
                 `;
                 contenedor.appendChild(div);
+
+                div.querySelector(".editar").addEventListener("click", () => mostrarFormularioEdicion(cine));
+                div.querySelector(".eliminar").addEventListener("click", () => eliminarCine(cine.id_cine));
+                div.querySelector(".nombre").addEventListener("click", () => mostrarDetalle(cine));
             });
 
             const agregar = document.createElement("div");
@@ -46,176 +49,186 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <path d="M29.7 13.5H24.3V24.3H13.5V29.7H24.3V40.5H29.7V29.7H40.5V24.3H29.7V13.5ZM27 0C12.15 0 0 12.15 0 27C0 41.85 12.15 54 27 54C41.85 54 54 41.85 54 27C54 12.15 41.85 0 27 0ZM27 48.6C15.12 48.6 5.4 38.88 5.4 27C5.4 15.12 15.12 5.4 27 5.4C38.88 5.4 48.6 15.12 48.6 27C48.6 38.88 38.88 48.6 27 48.6Z" fill="white"/>
                 </svg>
             `;
+            agregar.addEventListener("click", () => mostrarFormularioAgregar());
             contenedor.appendChild(agregar);
 
-            document.querySelectorAll(".nombre").forEach(el => {
-                el.addEventListener("click", e => {
-                    const id = e.target.dataset.id;
-                    const cine = datos.cines.find(c => c.id_cine == id);
-                    contDinamico.innerHTML = `
-                        <div class="detalle-cine">
-                            <h2>${cine.nombre}</h2>
-                            <p><strong>Dirección:</strong> ${cine.direccion}</p>
-                            <p><strong>Ciudad:</strong> ${cine.ciudad}</p>
-                            <p><strong>CP:</strong> ${cine.cp}</p>
-                        </div>
-                    `;
+        } catch (error) {
+            console.error(error);
+            contenedor.innerHTML = "<p>Error cargando los cines.</p>";
+        }
+    }
+
+    function mostrarDetalle(cine) {
+        contDinamico.innerHTML = `
+            <div class="detalle-cine">
+                <h2>${cine.nombre}</h2>
+                <p><strong>Dirección:</strong> ${cine.direccion}</p>
+                <p><strong>Ciudad:</strong> ${cine.ciudad}</p>
+                <p><strong>CP:</strong> ${cine.cp}</p>
+            </div>
+        `;
+    }
+
+    function mostrarFormularioEdicion(cine) {
+        contDinamico.innerHTML = `
+            <div class="form-editar-cine">
+                <h2>Editar ${cine.nombre}</h2>
+                <form>
+                    <input type="text" name="nombre" value="${cine.nombre}" required>
+                    <input type="text" name="direccion" value="${cine.direccion}" required>
+                    <input type="text" name="ciudad" value="${cine.ciudad}" required>
+                    <input type="text" name="cp" value="${cine.cp}" required>
+                    <button type="submit">Guardar</button>
+                </form>
+            </div>
+        `;
+
+        document.querySelector(".form-editar-cine form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+        
+            const form = e.target;
+            const datosEditados = {
+                id: cine.id_cine,
+                nombre: form.nombre.value.trim(),
+                direccion: form.direccion.value.trim(),
+                ciudad: form.ciudad.value.trim(),
+                cp: form.cp.value.trim()
+            };
+        
+            try {
+                // Verificar si el nuevo nombre ya existe en otro cine
+                const repetidoRes = await fetch(`/Proyecto-Nostromo/servicios_rest/admin/repetido/cines/nombre/${encodeURIComponent(datosEditados.nombre)}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    }
+                });                
+        
+                const repetidoData = await repetidoRes.json();
+        
+                if (repetidoData.repetido && datosEditados.nombre !== cine.nombre) {
+                    alert("Ya existe un cine con ese nombre.");
+                    return;
+                }
+        
+                // Si no está repetido, proceder a actualizar
+                const res = await fetch("/Proyecto-Nostromo/servicios_rest/editarCine", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify(datosEditados)
                 });
-            });
-
-            document.querySelectorAll(".editar").forEach(el => {
-                el.addEventListener("click", e => {
-                    const id = e.target.dataset.id;
-                    const cine = datos.cines.find(c => c.id_cine == id);
-                    contDinamico.innerHTML = `
-                        <div class="form-editar-cine">
-                            <h2>Editar ${cine.nombre}</h2>
-                            <form>
-                                <input type="text" name="nombre" value="${cine.nombre}" required>
-                                <input type="text" name="direccion" value="${cine.direccion}" required>
-                                <input type="text" name="ciudad" value="${cine.ciudad}" required>
-                                <input type="text" name="cp" value="${cine.cp}" required>
-                                <button type="submit">Guardar</button>
-                            </form>
-                            <h3>Salas asociadas</h3>
-                            <ul>
-                                <li>Sala 1</li>
-                                <li>Sala 2</li>
-                            </ul>
-                        </div>
-                    `;
-                    document.querySelector(".form-editar-cine form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const datosEditados = {
-        id: cine.id_cine,
-        nombre: form.nombre.value.trim(),
-        direccion: form.direccion.value.trim(),
-        ciudad: form.ciudad.value.trim(),
-        cp: form.cp.value.trim()
-    };
-
-    try {
-        const res = await fetch("/Proyecto-Nostromo/servicios_rest/editarCine", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            },
-            body: JSON.stringify(datosEditados)
-        });
-
-        if (!res.ok) throw new Error("Error en la actualización");
-
-        const respuesta = await res.json();
-
-        if (respuesta.error) {
-            alert("Error: " + respuesta.error);
-        } else {
-            alert("Cine actualizado correctamente");
-
-            // Actualizar datos en pantalla
-            const bloque = document.querySelector(`.bloque-cine svg.editar[data-id="${cine.id_cine}"]`)?.closest(".bloque-cine");
-            if (bloque) {
-                bloque.querySelector(".nombre").textContent = datosEditados.nombre;
-                bloque.querySelector(".nombre").dataset.id = cine.id_cine;
-                bloque.querySelector(".editar").dataset.id = cine.id_cine;
-                bloque.querySelector(".eliminar").dataset.id = cine.id_cine;
+        
+                const respuesta = await res.json();
+        
+                if (respuesta.error) {
+                    alert("Error: " + respuesta.error);
+                } else {
+                    alert("Cine actualizado correctamente");
+        
+                    const bloque = document.querySelector(`.bloque-cine svg.editar[data-id="${cine.id_cine}"]`)?.closest(".bloque-cine");
+                    if (bloque) {
+                        bloque.querySelector(".nombre").textContent = datosEditados.nombre;
+                        bloque.querySelector(".nombre").dataset.id = cine.id_cine;
+                        bloque.querySelector(".editar").dataset.id = cine.id_cine;
+                        bloque.querySelector(".eliminar").dataset.id = cine.id_cine;
+                    }
+        
+                    contDinamico.innerHTML = ""; // Ocultar el formulario
+                }
+        
+            } catch (error) {
+                console.error(error);
+                alert("Hubo un problema al editar el cine.");
             }
-
-            contDinamico.innerHTML = ""; // Ocultar el formulario
-        }
-    } catch (error) {
-        console.error(error);
-        alert("Hubo un problema al editar el cine.");
+        });
+        
     }
-});
 
-                });
+    async function eliminarCine(id) {
+        if (!confirm("¿Eliminar este cine?")) return;
+        try {
+            const res = await fetch("/Proyecto-Nostromo/servicios_rest/eliminarCine", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                body: JSON.stringify({ id })
             });
-
-            document.getElementById("btn-agregar").addEventListener("click", () => {
-                contDinamico.innerHTML = `
-                    <div class="form-nuevo-cine">
-                        <h2>Agregar nuevo cine</h2>
-                        <form>
-                            <input type="text" name="nombre" placeholder="Nombre" required>
-                            <input type="text" name="direccion" placeholder="Dirección" required>
-                            <input type="text" name="ciudad" placeholder="Ciudad" required>
-                            <input type="text" name="cp" placeholder="Código Postal" required>
-                            <button type="submit">Crear cine</button>
-                        </form>
-                    </div>
-                `;
-                document.querySelector(".form-nuevo-cine form").addEventListener("submit", async (e) => {
-                    e.preventDefault();
-                    const form = e.target;
-                    const nuevoCine = {
-                        nombre: form.nombre.value.trim(),
-                        direccion: form.direccion.value.trim(),
-                        ciudad: form.ciudad.value.trim(),
-                        cp: form.cp.value.trim()
-                    };
-                    try {
-                        const res = await fetch("/Proyecto-Nostromo/servicios_rest/agregarCine", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer " + localStorage.getItem("token")
-                            },
-                            body: JSON.stringify(nuevoCine)
-                        });
-                        const respuesta = await res.json();
-                        if (respuesta.error) {
-                            alert("Error: " + respuesta.error);
-                        } else {
-                            alert("Cine creado correctamente");
-                            window.location.href = "index.php?vista=panel-cines";
-                        }
-                    } catch (error) {
-                        console.error(error);
-                        alert("Hubo un problema al crear el cine.");
-                    }
-                });
-            });
-
-            document.querySelectorAll(".eliminar").forEach(el => {
-                el.addEventListener("click", async (e) => {
-                    const svg = e.target.closest("svg");
-                    const id = svg?.dataset.id;
-                    if (!id) return alert("No se pudo obtener el ID del cine.");
-                    if (!confirm("¿Estás seguro de que quieres eliminar este cine?")) return;
-                    try {
-                        const res = await fetch("/Proyecto-Nostromo/servicios_rest/eliminarCine", {
-                            method: "DELETE",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Authorization": "Bearer " + localStorage.getItem("token")
-                            },
-                            body: JSON.stringify({ id })
-                        });
-                        const respuesta = await res.json();
-                        if (respuesta.error) {
-                            alert("Error: " + respuesta.error);
-                        } else {
-                            alert("Cine eliminado correctamente");
-                            const bloque = svg.closest(".bloque-cine");
-                            if (bloque) bloque.remove();
-                            contDinamico.innerHTML = "";
-                        }
-                    } catch (error) {
-                        console.error(error);
-                        alert("Hubo un problema al eliminar el cine.");
-                    }
-                });
-            });
-
-        } else {
-            contenedor.innerHTML = "<p>Error en los datos recibidos.</p>";
+            const respuesta = await res.json();
+            if (respuesta.error) alert("Error: " + respuesta.error);
+            else {
+                alert("Cine eliminado");
+                cargarCines();
+                contDinamico.innerHTML = "";
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Error al eliminar cine");
         }
-    } catch (error) {
-        console.error(error);
-        contenedor.innerHTML = "<p>Error cargando los cines.</p>";
     }
+
+    function mostrarFormularioAgregar() {
+        contDinamico.innerHTML = `
+            <div class="form-nuevo-cine">
+                <h2>Agregar nuevo cine</h2>
+                <form>
+                    <input type="text" name="nombre" placeholder="Nombre" required>
+                    <input type="text" name="direccion" placeholder="Dirección" required>
+                    <input type="text" name="ciudad" placeholder="Ciudad" required>
+                    <input type="text" name="cp" placeholder="Código Postal" required>
+                    <button type="submit">Crear cine</button>
+                </form>
+            </div>
+        `;
+
+        document.querySelector(".form-nuevo-cine form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const nuevoCine = {
+                nombre: form.nombre.value.trim(),
+                direccion: form.direccion.value.trim(),
+                ciudad: form.ciudad.value.trim(),
+                cp: form.cp.value.trim()
+            };
+
+            try {
+                const repetido = await fetch(`/Proyecto-Nostromo/servicios_rest/admin/repetido/cines/nombre/${encodeURIComponent(nuevoCine.nombre)}`, {
+                    method: "GET",
+                    headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+                });
+                const rep = await repetido.json();
+                if (rep.repetido) {
+                    alert("Ese nombre ya está en uso.");
+                    return;
+                }
+
+                const res = await fetch("/Proyecto-Nostromo/servicios_rest/agregarCine", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + localStorage.getItem("token")
+                    },
+                    body: JSON.stringify(nuevoCine)
+                });
+
+                const respuesta = await res.json();
+                if (respuesta.error) alert("Error: " + respuesta.error);
+                else {
+                    alert("Cine agregado");
+                    cargarCines();
+                    contDinamico.innerHTML = "";
+                }
+
+            } catch (error) {
+                console.error(error);
+                alert("Error al agregar cine");
+            }
+        });
+    }
+
+    cargarCines();
 });
