@@ -577,19 +577,19 @@ function obtener_reservas_usuario($id_usuario)
     function obtener_reservas($conexion, $id_usuario, $condicion_fecha, $orden)
     {
         $sql = "SELECT r.id_reserva, r.cantidad_entradas, r.fecha_reserva,
-                       p.fecha, p.hora, pel.titulo, pel.foto,
-                       c.nombre AS cine, s.nombre AS sala,
-                       GROUP_CONCAT(CONCAT('F', a.fila, 'B', a.butaca) ORDER BY a.fila, a.butaca SEPARATOR ', ') AS butacas
-                FROM reservas r
-                JOIN proyecciones p ON r.id_proyeccion = p.id_proyeccion
-                JOIN peliculas pel ON p.id_pelicula = pel.id_pelicula
-                JOIN cines c ON p.id_cine = c.id_cine
-                JOIN salas s ON p.id_sala = s.id_sala
-                LEFT JOIN reservas_asientos ra ON r.id_reserva = ra.id_reserva
-                LEFT JOIN asientos a ON ra.id_asiento = a.id_asiento
-                WHERE r.id_usuario = ? AND $condicion_fecha
-                GROUP BY r.id_reserva
-                ORDER BY $orden";
+                    p.fecha, p.hora, pel.titulo, pel.foto,
+                    c.nombre AS cine, s.nombre AS sala,
+                    GROUP_CONCAT(CONCAT('F', a.fila, 'B', a.butaca) ORDER BY a.fila, a.butaca SEPARATOR ', ') AS butacas
+            FROM reservas r
+            JOIN proyecciones p ON r.id_proyeccion = p.id_proyeccion
+            JOIN peliculas pel ON p.id_pelicula = pel.id_pelicula
+            JOIN cines c ON p.id_cine = c.id_cine
+            JOIN salas s ON p.id_sala = s.id_sala
+            LEFT JOIN reservas_asientos ra ON r.id_reserva = ra.id_reserva
+            LEFT JOIN asientos a ON ra.id_asiento = a.id_asiento
+            WHERE r.id_usuario = ? AND $condicion_fecha
+            GROUP BY r.id_reserva
+            ORDER BY $orden";
 
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$id_usuario]);
@@ -610,6 +610,55 @@ function obtener_reservas_usuario($id_usuario)
     }
 }
 
+// Función agregar un cine nuevo
+function agregar_cine($datos_insert)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+    } catch (PDOException $e) {
+        return ["error" => "No he podido conectarme a la base de datos: " . $e->getMessage()];
+    }
+
+    try {
+        $consulta = "INSERT INTO cines (nombre, direccion, ciudad, cp) VALUES (?, ?, ?, ?)";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute($datos_insert);
+    } catch (PDOException $e) {
+        return ["error" => "No he podido realizar la consulta: " . $e->getMessage()];
+    }
+
+    return ["ult_id" => $conexion->lastInsertId()];
+}
+
+// Función eliminar cine
+function eliminar_cine($id_cine)
+{
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
+    } catch (PDOException $e) {
+        return ["error" => "No se pudo conectar a la base de datos: " . $e->getMessage()];
+    }
+
+    try {
+        $consulta = "DELETE FROM cines WHERE id_cine = ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id_cine]);
+
+        if ($sentencia->rowCount() === 0) {
+            return ["error" => "No se encontró el cine a eliminar"];
+        }
+    } catch (PDOException $e) {
+        return ["error" => "Error al eliminar el cine: " . $e->getMessage()];
+    }
+
+    return ["mensaje" => "Cine eliminado con éxito"];
+}
 
 
 // Funciones controladoras

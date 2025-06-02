@@ -122,26 +122,111 @@ $app->get('/repetido/{tabla}/{columna}/{valor}', function ($request) {
 
 // Crear usuario nuevo
 $app->post('/crearUsuario', function ($request) {
-    // Me aseguro de que nada venga vacio
-    if (
-        !$request->getParam("nombre") ||
-        !$request->getParam("apellidos") ||
-        !$request->getParam("email") ||
-        !$request->getParam("clave")
-    ) {
+    $nombre = $request->getParam("nombre");
+    $direccion = $request->getParam("direccion");
+    $ciudad = $request->getParam("ciudad");
+    $cp = $request->getParam("cp");
+
+    if (!$nombre || !$direccion || !$ciudad || !$cp) {
         echo json_encode(["error" => "Faltan datos obligatorios"]);
         return;
     }
 
-    $datos_insert = [
-        $request->getParam("nombre"),
-        $request->getParam("apellidos"),
-        $request->getParam("email"),
-        $request->getParam("clave"),
-        $request->getParam("suscripcion") == "1" ? 1 : 0
-    ];
+    $datos_insert = [$nombre, $direccion, $ciudad, $cp];
 
     echo json_encode(insertar_usuario($datos_insert));
+});
+
+// Agregar un cine nuevo
+$app->post('/agregarCine', function ($request) {
+    // Verificamos token y tipo de usuario
+    $test = validateToken();
+    if (!is_array($test) || !isset($test["usuario"]) || $test["usuario"]["tipo"] !== "admin") {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+        return;
+    }
+
+    $params = json_decode($request->getBody(), true);
+
+    $nombre = $params["nombre"] ?? null;
+    $direccion = $params["direccion"] ?? null;
+    $ciudad = $params["ciudad"] ?? null;
+    $cp = $params["cp"] ?? null;
+
+    // Validar campos obligatorios
+    if (!$nombre || !$direccion || !$ciudad || !$cp) {
+        echo json_encode(["error" => "Faltan datos obligatorios"]);
+        return;
+    }
+
+    // Verificar si ya existe un cine con ese nombre
+    $repetido = repetido_insertando("cines", "nombre", $nombre);
+    if (isset($repetido["error"])) {
+        echo json_encode(["error" => $repetido["error"]]);
+        return;
+    }
+
+    if ($repetido["repetido"]) {
+        echo json_encode(["error" => "Ya existe un cine con ese nombre"]);
+        return;
+    }
+
+    // Insertar cine
+    $datos_insert = [$nombre, $direccion, $ciudad, $cp];
+    echo json_encode(agregar_cine($datos_insert));
+});
+
+
+
+// Eliminar un cine
+$app->delete('/eliminarCine', function ($request, $response, $args) {
+    $id =  $request->getParam("id");
+
+    if (!is_numeric($id)) {
+        echo json_encode(["error" => "ID inválido"]);
+        return;
+    }
+
+    echo json_encode(eliminar_cine($id));
+});
+
+// Agregar sala
+$app->post('/agregarSala', function ($request) {
+    $test = validateToken();
+    if (!is_array($test) || !isset($test["usuario"]) || $test["usuario"]["tipo"] !== "admin") {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+        return;
+    }
+
+    $params = json_decode($request->getBody(), true);
+    $id_cine = $params["id_cine"] ?? null;
+    $nombre = $params["nombre"] ?? null;
+
+    if (!$id_cine || !$nombre || !is_numeric($id_cine)) {
+        echo json_encode(["error" => "Faltan datos o datos inválidos"]);
+        return;
+    }
+
+    echo json_encode(agregar_sala($id_cine, $nombre));
+});
+
+// elimnar sala
+$app->delete('/eliminarSala', function ($request) {
+    $test = validateToken();
+    if (!is_array($test) || !isset($test["usuario"]) || $test["usuario"]["tipo"] !== "admin") {
+        echo json_encode(["no_auth" => "No tienes permisos para usar este servicio"]);
+        return;
+    }
+
+    $params = json_decode($request->getBody(), true);
+    $id_sala = $params["id_sala"] ?? null;
+
+    if (!$id_sala || !is_numeric($id_sala)) {
+        echo json_encode(["error" => "ID de sala inválido"]);
+        return;
+    }
+
+    echo json_encode(eliminar_sala($id_sala));
 });
 
 // Esta por ver
