@@ -7,6 +7,8 @@ services:
     buildCommand: ""
     startCommand: ""
     autoDeploy: true
+    ports:
+      - 80
     envVars:
       - key: DB_HOST
         value: nostromo-db
@@ -21,6 +23,8 @@ services:
     buildCommand: ""
     startCommand: ""
     autoDeploy: true
+    ports:
+      - 80
     envVars:
       - key: DB_HOST
         value: nostromo-db
@@ -38,8 +42,16 @@ services:
     ports:
       - 8082
 
-databases:
-  - name: nostromo-db
+  - type: web
+    name: nostromo-db
+    env: docker
     plan: free
-    databaseName: bd_nostromo
-    user: root
+    dockerfilePath: ""
+    image: mysql:8.0
+    startCommand: ""
+    autoDeploy: false
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: root
+      - key: MYSQL_DATABASE
+        value: bd_nostromo
