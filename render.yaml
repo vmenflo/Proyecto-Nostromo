@@ -10,3 +10,15 @@ services:
         value: nostromo-db
       - key: PASSWORD_API
         value: claveSuperSecreta123
+
+  - type: web
+    name: nostromo-api
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile.api
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        value: nostromo-db
+      - key: PASSWORD_API
+        value: claveSuperSecreta123
