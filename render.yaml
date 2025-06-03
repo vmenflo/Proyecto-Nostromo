@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: nostromo-web
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile.app
+    buildCommand: ""
+    startCommand: ""
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        value: nostromo-db
+      - key: PASSWORD_API
+        value: claveSuperSecreta123
+
+  - type: web
+    name: nostromo-api
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile.api
+    buildCommand: ""
+    startCommand: ""
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        value: nostromo-db
+      - key: PASSWORD_API
+        value: claveSuperSecreta123
+
+  - type: web
+    name: nostromo-adminer
+    env: docker
+    plan: free
+    dockerfilePath: ""
+    image: adminer
+    startCommand: ""
+    autoDeploy: false
+    ports:
+      - 8082
+
+databases:
+  - name: nostromo-db
+    plan: free
+    databaseName: bd_nostromo
+    user: root
