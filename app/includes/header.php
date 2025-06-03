@@ -54,19 +54,31 @@ $usuario = $_SESSION["datos_usuario_log"] ?? null;
 
             <div id="cont-user">
                 <?php if (isset($_SESSION["token"])): ?>
-                    <span>
-                        Hola<?= isset($usuario["nombre"]) ? ", " . htmlspecialchars($usuario["nombre"]) : "" ?>
+                    <span id="bienvenida">
+                        Hola,
+                        <?php if (($usuario["tipo"] ?? null) !== "admin"): ?>
+                            <a href="<?= BASE_URL ?>index.php?vista=perfil" title="Mi perfil" id="enlace-nombre">
+                                <?= htmlspecialchars($usuario["nombre"]) ?>
+                            </a>
+                        <?php else: ?>
+                            <a href="<?= BASE_URL ?>index.php?vista=admin" title="Mi perfil" id="enlace-nombre">
+                                <?= htmlspecialchars($usuario["nombre"]) ?>
+                            </a>
+                 <?php endif; ?>
                     </span>
-                    <a href="<?= BASE_URL ?>index.php?vista=perfil" title="Mi perfil">
-                        <img src="<?= BASE_URL ?>img/icono_usuario.png" alt="Mi perfil" width="32" height="32">
-                    </a>
                     <form action="<?= BASE_URL ?>index.php" method="post" style="display:inline;">
-                        <button type="submit" name="btnCerrarSession" title="Cerrar sesión">
-                            <img src="<?= BASE_URL ?>img/icono_logout.png" alt="Cerrar sesión" width="32" height="32">
+                        <button id="cerrar-sesion" type="submit" name="btnCerrarSession" title="Cerrar sesión">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="#213140" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="feather feather-log-out">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
                         </button>
                     </form>
                 <?php else: ?>
-                    <a ID="no-registrado" href="<?= BASE_URL ?>index.php?vista=login" title="Iniciar sesión">
+                    <a id="no-registrado" href="<?= BASE_URL ?>index.php?vista=login" title="Iniciar sesión">
                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M9.375 8.125C9.375 11.2262 11.8988 13.75 15 13.75C18.1012 13.75 20.625 11.2262 20.625 8.125C20.625 5.02375 18.1012 2.5 15 2.5C11.8988 2.5 9.375 5.02375 9.375 8.125ZM25 26.25H26.25V25C26.25 20.1763 22.3237 16.25 17.5 16.25H12.5C7.675 16.25 3.75 20.1763 3.75 25V26.25H25Z"
@@ -75,6 +87,7 @@ $usuario = $_SESSION["datos_usuario_log"] ?? null;
                     </a>
                 <?php endif; ?>
             </div>
+
         </nav>
     </header>
     <?php if (empty($GLOBALS["ocultarMenu"])): ?>

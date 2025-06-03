@@ -52,7 +52,7 @@
   display: block;
   padding: 0.5rem;
   font-size: 20pt;
-  margin:0.25rem 0;
+  margin: 0.25rem 0;
 }
 
 .linea-menu {
@@ -78,7 +78,7 @@
 }
 
 
-/* === Footer === */
+/* Footer */
 footer {
   background-color: black;
   color: white;
@@ -107,24 +107,24 @@ footer ul {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;       /* ✅ Centrados verticalmente */
-  flex-wrap: nowrap;         /* ✅ Siempre en fila */
+  align-items: center;
+  flex-wrap: nowrap;
   gap: 1rem;
 }
 
-#contenedor-footer > div {
+#contenedor-footer>div {
   flex: 1 1 0;
-  min-width: 0;              /* ✅ Permite que se contraigan */
+  min-width: 0;
 }
 
 #redes-sociales {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;                
+  gap: 0.5rem;
   padding: 0.5rem 0;
   flex-wrap: wrap;
-  flex: 0 1 180px;            
+  flex: 0 1 180px;
 }
 
 #contenedor-cinema {
@@ -141,7 +141,8 @@ footer ul {
   display: block;
 }
 
-/* === Menú Global === */
+/* Header */
+/* Menú Escritotio  */
 #menu-global {
   list-style: none;
   margin: 0;
@@ -162,7 +163,7 @@ footer ul {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
-  #cont-menu:hover + #menu-global {
+  #cont-menu:hover+#menu-global {
     display: block;
   }
 
@@ -175,6 +176,10 @@ footer ul {
     color: #213140;
     font-size: 18pt;
     text-decoration: none;
+  }
+
+  #menu a{
+    font-size: 14pt;
   }
 }
 
@@ -217,10 +222,29 @@ footer ul {
 
   #cont-logo {
     justify-content: flex-start;
-    flex: 0 0 auto; /* ← No ocupa 1/3, sino solo lo necesario */
+    flex: 0 0 auto;
   }
 
-  #cont-menu, #cont-user {
-    flex: 1; /* que ocupen el resto del espacio */
+  #cont-menu,
+  #cont-user {
+    flex: 1;
   }
+}
+
+/* Diseño header logueado */
+#bienvenida {
+  color:#213140;
+  font-weight: bolder;
+}
+
+#bienvenida a {
+  color:#213140;
+  font-size: 1.25rem;
+}
+
+#cerrar-sesion {
+  background-color: white;
+  border:none;
+  cursor: pointer;
+  color:#213140;
 }

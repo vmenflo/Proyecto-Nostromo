@@ -4,9 +4,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!sliderMovil || !sliderEscritorio) return;
 
-    const idCine = localStorage.getItem("cineSeleccionado") || "";
     let url = "/Proyecto-Nostromo/servicios_rest/proximos-lanzamientos";
-    if (idCine) url += `?id_cine=${idCine}`;
+
+    // Solo filtrar por cine si estamos en la vista "proximamente"
+    if (window.location.href.includes("vista=proximamente")) {
+        const idCine = localStorage.getItem("cineSeleccionado");
+        if (idCine) url += `?id_cine=${idCine}`;
+    }
 
     try {
         const res = await fetch(url);
@@ -15,7 +19,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         sliderMovil.innerHTML = "";
         sliderEscritorio.innerHTML = "";
-
 
         if (!lanzamientos.length) {
             sliderMovil.innerHTML = "<li><p>No hay próximos lanzamientos disponibles.</p></li>";
@@ -28,20 +31,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             sliderEscritorio.insertAdjacentHTML("beforeend", crearSlideHTML(peli, "escritorio"));
         });
 
-        // Iniciar sliders
-        $("#slider").lightSlider({
-            item: 2,
-            auto: true,
-            loop: true,
-            pause: 5000
-        });
-
-        $("#slider-escritorio").lightSlider({
-            item: 1,
-            auto: true,
-            loop: true,
-            pause: 10000
-        });
+        $("#slider").lightSlider({ item: 2, auto: true, loop: true, pause: 5000 });
+        $("#slider-escritorio").lightSlider({ item: 1, auto: true, loop: true, pause: 10000 });
 
     } catch (error) {
         console.error("Error al cargar lanzamientos:", error);
@@ -54,11 +45,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             return `
                 <li>
                     <article class="item-pl">
-                    <div class="contenedor-info">
+                        <div class="contenedor-info">
                             <p>${peli.titulo}</p>
-                            <p>${peli.sinopsis}<p>
+                            <p>${peli.sinopsis}</p>
                         </div>
-                        <a href="#" >
+                        <a href="#">
                             <img src="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-slider.png" alt="cartel-${peli.titulo}">
                         </a>
                     </article>
