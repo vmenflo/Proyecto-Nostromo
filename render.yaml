@@ -1,6 +1,12 @@
 services:
   - type: web
-    name: nostromo-test
+    name: nostromo-web
     env: docker
     plan: free
     dockerfilePath: Dockerfile.app
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        value: nostromo-db
+      - key: PASSWORD_API
+        value: claveSuperSecreta123
