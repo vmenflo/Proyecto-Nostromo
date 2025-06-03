@@ -1,7 +1,7 @@
 <?php
 define("INACTIVIDAD", 30);
-define("DIR_SERV", "http://localhost/Proyecto-Nostromo/servicios_rest");
-define("BASE_URL", "/Proyecto-Nostromo/app/");
+define("DIR_SERV", "http://api");
+define("BASE_URL", "/");
 
 function consumir_servicios_REST($url, $metodo, $datos = null)
 {

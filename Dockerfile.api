@@ -1,0 +1,7 @@
+# Dockerfile.api
+FROM php:8.2-apache
+
+COPY servicios_rest/ /var/www/html/
+RUN docker-php-ext-install mysqli
+
+EXPOSE 80

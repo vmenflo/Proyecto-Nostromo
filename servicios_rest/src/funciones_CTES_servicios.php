@@ -5,11 +5,11 @@ use Firebase\JWT\Key;
 
 require 'Firebase/autoload.php';
 
-define("SERVIDOR_BD", "localhost");
-define("USUARIO_BD", "jose");
-define("CLAVE_BD", "josefa");
+define("SERVIDOR_BD", "db");
+define("USUARIO_BD", "root");
+define("CLAVE_BD", "root");
 define("NOMBRE_BD", "bd_nostromo");
-define("PASSWORD_API", "PASSWORD_DE_MI_APLICACION");
+define("PASSWORD_API", getenv("PASSWORD_API") ?: "clavePorDefectoParaDesarrollo");
 
 
 
