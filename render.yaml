@@ -22,3 +22,16 @@ services:
         value: nostromo-db
       - key: PASSWORD_API
         value: claveSuperSecreta123
+
+  - type: pserv
+    name: nostromo-db
+    env: docker
+    plan: free
+    image:
+      url: "mysql:8.0"
+    autoDeploy: false
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: root
+      - key: MYSQL_DATABASE
+        value: bd_nostromo
