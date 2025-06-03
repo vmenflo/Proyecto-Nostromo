@@ -35,3 +35,11 @@ services:
         value: root
       - key: MYSQL_DATABASE
         value: bd_nostromo
+
+  - type: pserv
+    name: nostromo-adminer
+    env: docker
+    plan: free
+    image:
+      url: "adminer"
+    autoDeploy: false
