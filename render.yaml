@@ -4,11 +4,7 @@ services:
     env: docker
     plan: free
     dockerfilePath: Dockerfile.app
-    buildCommand: ""
-    startCommand: ""
     autoDeploy: true
-    ports:
-      - 80
     envVars:
       - key: DB_HOST
         value: nostromo-db
@@ -20,38 +16,30 @@ services:
     env: docker
     plan: free
     dockerfilePath: Dockerfile.api
-    buildCommand: ""
-    startCommand: ""
     autoDeploy: true
-    ports:
-      - 80
     envVars:
       - key: DB_HOST
         value: nostromo-db
       - key: PASSWORD_API
         value: claveSuperSecreta123
 
-  - type: web
-    name: nostromo-adminer
-    env: docker
-    plan: free
-    dockerfilePath: ""
-    image: adminer
-    startCommand: ""
-    autoDeploy: false
-    ports:
-      - 8082
-
-  - type: web
+  - type: pserv
     name: nostromo-db
     env: docker
     plan: free
-    dockerfilePath: ""
-    image: mysql:8.0
-    startCommand: ""
+    image:
+      url: mysql:8.0
     autoDeploy: false
     envVars:
       - key: MYSQL_ROOT_PASSWORD
         value: root
       - key: MYSQL_DATABASE
         value: bd_nostromo
+
+  - type: pserv
+    name: nostromo-adminer
+    env: docker
+    plan: free
+    image:
+      url: adminer
+    autoDeploy: false
