@@ -28,7 +28,7 @@ services:
     env: docker
     plan: free
     image:
-      url: mysql:8.0
+      url: "mysql:8.0"
     autoDeploy: false
     envVars:
       - key: MYSQL_ROOT_PASSWORD
@@ -41,5 +41,5 @@ services:
     env: docker
     plan: free
     image:
-      url: adminer
+      url: "adminer"
     autoDeploy: false
