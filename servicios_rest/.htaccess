@@ -1,12 +1,12 @@
-# Do not remove this line or mod_rewrite rules and search engine friendly URLs will stop working
-#RewriteBase /
+# Habilita mod_rewrite
 RewriteEngine On
 
-# Some hosts may require you to use the `RewriteBase` directive.
-# If you need to use the `RewriteBase` directive, it should be the
-# absolute physical path to the directory that contains this htaccess file.
-#
-
-
+# Si el archivo o directorio no existe, redirige a index.php
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
+
+# Permitir peticiones OPTIONS para CORS
+<LimitExcept OPTIONS>
+    Require all granted
+</LimitExcept>

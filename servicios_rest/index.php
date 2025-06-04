@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 
 require __DIR__ . '/Slim/autoload.php';
@@ -7,25 +8,6 @@ require "src/funciones_CTES_servicios.php";
 
 $app = new \Slim\App;
 
-echo "ESTOY EN INDEX.PHP API";
-
-
-// Middleware CORS
-$app->add(function ($request, $response, $next) {
-    $response = $next($request, $response);
-    return $response
-        ->withHeader("Access-Control-Allow-Origin", "*")
-        ->withHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Origin, Authorization")
-        ->withHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-});
-
-// Preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    header('Access-Control-Allow-Origin: *');
-    header("Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept, Origin, Authorization");
-    header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-    exit(0);
-}
 
 // Control logueado
 $app->get('/logueado', function () {
@@ -299,6 +281,19 @@ $app->get('/admin/repetido/{tabla}/{columna}/{valor}', function ($request) {
             echo json_encode($test);
     else
         echo json_encode(array("no_auth" => "No tienes permisos para usar este servicio"));
+});
+
+$app->add(function ($request, $response, $next) {
+    $response = $next($request, $response);
+    return $response
+        ->withHeader("Access-Control-Allow-Origin", "*")
+        ->withHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Accept, Origin, Authorization")
+        ->withHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+});
+
+// Peticiones preflight (CORS)
+$app->options('/{routes:.+}', function ($request, $response, $args) {
+    return $response;
 });
 
 $app->run();
