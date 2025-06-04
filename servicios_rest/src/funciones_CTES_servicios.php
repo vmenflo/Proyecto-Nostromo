@@ -5,11 +5,26 @@ use Firebase\JWT\Key;
 
 require 'Firebase/autoload.php';
 
-define("SERVIDOR_BD", "db");
-define("USUARIO_BD", "root");
-define("CLAVE_BD", "root");
-define("NOMBRE_BD", "bd_nostromo");
+// Configuración para PostgreSQL en Render
+define("SERVIDOR_BD", getenv("DB_HOST"));
+define("PUERTO_BD", getenv("DB_PORT") ?: 5432);
+define("USUARIO_BD", getenv("DB_USER"));
+define("CLAVE_BD", getenv("DB_PASSWORD"));
+define("NOMBRE_BD", getenv("DB_NAME"));
 define("PASSWORD_API", getenv("PASSWORD_API") ?: "clavePorDefectoParaDesarrollo");
+
+// Funcón para obtener una conexión PDO con PostgreSQL
+function obtenerConexion() {
+    return new PDO(
+        "pgsql:host=" . SERVIDOR_BD . ";port=" . PUERTO_BD . ";dbname=" . NOMBRE_BD,
+        USUARIO_BD,
+        CLAVE_BD,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ]
+    );
+}
 
 
 
@@ -30,7 +45,7 @@ function validateToken()
         }
 
         try {
-            $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+            $conexion = obtenerConexion();
         } catch (PDOException $e) {
 
             $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
@@ -67,7 +82,7 @@ function validateToken()
 function login($correo, $clave)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "Imposible conectar:" . $e->getMessage();
         return $respuesta;
@@ -104,7 +119,7 @@ function login($correo, $clave)
 function obtener_peliculas($id_cine = null)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion =obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
@@ -145,7 +160,7 @@ function obtener_peliculas($id_cine = null)
 function obtener_lanzamientos($id_cine = null)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
@@ -186,7 +201,7 @@ function obtener_lanzamientos($id_cine = null)
 function obtener_cines_con_proyeccion_pelicula($id_pelicula)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
@@ -223,7 +238,7 @@ function obtener_cines_con_proyeccion_pelicula($id_pelicula)
 function obtener_sesiones($id_cine, $id_pelicula)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         return ["error" => "Error de conexión: " . $e->getMessage()];
     }
@@ -253,7 +268,7 @@ function obtener_sesiones($id_cine, $id_pelicula)
 function obtener_pelicula($cod)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
         return $respuesta;
@@ -283,8 +298,8 @@ function obtener_pelicula($cod)
 function obtener_cines()
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-    } catch (PDOException $e) {
+        $conexion = obtenerConexion();
+     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
         return $respuesta;
     }
@@ -311,7 +326,7 @@ function obtener_cines()
 function obtener_cines_disponibles_pelicula($id_pelicula)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
         return $respuesta;
@@ -341,11 +356,8 @@ function obtener_cines_disponibles_pelicula($id_pelicula)
 function insertar_usuario($datos_insert)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
-    } catch (PDOException $e) {
+        $conexion = obtenerConexion();
+     } catch (PDOException $e) {
         return ["error" => "No he podido conectarme a la base de datos: " . $e->getMessage()];
     }
 
@@ -364,8 +376,8 @@ function insertar_usuario($datos_insert)
 function obtener_articulos()
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-    } catch (PDOException $e) {
+        $conexion =obtenerConexion();
+     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
     }
@@ -396,7 +408,7 @@ function obtener_articulos()
 function obtener_articulo($id_articulo)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
         return $respuesta;
@@ -426,8 +438,8 @@ function obtener_articulo($id_articulo)
 function obtener_butacas($id_cine, $id_pelicula, $fecha, $hora)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
-    } catch (PDOException $e) {
+        $conexion =obtenerConexion();
+     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarme a la base de datos: " . $e->getMessage();
         return $respuesta;
     }
@@ -505,12 +517,7 @@ function reservar($datos)
         }
 
         // Conexión
-        $conexion = new PDO(
-            "mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD,
-            USUARIO_BD,
-            CLAVE_BD,
-            [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]
-        );
+        $conexion = obtenerConexion();
 
         // Obtener id_proyeccion
         $consulta = "SELECT id_proyeccion FROM proyecciones WHERE id_cine=? AND id_pelicula=? AND fecha=? AND hora=? AND id_sala=?";
@@ -566,9 +573,7 @@ function reservar($datos)
 function obtener_reservas_usuario($id_usuario)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"
-        ]);
+        $conexion =obtenerConexion();
     } catch (PDOException $e) {
         return ["codigo" => "error", "mensaje" => "Error de conexión: " . $e->getMessage()];
     }
@@ -614,10 +619,7 @@ function obtener_reservas_usuario($id_usuario)
 function agregar_cine($datos_insert)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         return ["error" => "No he podido conectarme a la base de datos: " . $e->getMessage()];
     }
@@ -637,10 +639,7 @@ function agregar_cine($datos_insert)
 function eliminar_cine($id_cine)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         return ["error" => "No se pudo conectar a la base de datos: " . $e->getMessage()];
     }
@@ -664,10 +663,7 @@ function eliminar_cine($id_cine)
 function editar_cine($datos)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         return ["error" => "Error de conexión: " . $e->getMessage()];
     }
@@ -686,10 +682,7 @@ function editar_cine($datos)
 // Función obtener salas
 function obtener_salas_por_cine($id_cine) {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion = obtenerConexion();
         $consulta = "SELECT id_sala, nombre FROM salas WHERE id_cine = ?";
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute([$id_cine]);
@@ -710,10 +703,7 @@ function agregar_sala($datos) {
     $aforo = intval($datos["aforo"]);
 
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion = obtenerConexion();
 
         // Validación de duplicado
         $consulta = "SELECT COUNT(*) FROM salas WHERE id_cine = ? AND nombre = ?";
@@ -743,10 +733,7 @@ function eliminar_sala($datos) {
     $id_sala = intval($datos["id_sala"]);
 
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion = obtenerConexion();
 
         $consulta = "DELETE FROM salas WHERE id_sala = ?";
         $sentencia = $conexion->prepare($consulta);
@@ -764,10 +751,7 @@ function eliminar_sala($datos) {
 function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, [
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'",
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-        ]);
+        $conexion =obtenerConexion();
     } catch (PDOException $e) {
         return ["error" => "Error de conexión: " . $e->getMessage()];
     }
@@ -787,7 +771,7 @@ function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
 function repetido_insertando($tabla, $columna, $valor)
 {
     try {
-        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
         return $respuesta;
