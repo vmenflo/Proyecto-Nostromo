@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (error) return;
 
         try {
-            const res = await fetch("/Proyecto-Nostromo/app/servicios/login.php", {
+            const res = await fetch(`${API_BASE}/login.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ correo, clave })

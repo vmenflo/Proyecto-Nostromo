@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function cargarCines() {
         try {
-            const res = await fetch("/Proyecto-Nostromo/servicios_rest/cines", {
+            const res = await fetch(`${API_BASE}/cines`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
 
             try {
-                const repetidoRes = await fetch(`/Proyecto-Nostromo/servicios_rest/admin/repetido/cines/nombre/${encodeURIComponent(datosEditados.nombre)}`, {
+                const repetidoRes = await fetch(`${API_BASE}/admin/repetido/cines/nombre/${encodeURIComponent(datosEditados.nombre)}`, {
                     method: "GET",
                     headers: {
                         "Authorization": "Bearer " + localStorage.getItem("token")
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     return;
                 }
 
-                const res = await fetch("/Proyecto-Nostromo/servicios_rest/editarCine", {
+                const res = await fetch(`${API_BASE}/editarCine`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         contenedor.innerHTML = "<p>Cargando salas...</p>";
 
         try {
-            const res = await fetch(`/Proyecto-Nostromo/servicios_rest/salas/${id_cine}`, {
+            const res = await fetch(`${API_BASE}/salas/${id_cine}`, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 }
@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     if (!confirm("¿Eliminar esta sala?")) return;
 
                     try {
-                        const res = await fetch("/Proyecto-Nostromo/servicios_rest/eliminarSala", {
+                        const res = await fetch(`${API_BASE}/eliminarSala`, {
                             method: "DELETE",
                             headers: {
                                 "Content-Type": "application/json",
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 try {
-                    const res = await fetch("/Proyecto-Nostromo/servicios_rest/agregarSala", {
+                    const res = await fetch(`${API_BASE}/agregarSala`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     async function eliminarCine(id) {
         if (!confirm("¿Eliminar este cine?")) return;
         try {
-            const res = await fetch("/Proyecto-Nostromo/servicios_rest/eliminarCine", {
+            const res = await fetch(`${API_BASE}/eliminarCine`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             };
 
             try {
-                const repetido = await fetch(`/Proyecto-Nostromo/servicios_rest/admin/repetido/cines/nombre/${encodeURIComponent(nuevoCine.nombre)}`, {
+                const repetido = await fetch(`${API_BASE}/admin/repetido/cines/nombre/${encodeURIComponent(nuevoCine.nombre)}`, {
                     method: "GET",
                     headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
                 });
@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     return;
                 }
 
-                const res = await fetch("/Proyecto-Nostromo/servicios_rest/agregarCine", {
+                const res = await fetch(`${API_BASE}/agregarCine`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

@@ -17,6 +17,7 @@
         <script>
             const BASE_URL = "<?= BASE_URL ?>";
         </script>
+        <script src="<?= BASE_URL ?>js/config.js" defer></script>
         <script src="<?= BASE_URL ?>js/bitacora.js" defer></script>
     </main>
 </body>

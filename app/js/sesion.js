@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Traer datos de la película
     try {
-        const resPeli = await fetch(`/Proyecto-Nostromo/servicios_rest/pelicula/${idPelicula}`);
+        const resPeli = await fetch(`${API_BASE}/pelicula/${idPelicula}`);
         const datosPeli = await resPeli.json();
 
         if (datosPeli.error) {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Cargar cines disponibles
     try {
-        const resCines = await fetch(`/Proyecto-Nostromo/servicios_rest/proyecciones/cines/${idPelicula}`);
+        const resCines = await fetch(`${API_BASE}/proyecciones/cines/${idPelicula}`);
         const datos = await resCines.json();
 
         if (datos.error) {
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         selectHora.innerHTML = '<option>Selecciona una fecha primero</option>';
 
         try {
-            const res = await fetch(`/Proyecto-Nostromo/servicios_rest/sesiones/${idCine}/${idPelicula}`);
+            const res = await fetch(`${API_BASE}/sesiones/${idCine}/${idPelicula}`);
             const datos = await res.json();
 
             if (datos.error) {

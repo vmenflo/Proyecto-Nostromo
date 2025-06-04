@@ -12,6 +12,7 @@
     <main>
         <h1>Bitácora Nostromo</h1>
         <div id="contenedor-articulos"></div>
+        <script src="<?= BASE_URL ?>js/config.js" defer></script>
         <script src="<?= BASE_URL ?>js/bitacora.js" defer></script>
         <script>
             const BASE_URL = "<?= BASE_URL ?>";

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const butacas = urlParams.get("butacas");
 
     if (id_pelicula) {
-        fetch(`/Proyecto-Nostromo/servicios_rest/pelicula/${id_pelicula}`)
+        fetch(`${API_BASE}/pelicula/${id_pelicula}`)
             .then(res => {
                 if (!res.ok) throw new Error(`Error HTTP: ${res.status}`);
                 return res.json();

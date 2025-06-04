@@ -14,6 +14,7 @@ if (!defined("BASE_URL"))
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/login-registrar.css">
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/registro.js" defer></script>
     <script>
         const redirParam = new URLSearchParams(window.location.search).get("redir");

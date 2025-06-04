@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Cargar cines
     try {
-        const res = await fetch(urlCines);
+        const res = await fetch(`${API_BASE}/cines`);
         const datos = await res.json();
 
         if (datos.cines) {
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function cargarCartelera(idCine = "") {
         try {
-            let url = "/Proyecto-Nostromo/servicios_rest/peliculas";
+            let url = `${API_BASE}/peliculas`;
             if (idCine) url += `?id_cine=${idCine}`;
 
             const res = await fetch(url);

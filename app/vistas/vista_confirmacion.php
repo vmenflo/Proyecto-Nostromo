@@ -27,6 +27,7 @@ $texto_hora = "$hora_formateada horas";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= BASE_URL ?>css/confirmacion.css">
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/confirmacion.js" defer></script>
     <title>Confirmación</title>
 </head>

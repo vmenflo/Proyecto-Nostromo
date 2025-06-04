@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="<?= BASE_URL ?>css/inicio.css">
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/cargarCines.js" defer></script>
     <title>Cartelera</title>
 </head>

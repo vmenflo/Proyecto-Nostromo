@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const res = await fetch("/Proyecto-Nostromo/app/servicios/registro.php", {
+            const res = await fetch(`${API_BASE}/registro.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",

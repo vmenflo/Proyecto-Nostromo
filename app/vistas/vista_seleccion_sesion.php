@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selección sesión</title>
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/sesion.js" defer></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/sesiones.css">
 

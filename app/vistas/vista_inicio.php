@@ -56,6 +56,7 @@
             </a>
         </div>
     </main>
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/cargarCines.js" defer></script>
 
 </body>

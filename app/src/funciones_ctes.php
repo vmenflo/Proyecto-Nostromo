@@ -1,6 +1,6 @@
 <?php
 define("INACTIVIDAD", 30);
-define("DIR_SERV", "http://api");
+define("DIR_SERV", "https://nostromo-api.onrender.com");
 define("BASE_URL", "/");
 
 function consumir_servicios_REST($url, $metodo, $datos = null)

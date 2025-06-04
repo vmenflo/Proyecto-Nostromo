@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/pl.js"></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/pl.css">
     <script src="<?= BASE_URL ?>js/proximamente.js" defer></script>

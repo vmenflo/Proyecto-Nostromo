@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
 
-        fetch("/Proyecto-Nostromo/servicios_rest/reservar", {
+        fetch(`${API_BASE}/reservar`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(datos)

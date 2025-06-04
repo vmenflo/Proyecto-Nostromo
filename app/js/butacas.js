@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   actualizarContador();
 
-  fetch(`/Proyecto-Nostromo/servicios_rest/butacas/${id_cine}/${id_pelicula}/${fecha}/${hora}`)
+  fetch(`${API_BASE}/butacas/${id_cine}/${id_pelicula}/${fecha}/${hora}`)
     .then(res => res.ok ? res.json() : Promise.reject(`HTTP ${res.status}`))
     .then(data => {
       if (data.error) {

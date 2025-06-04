@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    fetch("/Proyecto-Nostromo/servicios_rest/reservas", {
+    fetch(`${API_BASE}/reservas`, {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + token

@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     async function cargarLanzamientos(idCine = "") {
         try {
-            let url = "/Proyecto-Nostromo/servicios_rest/proximos-lanzamientos";
+            let url = `${API_BASE}/proximos-lanzamientos`;
             if (idCine) url += `?id_cine=${idCine}`;
 
             const res = await fetch(url);

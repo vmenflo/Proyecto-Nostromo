@@ -19,6 +19,7 @@ $subtotal = $_GET['subtotal'] ?? '';
         const id_usuario = <?= $_SESSION['datos_usuario_log']['id_usuario'] ?? 'null' ?>;
         const id_sala = <?= json_encode($id_sala) ?>;
     </script>
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/pago.js" defer></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/pago.css">
 </head>

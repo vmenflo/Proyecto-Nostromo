@@ -18,6 +18,7 @@ $id_hora = $_GET['hora'];
         const fecha = <?= json_encode($_GET['fecha']) ?>;
         const hora = <?= json_encode($_GET['hora']) ?>;
     </script>
+    <script src="<?= BASE_URL ?>js/config.js" defer></script>
     <script src="<?= BASE_URL ?>js/butacas.js" defer></script>
     <link rel="stylesheet" href="<?= BASE_URL ?>css/butaca.css">
 </head>

@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function fetchArticulos() {
-    fetch("http://localhost/Proyecto-Nostromo/servicios_rest/articulos")
+    fetch(`${API_BASE}/articulos`)
         .then(response => response.json())
         .then(data => {
             if (data.error) {
@@ -63,7 +63,7 @@ function mostrarArticulos(articulos) {
 }
 
 function fetchArticulo(id) {
-    fetch(`http://localhost/Proyecto-Nostromo/servicios_rest/articulo/${id}`)
+    fetch(`${API_BASE}/articulo/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data.error) {

@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!sliderMovil || !sliderEscritorio) return;
 
-    let url = "/Proyecto-Nostromo/servicios_rest/proximos-lanzamientos";
+    let url = `${API_BASE}/proximos-lanzamientos`;
 
     // Solo filtrar por cine si estamos en la vista "proximamente"
     if (window.location.href.includes("vista=proximamente")) {
