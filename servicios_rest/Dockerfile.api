@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-COPY ./servicios_rest/ /var/www/html/
+COPY . /var/www/html/
 
 COPY apache.conf /etc/apache2/conf-available/override.conf
 
