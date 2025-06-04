@@ -1,7 +1,10 @@
-# Dockerfile.api
 FROM php:8.2-apache
 
 COPY . /var/www/html/
-RUN docker-php-ext-install mysqli
+COPY apache.conf /etc/apache2/conf-available/override.conf
+
+RUN docker-php-ext-install mysqli \
+    && a2enmod rewrite \
+    && a2enconf override
 
 EXPOSE 10000
