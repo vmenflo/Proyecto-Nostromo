@@ -1,7 +1,7 @@
 # Dockerfile.app
 FROM php:8.2-apache
 
-COPY app/ /var/www/html/
+COPY . /var/www/html/
 RUN docker-php-ext-install mysqli
 
 EXPOSE 10000
