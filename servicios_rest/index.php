@@ -7,6 +7,9 @@ require "src/funciones_CTES_servicios.php";
 
 $app = new \Slim\App;
 
+echo "ESTOY EN INDEX.PHP API";
+
+
 // Middleware CORS
 $app->add(function ($request, $response, $next) {
     $response = $next($request, $response);
