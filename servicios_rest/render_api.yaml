@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: nostromo-api
+    env: docker
+    dockerfilePath: Dockerfile.api
+    plan: free
+    autoDeploy: true
