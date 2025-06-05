@@ -44,11 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
             
                 if (redirRaw) {
                     const redirParams = new URLSearchParams(redirRaw);
-                    window.location.href = `/Proyecto-Nostromo/app/index.php?${redirParams.toString()}`;
+                    window.location.href = `${URL_BASE}/index.php?${redirParams.toString()}`;
                 } else if (data.tipo === "admin") {
-                    window.location.href = "/Proyecto-Nostromo/app/index.php?vista=admin";
+                    window.location.href = `/${URL_BASE}/index.php?vista=admin`;
                 } else {
-                    window.location.href = "/Proyecto-Nostromo/app/index.php";
+                    window.location.href = `${URL_BASE}/index.php`;
                 }
                         
             } else {

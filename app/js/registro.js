@@ -29,9 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const redir = redirParam;
                 if (redir) {
                     const redirParams = new URLSearchParams(redir);
-                    window.location.href = `/Proyecto-Nostromo/app/index.php?${redirParams.toString()}`;
+                    window.location.href = `${URL_BASE}/index.php?${redirParams.toString()}`;
                 } else {
-                    window.location.href = "/Proyecto-Nostromo/app/index.php";
+                    window.location.href = `${URL_BASE}/index.php`;
                 }
             }
         } catch (err) {
