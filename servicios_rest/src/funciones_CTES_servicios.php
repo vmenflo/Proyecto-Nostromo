@@ -14,7 +14,8 @@ define("NOMBRE_BD", getenv("DB_NAME"));
 define("PASSWORD_API", getenv("PASSWORD_API") ?: "clavePorDefectoParaDesarrollo");
 
 // Funcón para obtener una conexión PDO con PostgreSQL
-function obtenerConexion() {
+function obtenerConexion()
+{
     return new PDO(
         "pgsql:host=" . SERVIDOR_BD . ";port=" . PUERTO_BD . ";dbname=" . NOMBRE_BD,
         USUARIO_BD,
@@ -119,7 +120,7 @@ function login($correo, $clave)
 function obtener_peliculas($id_cine = null)
 {
     try {
-        $conexion =obtenerConexion();
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
@@ -299,7 +300,7 @@ function obtener_cines()
 {
     try {
         $conexion = obtenerConexion();
-     } catch (PDOException $e) {
+    } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de batos: " . $e->getMessage();
         return $respuesta;
     }
@@ -357,7 +358,7 @@ function insertar_usuario($datos_insert)
 {
     try {
         $conexion = obtenerConexion();
-     } catch (PDOException $e) {
+    } catch (PDOException $e) {
         return ["error" => "No he podido conectarme a la base de datos: " . $e->getMessage()];
     }
 
@@ -376,8 +377,8 @@ function insertar_usuario($datos_insert)
 function obtener_articulos()
 {
     try {
-        $conexion =obtenerConexion();
-     } catch (PDOException $e) {
+        $conexion = obtenerConexion();
+    } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarse a la base de datos: " . $e->getMessage();
         return $respuesta;
     }
@@ -438,8 +439,8 @@ function obtener_articulo($id_articulo)
 function obtener_butacas($id_cine, $id_pelicula, $fecha, $hora)
 {
     try {
-        $conexion =obtenerConexion();
-     } catch (PDOException $e) {
+        $conexion = obtenerConexion();
+    } catch (PDOException $e) {
         $respuesta["error"] = "No he podido conectarme a la base de datos: " . $e->getMessage();
         return $respuesta;
     }
@@ -573,7 +574,7 @@ function reservar($datos)
 function obtener_reservas_usuario($id_usuario)
 {
     try {
-        $conexion =obtenerConexion();
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         return ["codigo" => "error", "mensaje" => "Error de conexión: " . $e->getMessage()];
     }
@@ -581,10 +582,9 @@ function obtener_reservas_usuario($id_usuario)
     // Función interna para evitar duplicar código en futuras/historial
     function obtener_reservas($conexion, $id_usuario, $condicion_fecha, $orden)
     {
-        $sql = "SELECT r.id_reserva, r.cantidad_entradas, r.fecha_reserva,
-                    p.fecha, p.hora, pel.titulo, pel.foto,
-                    c.nombre AS cine, s.nombre AS sala,
-                    GROUP_CONCAT(CONCAT('F', a.fila, 'B', a.butaca) ORDER BY a.fila, a.butaca SEPARATOR ', ') AS butacas
+        $sql = "SELECT r.id_reserva, r.cantidad_entradas, r.fecha_reserva, p.fecha, p.hora, pel.titulo, pel.foto,
+            c.nombre AS cine, s.nombre AS sala,
+            STRING_AGG('F' || a.fila || 'B' || a.butaca, ', ' ORDER BY a.fila, a.butaca) AS butacas
             FROM reservas r
             JOIN proyecciones p ON r.id_proyeccion = p.id_proyeccion
             JOIN peliculas pel ON p.id_pelicula = pel.id_pelicula
@@ -680,7 +680,8 @@ function editar_cine($datos)
 }
 
 // Función obtener salas
-function obtener_salas_por_cine($id_cine) {
+function obtener_salas_por_cine($id_cine)
+{
     try {
         $conexion = obtenerConexion();
         $consulta = "SELECT id_sala, nombre FROM salas WHERE id_cine = ?";
@@ -693,7 +694,8 @@ function obtener_salas_por_cine($id_cine) {
 }
 
 // Función agregar
-function agregar_sala($datos) {
+function agregar_sala($datos)
+{
     if (!isset($datos["id_cine"], $datos["nombre"], $datos["aforo"])) {
         return ["error" => "Faltan datos"];
     }
@@ -725,7 +727,8 @@ function agregar_sala($datos) {
 }
 
 // Eliminar sala
-function eliminar_sala($datos) {
+function eliminar_sala($datos)
+{
     if (!isset($datos["id_sala"])) {
         return ["error" => "Falta el ID de la sala"];
     }
@@ -751,7 +754,7 @@ function eliminar_sala($datos) {
 function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
 {
     try {
-        $conexion =obtenerConexion();
+        $conexion = obtenerConexion();
     } catch (PDOException $e) {
         return ["error" => "Error de conexión: " . $e->getMessage()];
     }
