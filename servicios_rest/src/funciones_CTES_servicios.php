@@ -532,7 +532,7 @@ function reservar($datos)
         $id_proyeccion = $fila["id_proyeccion"];
 
         // Insertar reserva
-        $consulta = "INSERT INTO reservas (id_usuario, id_proyeccion, fecha_reserva, cantidad_entradas) VALUES (?, ?, CURDATE(), ?)";
+        $consulta = "INSERT INTO reservas (id_usuario, id_proyeccion, fecha_reserva, cantidad_entradas) VALUES (?, ?, CURRENT_DATE, ?)";
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute([$id_usuario, $id_proyeccion, count($butacas)]);
 
