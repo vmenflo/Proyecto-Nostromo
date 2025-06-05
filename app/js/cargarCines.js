@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function generarURLCompra(idPelicula) {
         const idCine = localStorage.getItem("cineSeleccionado");
-        const baseUrl = `${URL_BASE}/index.php`;
+        const baseUrl = `${BASE_URL}index.php`;
     
         if (!window.usuarioLogueado) {
             const redir = `vista=seleccion_sesion&id_pelicula=${idPelicula}${idCine ? `&id_cine=${idCine}` : ''}`;
