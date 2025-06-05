@@ -6,12 +6,12 @@ use Firebase\JWT\Key;
 require 'Firebase/autoload.php';
 
 // Configuración para PostgreSQL en Render
-define("SERVIDOR_BD", getenv("DB_HOST"));
-define("PUERTO_BD", getenv("DB_PORT") ?: 5432);
-define("USUARIO_BD", getenv("DB_USER"));
-define("CLAVE_BD", getenv("DB_PASSWORD"));
-define("NOMBRE_BD", getenv("DB_NAME"));
-define("PASSWORD_API", getenv("PASSWORD_API") ?: "clavePorDefectoParaDesarrollo");
+define("SERVIDOR_BD", getenv("dpg-d1094g6mcj7s738b6svg-a"));
+define("PUERTO_BD", getenv(5432));
+define("USUARIO_BD", getenv("nostromo_db_user"));
+define("CLAVE_BD", getenv("mCITrPGLOcQow2Usf3sGFNbnNi6YF6Uj"));
+define("NOMBRE_BD", getenv("nostromo_db"));
+define("PASSWORD_API", getenv("clavePorDefectoParaDesarrollo)"));
 
 // Funcón para obtener una conexión PDO con PostgreSQL
 function obtenerConexion() {
