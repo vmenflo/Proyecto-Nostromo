@@ -71,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            alert("Pago realizado correctamente.");
-            window.location.href = "/Proyecto-Nostromo/app/index.php";
+            alert("Pago realizado correctamente. Ya puedes ver las entradas en tu perfil");
+            window.location.href = `${URL_BASE}/index.php`;
         })
         .catch(err => {
             console.error("Error en reserva:", err);

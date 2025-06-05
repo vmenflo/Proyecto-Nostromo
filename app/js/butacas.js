@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
           butacas
         });
 
-        window.location.href = `/Proyecto-Nostromo/app/index.php?vista=confirmacion&${params.toString()}`;
+        window.location.href = `/${URL_BASE}/index.php?vista=confirmacion&${params.toString()}`;
       });
     })
     .catch(() => {

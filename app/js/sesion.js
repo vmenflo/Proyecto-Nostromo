@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const idPelicula = new URLSearchParams(window.location.search).get("id_pelicula");
 
         // Redirigir a la vista de butaca con los parámetros
-        window.location.href = `/Proyecto-Nostromo/app/index.php?vista=butacas&id_pelicula=${idPelicula}&id_cine=${idCine}&fecha=${fecha}&hora=${hora}`;
+        window.location.href = `/${URL_BASE}/index.php?vista=butacas&id_pelicula=${idPelicula}&id_cine=${idCine}&fecha=${fecha}&hora=${hora}`;
     });
 
 });
