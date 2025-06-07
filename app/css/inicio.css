@@ -221,7 +221,6 @@ display: inline;
     justify-content: center;
     align-items: center;
     width: 90%;
-    max-width: 1200px;
     margin: 0 auto;
     overflow: hidden;
     border-radius: 16px;
@@ -233,7 +232,7 @@ display: inline;
     max-height: 500px;
     object-fit: cover;
     display: block;
-    border-radius: inherit;
+    border-radius: 16px;
 }
 
 
