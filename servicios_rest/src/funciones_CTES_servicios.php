@@ -591,7 +591,7 @@ function obtener_reservas_usuario($id_usuario)
             LEFT JOIN reservas_asientos ra ON r.id_reserva = ra.id_reserva
             LEFT JOIN asientos a ON ra.id_asiento = a.id_asiento
             WHERE r.id_usuario = ? AND $condicion_fecha
-            GROUP BY r.id_reserva
+            GROUP BY r.id_reserva, r.cantidad_entradas, r.fecha_reserva, p.fecha, p.hora, pel.titulo, pel.foto, c.nombre, s.nombre
             ORDER BY $orden";
 
         $stmt = $conexion->prepare($sql);
@@ -603,7 +603,7 @@ function obtener_reservas_usuario($id_usuario)
 
         $futuras = obtener_reservas($conexion, $id_usuario, "p.fecha >= CURRENT_DATE", "p.fecha, p.hora");
         $historial = obtener_reservas($conexion, $id_usuario, "p.fecha < CURRENT_DATE", "p.fecha DESC, p.hora DESC");
-        
+
         return [
             "codigo" => "success",
             "futuras" => $futuras,
