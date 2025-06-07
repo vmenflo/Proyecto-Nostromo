@@ -46,9 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const redirParams = new URLSearchParams(redirRaw);
                     window.location.href = `${URL_BASE}/index.php?${redirParams.toString()}`;
                 } else if (data.tipo === "admin") {
-                    window.location.href = `/${URL_BASE}/index.php?vista=admin`;
+                    window.location.href = `/index.php?vista=admin`;
                 } else {
-                    window.location.href = `${URL_BASE}/index.php`;
+                    window.location.href = `/index.php`;
                 }
                         
             } else {

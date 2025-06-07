@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             alert("Pago realizado correctamente. Ya puedes ver las entradas en tu perfil");
-            window.location.href = `/index.php`;
+            window.location.href = `/index.php?vista=perfil`;
         })
         .catch(err => {
             console.error("Error en reserva:", err);

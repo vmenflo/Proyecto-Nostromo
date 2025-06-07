@@ -1,4 +1,23 @@
 /* === Login === */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: #213140;
+    color: white;
+    overflow-x: hidden;
+}
+
+main {
+    padding: 1rem;
+}
+
 #modulo-login {
     background-color: #213140;
     color: white;
