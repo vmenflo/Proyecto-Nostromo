@@ -208,6 +208,14 @@ display: inline;
 }
 
 /* === Slider Escritorio === */
+#contenedor-pl-escritorio {
+    text-align: center;
+    padding: 2rem 1rem;
+    overflow: visible; 
+    position: relative;
+    overflow: hidden;
+}
+
 #slider-escritorio .item-pl {
     position: relative;
     display: flex;
@@ -216,7 +224,7 @@ display: inline;
     width: 100%;
     max-width: 90%;
     margin: 0 auto;
-    aspect-ratio: 16 / 9; 
+    aspect-ratio: 16 / 9; /* proporción adaptable */
     overflow: hidden;
     border-radius: 16px;
 }
@@ -229,14 +237,6 @@ display: inline;
     border-radius: inherit;
 }
 
-
-#slider-escritorio .item-pl img {
-    width: 1000px;
-    height: auto;
-    max-height: 450px; 
-    border-radius: 15pt;
-    object-fit: cover;
-}
 
 #slider-escritorio .contenedor-info {
     position: absolute;
