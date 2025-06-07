@@ -210,8 +210,7 @@ display: inline;
 /* === Slider Escritorio === */
 #contenedor-pl-escritorio {
     text-align: center;
-    padding: 1rem 1rem;
-    overflow: visible; 
+    padding: 2rem 1rem; /* restauramos el padding amplio original */
     position: relative;
     overflow: hidden;
 }
@@ -221,21 +220,22 @@ display: inline;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    max-width: 90%;
+    width: 90%;
+    max-width: 1200px;
     margin: 0 auto;
-    aspect-ratio: 16 / 9; 
     overflow: hidden;
     border-radius: 16px;
 }
 
 #slider-escritorio .item-pl img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 500px;
     object-fit: cover;
     display: block;
-    border-radius: 15pt;
+    border-radius: inherit;
 }
+
 
 
 #slider-escritorio .contenedor-info {
