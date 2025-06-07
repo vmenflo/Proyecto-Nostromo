@@ -210,7 +210,7 @@ display: inline;
 /* === Slider Escritorio === */
 #contenedor-pl-escritorio {
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
     overflow: visible; 
     position: relative;
     overflow: hidden;
@@ -224,7 +224,7 @@ display: inline;
     width: 100%;
     max-width: 90%;
     margin: 0 auto;
-    aspect-ratio: 16 / 9; /* proporción adaptable */
+    aspect-ratio: 16 / 9; 
     overflow: hidden;
     border-radius: 16px;
 }
@@ -234,7 +234,7 @@ display: inline;
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: inherit;
+    border-radius: 15pt;
 }
 
 
