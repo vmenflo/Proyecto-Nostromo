@@ -210,7 +210,7 @@ display: inline;
 /* === Slider Escritorio === */
 #contenedor-pl-escritorio {
     text-align: center;
-    padding: 2rem 2vw;  
+    padding: 2rem 2vw;
     position: relative;
     overflow: hidden;
 }
@@ -221,6 +221,7 @@ display: inline;
     justify-content: center;
     align-items: center;
     width: 100%;
+    max-width: 85vw;   /* antes 1000px, ahora más fluido */
     margin: 0 auto;
     aspect-ratio: 16 / 9;
     overflow: hidden;
@@ -234,6 +235,7 @@ display: inline;
     display: block;
     border-radius: 16px;
 }
+
 
 
 
