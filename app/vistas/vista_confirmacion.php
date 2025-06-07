@@ -61,7 +61,7 @@ $texto_hora = "$hora_formateada horas";
         <div id="grupo-botones">
 
             <p class="boton-volver">
-                <a href="#">
+                <a id="btn-cancelar-confirmacion">
                     <span class="svg-default">
                         <svg width="159" height="43" viewBox="0 0 159 43" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

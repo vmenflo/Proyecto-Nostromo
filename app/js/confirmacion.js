@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     const urlParams = new URLSearchParams(window.location.search);
     const id_pelicula = urlParams.get("id_pelicula");
     const id_cine = urlParams.get("id_cine");
@@ -49,4 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.location.href = `/index.php?vista=pago&${params.toString()}`;
     });
+
+    document.getElementById("btn-cancelar-confirmacion")?.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        window.location.href = `/index.php?vista=inicio.php`;
+    });
+
 });

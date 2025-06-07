@@ -5,7 +5,7 @@ use Firebase\JWT\Key;
 
 require 'Firebase/autoload.php';
 
-// Configuración para PostgreSQL en Render
+// Configuración de PostgreSQL en Render
 define("SERVIDOR_BD", getenv("DB_HOST"));
 define("PUERTO_BD", getenv("DB_PORT") ?: 5432);
 define("USUARIO_BD", getenv("DB_USER"));
@@ -26,8 +26,6 @@ function obtenerConexion()
         ]
     );
 }
-
-
 
 function validateToken()
 {
@@ -79,7 +77,7 @@ function validateToken()
     }
 
 }
-// Función login
+// Función de login
 function login($correo, $clave)
 {
     try {
@@ -116,7 +114,7 @@ function login($correo, $clave)
     return $respuesta;
 }
 
-// Función peliculas
+// Función traer peliculas
 function obtener_peliculas($id_cine = null)
 {
     try {
@@ -157,7 +155,7 @@ function obtener_peliculas($id_cine = null)
     return $respuesta;
 }
 
-// Función próximos lanzamientos
+// Función traer próximos lanzamientos
 function obtener_lanzamientos($id_cine = null)
 {
     try {
@@ -235,7 +233,7 @@ function obtener_cines_con_proyeccion_pelicula($id_pelicula)
     return $respuesta;
 }
 
-// Traer sesiones
+// Función traer sesiones
 function obtener_sesiones($id_cine, $id_pelicula)
 {
     try {
@@ -265,7 +263,7 @@ function obtener_sesiones($id_cine, $id_pelicula)
     }
 }
 
-// Función pelicula
+// Función traer pelicula concreta
 function obtener_pelicula($cod)
 {
     try {
@@ -295,7 +293,7 @@ function obtener_pelicula($cod)
     return $respuesta;
 }
 
-// Función cines
+// Función traer cines
 function obtener_cines()
 {
     try {
@@ -353,7 +351,7 @@ function obtener_cines_disponibles_pelicula($id_pelicula)
     return $respuesta;
 }
 
-// Insertar nuevo usuario
+// Función para insertar nuevo usuario
 function insertar_usuario($datos_insert)
 {
     try {
@@ -370,10 +368,10 @@ function insertar_usuario($datos_insert)
         return ["error" => "No he podido realizar la consulta: " . $e->getMessage()];
     }
 
-    return ["ult_id" => $conexion->lastInsertId()];
+    return ["ult_id" => $conexion->lastInsertId("usuarios_id_usuario_seq")];
 }
 
-// Función articulos
+// Función para traer articulos
 function obtener_articulos()
 {
     try {
@@ -537,7 +535,7 @@ function reservar($datos)
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute([$id_usuario, $id_proyeccion, count($butacas)]);
 
-        $id_reserva = $conexion->lastInsertId();
+        $id_reserva = $conexion->lastInsertId("reservas_id_reserva_seq");
 
         // Preparar sentencias
         $insertar = $conexion->prepare("INSERT INTO reservas_asientos (id_reserva, id_asiento) VALUES (?, ?)");
@@ -602,14 +600,16 @@ function obtener_reservas_usuario($id_usuario)
     }
 
     try {
-        $futuras = obtener_reservas($conexion, $id_usuario, "p.fecha >= CURDATE()", "p.fecha, p.hora");
-        $historial = obtener_reservas($conexion, $id_usuario, "p.fecha < CURDATE()", "p.fecha DESC, p.hora DESC");
 
+        $futuras = obtener_reservas($conexion, $id_usuario, "p.fecha >= CURRENT_DATE", "p.fecha, p.hora");
+        $historial = obtener_reservas($conexion, $id_usuario, "p.fecha < CURRENT_DATE", "p.fecha DESC, p.hora DESC");
+        
         return [
             "codigo" => "success",
             "futuras" => $futuras,
             "historial" => $historial
         ];
+
     } catch (PDOException $e) {
         return ["codigo" => "error", "mensaje" => "Error en la consulta: " . $e->getMessage()];
     }
@@ -632,10 +632,11 @@ function agregar_cine($datos_insert)
         return ["error" => "No he podido realizar la consulta: " . $e->getMessage()];
     }
 
-    return ["ult_id" => $conexion->lastInsertId()];
+    return ["ult_id" => $conexion->lastInsertId("cines_id_cine_seq")];
+
 }
 
-// Función eliminar cine
+// Función eliminar un cine
 function eliminar_cine($id_cine)
 {
     try {
@@ -659,7 +660,7 @@ function eliminar_cine($id_cine)
     return ["mensaje" => "Cine eliminado con éxito"];
 }
 
-// Funcion editar
+// Funcion editar un cine
 function editar_cine($datos)
 {
     try {
@@ -679,7 +680,7 @@ function editar_cine($datos)
     return ["success" => "Cine actualizado correctamente"];
 }
 
-// Función obtener salas
+// Función para obtener salas
 function obtener_salas_por_cine($id_cine)
 {
     try {
@@ -693,7 +694,7 @@ function obtener_salas_por_cine($id_cine)
     }
 }
 
-// Función agregar
+// Función agregar una sala
 function agregar_sala($datos)
 {
     if (!isset($datos["id_cine"], $datos["nombre"], $datos["aforo"])) {
@@ -715,18 +716,20 @@ function agregar_sala($datos)
             return ["error" => "Ya existe una sala con ese nombre en este cine"];
         }
 
+        // Inserción
         $consulta = "INSERT INTO salas (id_cine, nombre, aforo) VALUES (?, ?, ?)";
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute([$id_cine, $nombre, $aforo]);
 
-        return ["ok" => true];
+        // Devolver el ID de la sala insertada
+        return ["ok" => true, "id_sala" => $conexion->lastInsertId("salas_id_sala_seq")];
 
     } catch (PDOException $e) {
         return ["error" => "Error al agregar sala: " . $e->getMessage()];
     }
 }
 
-// Eliminar sala
+// Función para eliminar sala
 function eliminar_sala($datos)
 {
     if (!isset($datos["id_sala"])) {
@@ -748,7 +751,6 @@ function eliminar_sala($datos)
         return ["error" => "Error al eliminar sala: " . $e->getMessage()];
     }
 }
-
 
 // Funcion repetido editando
 function repetido_editando($tabla, $columna, $valor, $columna_id, $id)
@@ -799,4 +801,5 @@ function repetido_insertando($tabla, $columna, $valor)
     $conexion = null;
     return $respuesta;
 }
+
 ?>
