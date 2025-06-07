@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     btnCancelar.addEventListener('click', (e) => {
         e.preventDefault();
-        window.location.href = "/Proyecto-Nostromo/app/index.php";
+        window.location.href = "/index.php";
     });
 
     btnPagar.addEventListener('click', (e) => {

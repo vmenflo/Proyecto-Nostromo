@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             <p>${peli.titulo}</p>
                             <p>${peli.sinopsis}</p>
                         </div>
-                        <a href="#">
+                        <a href="index.php?vista=proximamente">
                             <img src="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-slider.png" alt="cartel-${peli.titulo}">
                         </a>
                     </article>
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return `
                 <li>
                     <article class="item-pl">
-                        <a href="#">
+                        <a href="index.php?vista=proximamente">
                             <picture>
                                 <source srcset="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-tablet.png" media="(min-width:600px)">
                                 <img src="https://nostromo-media.s3.eu-north-1.amazonaws.com/carteleras/${peli.foto}-mobile.png" alt="cartel-${peli.titulo}">

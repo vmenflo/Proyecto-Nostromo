@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("btn-cancelar-confirmacion")?.addEventListener("click", (e) => {
         e.preventDefault();
 
-        window.location.href = `/index.php?vista=inicio.php`;
+        window.location.href = `/index.php?vista=butacas`;
     });
 
 });
