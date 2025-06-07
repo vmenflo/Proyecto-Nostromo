@@ -208,21 +208,27 @@ display: inline;
 }
 
 /* === Slider Escritorio === */
-#contenedor-pl-escritorio {
-    text-align: center;
-    padding: 2rem 1rem;
-    overflow: visible; 
-    position: relative;
-    overflow: hidden;
-}
-
 #slider-escritorio .item-pl {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    max-height: 450px; 
+    width: 100%;
+    max-width: 90%;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9; 
+    overflow: hidden;
+    border-radius: 16px;
 }
+
+#slider-escritorio .item-pl img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: inherit;
+}
+
 
 #slider-escritorio .item-pl img {
     width: 1000px;
