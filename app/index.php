@@ -1,9 +1,11 @@
 <?php
+
 session_name("Nostromo");
 session_start();
 require "src/funciones_ctes.php";
 
 $RUTA_BASE = "../";
+
 // Cierre de sesión
 if (isset($_POST["btnCerrarSession"])) {
     session_destroy();
@@ -105,13 +107,14 @@ switch ($vista) {
         require "vistas/vista_inicio.php";
 }
 
-// Esta línea exporta si hay sesión activa para que lo use JS (como cargarCines.js)
 echo "<script>window.usuarioLogueado = " . (isset($_SESSION["token"]) ? "true" : "false") . ";</script>";
 
-// Aquí copiamos el token a localStorage si hay sesión
+// Copiar token a localStorage si hay sesión
 if (isset($_SESSION["token"])) {
     echo "<script>localStorage.setItem('token', '" . $_SESSION["token"] . "');</script>";
 }
 
-if (!$ocultarLayout) include __DIR__ . "/includes/footer.php";
+if (!$ocultarLayout)
+    include __DIR__ . "/includes/footer.php";
+
 ?>

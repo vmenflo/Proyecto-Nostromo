@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const mes = parseInt(cadMes.value);
         let anio = parseInt(cadAnio.value);
 
-        // Convertir año de 2 dígitos a 4 (asumimos siglo 21)
         if (!isNaN(anio) && anio < 100) {
             anio += 2000;
         }
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mesActual = hoy.getMonth() + 1;
         const anioActual = hoy.getFullYear();
 
-        // Validaciones
+        // Validaciones para la tarjeta
         if (
             tarjeta.endsWith('0') ||
             isNaN(mes) || isNaN(anio) ||

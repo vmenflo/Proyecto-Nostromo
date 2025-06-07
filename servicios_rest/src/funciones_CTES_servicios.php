@@ -577,7 +577,6 @@ function obtener_reservas_usuario($id_usuario)
         return ["codigo" => "error", "mensaje" => "Error de conexión: " . $e->getMessage()];
     }
 
-    // Función interna para evitar duplicar código en futuras/historial
     function obtener_reservas($conexion, $id_usuario, $condicion_fecha, $orden)
     {
         $sql = "SELECT r.id_reserva, r.cantidad_entradas, r.fecha_reserva, p.fecha, p.hora, pel.titulo, pel.foto,

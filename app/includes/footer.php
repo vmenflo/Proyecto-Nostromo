@@ -23,7 +23,7 @@
                 </ul>
             </div>
             <div id="redes-sociales">
-                <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="auto"
+                <a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25"
                         viewBox="0,0,256,256">
                         <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
                             stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
@@ -36,7 +36,7 @@
                             </g>
                         </g>
                     </svg></a><a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="35"
-                        height="auto" viewBox="0,0,256,256">
+                        height="35" viewBox="0,0,256,256">
                         <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
                             stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
                             font-family="none" font-weight="none" font-size="none" text-anchor="none"
@@ -48,7 +48,7 @@
                             </g>
                         </g>
                     </svg></a><a href=""><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25"
-                        height="auto" viewBox="0,0,256,256">
+                        height="25" viewBox="0,0,256,256">
                         <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
                             stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
                             font-family="none" font-weight="none" font-size="none" text-anchor="none"
