@@ -22,9 +22,12 @@ $correo = trim($datos["correo"]);
 $clave = trim($datos["clave"]);
 $suscripcion = $datos["suscripcion"] == "1" ? 1 : 0;
 
-if ($nombre === "" || $apellidos === "" || $correo === "" || $clave === "") {
-    echo json_encode(["status" => "error", "mensaje" => "Todos los campos son obligatorios"]);
-    exit;
+if (
+    !isset($nombre, $apellidos, $correo, $clave, $suscripcion) ||
+    trim($nombre) === "" || trim($apellidos) === "" || trim($correo) === "" || trim($clave) === ""
+) {
+    echo json_encode(["error" => "Faltan datos obligatorios"]);
+    return;
 }
 
 // Comprobamos si ya existe

@@ -33,7 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     window.location.href = `${URL_BASE}/index.php`;
                 }
-            }
+            } else {
+            alert(data.mensaje || "Error desconocido durante el registro.");
+        }
         } catch (err) {
             alert("Error de conexión con el servidor.");
         }
