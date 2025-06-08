@@ -125,16 +125,17 @@ $app->get('/repetido/{tabla}/{columna}/{valor}', function ($request) {
 // Crear usuario nuevo
 $app->post('/crearUsuario', function ($request) {
     $nombre = $request->getParam("nombre");
-    $direccion = $request->getParam("direccion");
-    $ciudad = $request->getParam("ciudad");
-    $cp = $request->getParam("cp");
+    $apellidos = $request->getParam("apellidos");
+    $correo = $request->getParam("correo");
+    $clave = $request->getParam("clave");
+    $suscripcion = $request->getParam("suscripcion");
 
-    if (!$nombre || !$direccion || !$ciudad || !$cp) {
+    if (!$nombre || !$apellidos || !$correo || !$clave || !$suscripcion) {
         echo json_encode(["error" => "Faltan datos obligatorios"]);
         return;
     }
 
-    $datos_insert = [$nombre, $direccion, $ciudad, $cp];
+    $datos_insert = [$nombre, $apellidos, $correo, $clave, $suscripcion];
 
     echo json_encode(insertar_usuario($datos_insert));
 });
