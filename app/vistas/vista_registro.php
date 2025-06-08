@@ -40,7 +40,7 @@ if (!defined("BASE_URL"))
                 </div>
 
                 <div>
-                    <input type="tel" id="telefono" name="telefono" required>
+                    <input type="text" id="telefono" name="telefono" required>
                     <label for="telefono" class="lbl"><span class="texto">Teléfono:</span></label>
                 </div>
 
