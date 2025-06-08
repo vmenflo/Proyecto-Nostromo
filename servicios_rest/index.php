@@ -130,10 +130,14 @@ $app->post('/crearUsuario', function ($request) {
     $clave = $request->getParam("clave");
     $suscripcion = $request->getParam("suscripcion");
 
-    if (!$nombre || !$apellidos || !$correo || !$clave || !$suscripcion) {
+    if (
+        !isset($nombre, $apellidos, $correo, $clave, $suscripcion) ||
+        trim($nombre) === "" || trim($apellidos) === "" || trim($correo) === "" || trim($clave) === ""
+    ) {
         echo json_encode(["error" => "Faltan datos obligatorios"]);
         return;
     }
+    
 
     $datos_insert = [$nombre, $apellidos, $correo, $clave, $suscripcion];
 
