@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     let url = `${API_BASE}/proximos-lanzamientos`;
 
-    // Solo filtrar por cine si estamos en la vista "proximamente"
     if (window.location.href.includes("vista=proximamente")) {
         const idCine = localStorage.getItem("cineSeleccionado");
         if (idCine) url += `?id_cine=${idCine}`;

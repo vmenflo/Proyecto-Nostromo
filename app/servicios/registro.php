@@ -6,7 +6,6 @@ require_once "../src/funciones_ctes.php";
 ini_set("display_errors", 1);
 error_reporting(E_ALL);
 
-// Leer JSON recibido
 $datos = json_decode(file_get_contents("php://input"), true);
 
 if (

@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             selectCine.appendChild(option);
         });
 
-        // Si venía cine por URL, cargar sesiones automáticamente
+        // Para controlar que si tenemos el id del cine cargamos ya las sesisones
         if (idCine) {
             cargarSesiones(idCine, idPelicula);
         }
@@ -88,13 +88,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error(err);
     }
 
-    // Al cambiar el cine
     selectCine.addEventListener("change", e => {
         const idSeleccionado = e.target.value;
         if (idSeleccionado) {
             cargarSesiones(idSeleccionado, idPelicula);
         } else {
-            // Solo reseteamos los selects de fecha y hora
             selectFecha.innerHTML = '<option value="">Selecciona primero</option>';
             selectHora.innerHTML = '<option value="">Selecciona primero</option>';
         }
@@ -120,14 +118,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return;
             }
 
-            // Agrupar sesiones por fecha
             const sesionesPorFecha = {};
             sesiones.forEach(s => {
                 if (!sesionesPorFecha[s.fecha]) sesionesPorFecha[s.fecha] = [];
                 sesionesPorFecha[s.fecha].push(s.hora);
             });
 
-            // Pintar las fechas
             selectFecha.innerHTML = '<option value="">Selecciona una fecha</option>';
             Object.keys(sesionesPorFecha).forEach(fecha => {
                 const opt = document.createElement("option");
@@ -136,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 selectFecha.appendChild(opt);
             });
 
-            // Cuando el usuario elija una fecha, cargamos las horas
+            // Hasta que no se elija la fecha no cargamos las horas
             selectFecha.addEventListener("change", () => {
                 const fechaSeleccionada = selectFecha.value;
                 const horas = sesionesPorFecha[fechaSeleccionada] || [];
@@ -172,7 +168,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const idPelicula = new URLSearchParams(window.location.search).get("id_pelicula");
 
-        // Redirigir a la vista de butaca con los parámetros
         window.location.href = `/index.php?vista=butacas&id_pelicula=${idPelicula}&id_cine=${idCine}&fecha=${fecha}&hora=${hora}`;
     });
 

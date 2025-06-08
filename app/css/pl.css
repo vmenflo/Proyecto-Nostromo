@@ -61,7 +61,8 @@ h1 {
     height: 250px;
     object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 0.5rem;;
+    margin-bottom: 0.5rem;
+    ;
 }
 
 .cartel-titulo {
@@ -74,7 +75,8 @@ h1 {
     text-align: center;
 }
 
-.prox, .sinopsis {
+.prox,
+.sinopsis {
     display: none;
 }
 
@@ -142,7 +144,7 @@ h1 {
     }
 }
 
-/* === Barra cines === */
+/* Barra cines */
 .cont-select-cines {
     text-align: center;
 }
@@ -160,7 +162,8 @@ h1 {
     font-size: 15pt;
 }
 
-html, body {
+html,
+body {
     width: 100%;
     overflow-x: hidden;
 }
@@ -176,4 +179,3 @@ main {
     max-width: 100%;
     overflow: hidden;
 }
-

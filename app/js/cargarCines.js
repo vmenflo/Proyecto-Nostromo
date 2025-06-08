@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let cines = [];
     let peliculas = [];
 
-    // Cargar cines
+    // Fetch para mostrar los cines
     try {
         const res = await fetch(`${API_BASE}/cines`);
         const datos = await res.json();
@@ -27,14 +27,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 select.appendChild(option);
             });
 
-            // Mostrar cartelera inicial
             await cargarCartelera(cineGuardado);
         }
     } catch (err) {
         console.error("Error cargando cines:", err);
     }
 
-    // Escuchar cambios
     select.addEventListener("change", async () => {
         const id = select.value;
         if (id) {
@@ -45,6 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         await cargarCartelera(id);
     });
 
+    // Traer las peliculas según si hay cine o no
     async function cargarCartelera(idCine = "") {
         try {
             let url = `${API_BASE}/peliculas`;

@@ -1,13 +1,13 @@
-
-/*== Politica cookies ==*/
+/* Politica cookies */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-h1,h2 {
-    margin:1rem 0;
+h1,
+h2 {
+    margin: 1rem 0;
 }
 
 body {
@@ -25,13 +25,12 @@ body {
     padding: 2rem;
     width: 100%;
     max-width: 800px;
-    margin: 3rem auto; 
-  }
+    margin: 3rem auto;
+}
 
-  p {
+p {
     line-height: 1.7;
     margin-bottom: 1.5rem;
     font-size: 1.05rem;
     text-align: justify;
 }
-  

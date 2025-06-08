@@ -1,4 +1,4 @@
-/* === Inicio === */
+/* Inicio */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -34,8 +34,8 @@ h1 {
     background-color: white;
 }
 
-/* === Barra cines === */
-#cont-select-cines{
+/* Barra cines */
+#cont-select-cines {
     text-align: center;
 }
 
@@ -44,15 +44,15 @@ h1 {
     text-transform: uppercase;
 }
 
-#elegir-cine-cartelera{
+#elegir-cine-cartelera {
     background-color: #E6EB6C;
-    color:#1E1E1E;
-    padding:0.25rem;
+    color: #1E1E1E;
+    padding: 0.25rem;
     margin-left: 0.5rem;
     font-size: 15pt;
 }
 
-/* === Cartelera === */
+/* Cartelera */
 #cartelera {
     display: flex;
     flex-wrap: wrap;
@@ -61,7 +61,6 @@ h1 {
     gap: 1rem;
     margin-top: 0.5rem;
 }
-
 
 .cont-pelicula {
     width: calc(50% - 1rem);
@@ -73,9 +72,8 @@ h1 {
     text-align: center;
     padding: 2rem;
     color: white;
-    min-height: 100%; 
+    min-height: 100%;
 }
-
 
 .tarjeta {
     display: flex;
@@ -83,16 +81,14 @@ h1 {
     align-items: center;
     width: 100%;
     flex-grow: 1;
-    padding:0.5rem;
+    padding: 0.5rem;
 }
-
 
 .foto-cartelera {
     width: 100%;
     height: auto;
     max-width: 100%;
 }
-
 
 .logo-boton {
     margin-top: 1rem;
@@ -107,16 +103,16 @@ h1 {
 
 .logo-boton .svg-hover {
     display: none;
-  }
-  
+}
+
 .logo-boton:hover .svg-default {
-display: none;
+    display: none;
 }
 
 .logo-boton:hover .svg-hover {
-display: inline;
+    display: inline;
 }
-  
+
 
 @media (max-width: 1024px) {
     p.cartel-sinopsis {
@@ -135,10 +131,10 @@ display: inline;
         background-color: #1E1E1E;
         border-radius: 16px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        padding:1rem;
+        padding: 1rem;
     }
 
-    .cartel-sinopsis{
+    .cartel-sinopsis {
         line-height: 1.7;
         margin-top: 1rem;
         font-size: 1.05rem;
@@ -146,7 +142,7 @@ display: inline;
     }
 }
 
-/* === Próximos lanzamientos === */
+/* Próximos lanzamientos */
 #cont-pl,
 #contenedor-pl-escritorio {
     display: none;
@@ -164,10 +160,10 @@ display: inline;
     }
 }
 
-/* === Slider móvil === */
+/* Slider móvil */
 #contenedor-pl {
     margin-top: 0.7rem;
-    padding:1rem;
+    padding: 1rem;
     height: auto;
 }
 
@@ -186,7 +182,7 @@ display: inline;
     max-width: 300px;
     box-sizing: border-box;
     width: 100%;
-    margin-bottom: 2.5rem; 
+    margin-bottom: 2.5rem;
 }
 
 #slider .item-pl picture img {
@@ -218,9 +214,9 @@ display: inline;
 #slider-escritorio .item-pl {
     position: relative;
     width: 100%;
-    max-width: 1200px;         /* limita el exceso en pantallas grandes */
+    max-width: 1200px;
     margin: 0 auto;
-    aspect-ratio: 16 / 9;      /* mantiene proporción perfecta de imagen */
+    aspect-ratio: 16 / 9;
     border-radius: 16px;
     overflow: hidden;
     display: flex;
@@ -231,20 +227,16 @@ display: inline;
 #slider-escritorio .item-pl img {
     width: 100%;
     height: 100%;
-    object-fit: cover;        /* recorta sin deformar */
+    object-fit: cover;
     display: block;
     border-radius: 16px;
 }
 
 
-
-
-
-
 #slider-escritorio .contenedor-info {
     position: absolute;
     bottom: 10%;
-    left: 13%;
+    left: 9%;
     background-color: rgba(30, 30, 30, 0.85);
     padding: 1rem 1.2rem;
     width: 250px;
@@ -252,7 +244,7 @@ display: inline;
     text-align: left;
     color: white;
     z-index: 10;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 #slider-escritorio .contenedor-info p:first-child {
@@ -268,7 +260,7 @@ display: inline;
     line-height: 1.3;
 }
 
-/* === Bitácora === */
+/* Bitácora */
 
 #cont-bitacora-inicio {
     display: flex;
@@ -286,4 +278,3 @@ display: inline;
     height: auto;
     margin: 1rem auto;
 }
-  

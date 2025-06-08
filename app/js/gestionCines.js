@@ -164,7 +164,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    // FUNCIONES PARA GESTIÓN DE SALAS
     async function cargarSalasDeCine(id_cine) {
         const contenedor = document.getElementById("salas-lista");
         contenedor.innerHTML = "<p>Cargando salas...</p>";

@@ -42,7 +42,7 @@ main {
     #cont-login {
         background-color: #1E1E1E;
         border-radius: 16px;
-        margin:1.5rem 0;
+        margin: 1.5rem 0;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
     }
@@ -109,15 +109,15 @@ main {
     z-index: 1;
 }
 
-#form-login div input:focus + .lbl .texto,
-#form-login div input:valid + .lbl .texto {
+#form-login div input:focus+.lbl .texto,
+#form-login div input:valid+.lbl .texto {
     transform: translateY(-150%);
     font-size: 16px;
     font-weight: bold;
 }
 
-#form-login div input:focus + .lbl:after,
-#form-login div input:valid + .lbl:after {
+#form-login div input:focus+.lbl:after,
+#form-login div input:valid+.lbl:after {
     transform: translateX(0%);
 }
 
@@ -130,7 +130,7 @@ button {
     background: none;
     border: none;
     padding: 0;
-    cursor: pointer;    
+    cursor: pointer;
 }
 
 button .svg-hover {
@@ -160,7 +160,7 @@ a {
 }
 
 
-/* === Registrar === */
+/* Estilo registro */
 #modulo-registro {
     background-color: #213140;
     color: white;
@@ -241,15 +241,15 @@ a {
     z-index: 1;
 }
 
-#form-registro div input:focus + .lbl .texto,
-#form-registro div input:valid + .lbl .texto {
+#form-registro div input:focus+.lbl .texto,
+#form-registro div input:valid+.lbl .texto {
     transform: translateY(-150%);
     font-size: 16px;
     font-weight: bold;
 }
 
-#form-registro div input:focus + .lbl:after,
-#form-registro div input:valid + .lbl:after {
+#form-registro div input:focus+.lbl:after,
+#form-registro div input:valid+.lbl:after {
     transform: translateX(0%);
 }
 

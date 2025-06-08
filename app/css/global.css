@@ -1,4 +1,4 @@
-/* === Header === */
+/* Estilo del Header  */
 #cont-header {
   display: flex;
   align-items: center;
@@ -78,7 +78,7 @@
 }
 
 
-/* Footer */
+/* Estilo del Footer */
 footer {
   background-color: black;
   color: white;
@@ -141,7 +141,7 @@ footer ul {
   display: block;
 }
 
-/* Header */
+/* Header versión escritorio */
 /* Menú Escritotio  */
 #menu-global {
   list-style: none;
@@ -150,7 +150,7 @@ footer ul {
   width: 100%;
 }
 
-/* Móvil: hamburguesa + menú oculto */
+/* Oculto el menú movil */
 @media (max-width: 1023px) {
   #menu-global {
     display: none;
@@ -178,12 +178,12 @@ footer ul {
     text-decoration: none;
   }
 
-  #menu a{
+  #menu a {
     font-size: 14pt;
   }
 }
 
-/* Escritorio: menú horizontal visible */
+/* Activo el menu de escritorio */
 @media (min-width: 1024px) {
   #icono-menu {
     display: none;
@@ -233,18 +233,18 @@ footer ul {
 
 /* Diseño header logueado */
 #bienvenida {
-  color:#213140;
+  color: #213140;
   font-weight: bolder;
 }
 
 #bienvenida a {
-  color:#213140;
+  color: #213140;
   font-size: 1.25rem;
 }
 
 #cerrar-sesion {
   background-color: white;
-  border:none;
+  border: none;
   cursor: pointer;
-  color:#213140;
+  color: #213140;
 }
