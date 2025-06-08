@@ -50,7 +50,7 @@ $url = DIR_SERV . "/crearUsuario";
 $datos_post = [
     "nombre" => $nombre,
     "apellidos" => $apellidos,
-    "email" => $correo,
+    "correo" => $correo,
     "clave" => md5($clave),
     "suscripcion" => $suscripcion
 ];
