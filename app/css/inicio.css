@@ -206,7 +206,7 @@ h1 {
 /* Slider Escritorio */
 #contenedor-pl-escritorio {
     text-align: center;
-    padding: 2rem 1rem;
+    padding: 0.5rem 1rem;
     position: relative;
     overflow: hidden;
 }
@@ -236,7 +236,7 @@ h1 {
 #slider-escritorio .contenedor-info {
     position: absolute;
     bottom: 17%;
-    left: 9%;
+    left: 5%;
     background-color: rgba(30, 30, 30, 0.85);
     padding: 1rem 1.2rem;
     width: 300px;
