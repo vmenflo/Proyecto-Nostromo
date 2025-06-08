@@ -40,6 +40,11 @@ if (!defined("BASE_URL"))
                 </div>
 
                 <div>
+                    <input type="tel" id="telefono" name="telefono" required>
+                    <label for="telefono" class="lbl"><span class="texto">Teléfono:</span></label>
+                </div>
+
+                <div>
                     <input type="email" id="correo" name="correo" required>
                     <label for="correo" class="lbl"><span class="texto">Correo electrónico:</span></label>
                 </div>

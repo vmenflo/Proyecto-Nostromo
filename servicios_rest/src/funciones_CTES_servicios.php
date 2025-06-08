@@ -361,7 +361,8 @@ function insertar_usuario($datos_insert)
     }
 
     try {
-        $consulta = "INSERT INTO usuarios (nombre, apellidos, correo, clave, suscripcion) VALUES (?, ?, ?, ?, ?)";
+        $consulta = "INSERT INTO usuarios (nombre, apellidos, correo, clave, suscripcion, telefono, puntos) 
+                     VALUES (?, ?, ?, ?, ?, ?, 0)";
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute($datos_insert);
     } catch (PDOException $e) {
@@ -370,6 +371,7 @@ function insertar_usuario($datos_insert)
 
     return ["ult_id" => $conexion->lastInsertId("usuarios_id_usuario_seq")];
 }
+
 
 // Función para traer articulos
 function obtener_articulos()

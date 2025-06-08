@@ -129,20 +129,22 @@ $app->post('/crearUsuario', function ($request) {
     $correo = $request->getParam("correo");
     $clave = $request->getParam("clave");
     $suscripcion = $request->getParam("suscripcion");
+    $telefono = $request->getParam("telefono");
 
     if (
-        !isset($nombre, $apellidos, $correo, $clave, $suscripcion) ||
-        trim($nombre) === "" || trim($apellidos) === "" || trim($correo) === "" || trim($clave) === ""
+        !isset($nombre, $apellidos, $correo, $clave, $suscripcion, $telefono) ||
+        trim($nombre) === "" || trim($apellidos) === "" || trim($correo) === "" || trim($clave) === "" || trim($telefono) === ""
     ) {
         echo json_encode(["error" => "Faltan datos obligatorios"]);
         return;
     }
-    
 
-    $datos_insert = [$nombre, $apellidos, $correo, $clave, $suscripcion];
+    // Enviamos los datos, sin puntos (lo seteamos a 0 en la función)
+    $datos_insert = [$nombre, $apellidos, $correo, $clave, $suscripcion, $telefono];
 
     echo json_encode(insertar_usuario($datos_insert));
 });
+
 
 // Agregar un cine nuevo
 $app->post('/agregarCine', function ($request) {

@@ -10,25 +10,27 @@ $datos = json_decode(file_get_contents("php://input"), true);
 
 if (
     !$datos ||
-    !isset($datos["nombre"], $datos["apellidos"], $datos["correo"], $datos["clave"], $datos["suscripcion"])
+    !isset($datos["nombre"], $datos["apellidos"], $datos["correo"], $datos["clave"], $datos["suscripcion"], $datos["telefono"])
 ) {
     echo json_encode(["status" => "error", "mensaje" => "Faltan datos"]);
     exit;
 }
 
+
 $nombre = trim($datos["nombre"]);
 $apellidos = trim($datos["apellidos"]);
+$telefono = trim($datos["telefono"]);
 $correo = trim($datos["correo"]);
 $clave = trim($datos["clave"]);
 $suscripcion = $datos["suscripcion"] == "1" ? 1 : 0;
 
 if (
-    !isset($nombre, $apellidos, $correo, $clave, $suscripcion) ||
-    trim($nombre) === "" || trim($apellidos) === "" || trim($correo) === "" || trim($clave) === ""
+    $nombre === "" || $apellidos === "" || $correo === "" || $clave === "" || $telefono === ""
 ) {
     echo json_encode(["error" => "Faltan datos obligatorios"]);
     return;
 }
+
 
 // Comprobamos si ya existe
 $url = DIR_SERV . "/repetido/usuarios/correo/" . urlencode($correo);
@@ -52,7 +54,8 @@ $datos_post = [
     "apellidos" => $apellidos,
     "correo" => $correo,
     "clave" => md5($clave),
-    "suscripcion" => $suscripcion
+    "suscripcion" => $suscripcion,
+    "telefono" => $telefono
 ];
 
 $respuesta = consumir_servicios_REST($url, "POST", $datos_post);

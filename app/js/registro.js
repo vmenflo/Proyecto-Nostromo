@@ -9,18 +9,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const correo = document.getElementById("correo").value.trim();
         const clave = document.getElementById("clave").value.trim();
         const suscripcion = document.querySelector('input[name="suscripcion"]:checked')?.value || "0";
+        const telefono = document.getElementById("telefono").value.trim();
 
-        if (!nombre || !apellidos || !correo || !clave) {
+        if (!nombre || !apellidos || !correo || !clave || !telefono) {
             alert("Por favor, completa todos los campos.");
             return;
-        }
+        }        
 
         try {
             const res = await fetch(`${URL_BASE}/servicios/registro.php`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify({ nombre, apellidos, correo, clave, suscripcion })
+                body: JSON.stringify({ nombre, apellidos, correo, clave, suscripcion, telefono})
             });
 
             const data = await res.json();
