@@ -203,7 +203,7 @@ h1 {
     max-width: 100%;
 }
 
-/* === Slider Escritorio === */
+/* Slider Escritorio */
 #contenedor-pl-escritorio {
     text-align: center;
     padding: 2rem 1rem;
@@ -235,11 +235,11 @@ h1 {
 
 #slider-escritorio .contenedor-info {
     position: absolute;
-    bottom: 10%;
+    bottom: 17%;
     left: 9%;
     background-color: rgba(30, 30, 30, 0.85);
     padding: 1rem 1.2rem;
-    width: 250px;
+    width: 300px;
     border-radius: 12pt;
     text-align: left;
     color: white;
@@ -249,13 +249,13 @@ h1 {
 
 #slider-escritorio .contenedor-info p:first-child {
     font-weight: bold;
-    font-size: 13pt;
+    font-size: 18pt;
     margin: 0 0 0.5rem;
     line-height: 1.2;
 }
 
 #slider-escritorio .contenedor-info p:not(:first-child) {
-    font-size: 8pt;
+    font-size: 13pt;
     margin: 0.3rem 0;
     line-height: 1.3;
 }
