@@ -51,6 +51,7 @@
   color: black;
   display: block;
   padding: 0.5rem;
+  font-family: 'Karla', sans-serif;
   font-size: 20pt;
   margin: 0.25rem 0;
 }
@@ -81,6 +82,7 @@
 /* Estilo del Footer */
 footer {
   background-color: black;
+  font-family: 'Karla', sans-serif;
   color: white;
   padding: 2rem 1rem;
   margin-top: 4rem;
@@ -175,6 +177,7 @@ footer ul {
     display: block;
     color: #213140;
     font-size: 18pt;
+    font-family: 'Karla', sans-serif;
     text-decoration: none;
   }
 
