@@ -539,6 +539,10 @@ function reservar($datos)
 
         $id_reserva = $conexion->lastInsertId("reservas_id_reserva_seq");
 
+        // Actualizar puntos del usuario
+        $sumar_puntos = $conexion->prepare("UPDATE usuarios SET puntos = puntos + ? WHERE id_usuario = ?");
+        $sumar_puntos->execute([count($butacas), $id_usuario]);
+
         // Preparar sentencias
         $insertar = $conexion->prepare("INSERT INTO reservas_asientos (id_reserva, id_asiento) VALUES (?, ?)");
         $buscar_id_asiento = $conexion->prepare("SELECT id_asiento FROM asientos WHERE id_sala=? AND fila=? AND butaca=?");

@@ -141,9 +141,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                 horas.forEach(hora => {
                     const opt = document.createElement("option");
                     opt.value = hora;
-                    opt.textContent = hora;
+                    opt.textContent = hora.substring(0, 5) + ' H';
                     selectHora.appendChild(opt);
-                });
+                });                
             });
 
         } catch (err) {
