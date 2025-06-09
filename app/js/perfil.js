@@ -65,7 +65,7 @@ function crearTarjetaReserva(entrada) {
     info.innerHTML = `
         <p><strong>${entrada.titulo}</strong></p>
         <p>Cine: ${entrada.cine} &nbsp;&nbsp;&nbsp; Sala: ${entrada.sala || "?"}</p>
-        <p>Sesión: ${entrada.hora.slice(0, 5)}H &nbsp;&nbsp;&nbsp; Fecha: ${fechaFormateada}</p>
+        <p>Sesión: ${entrada.hora.substring(0, 5)} H &nbsp;&nbsp;&nbsp; Fecha: ${fechaFormateada}</p>
         <p>Fila: ${fila} &nbsp;&nbsp;&nbsp; Butacas: ${butacasSolo}</p>
     `;
 
